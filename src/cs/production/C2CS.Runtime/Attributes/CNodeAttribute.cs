@@ -3,6 +3,8 @@
 
 using System;
 
+namespace bottlenoselabs.C2CS.Runtime;
+
 /// <summary>
 ///     Specifies a C node with a specific kind for a C# type.
 /// </summary>

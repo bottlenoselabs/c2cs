@@ -261,24 +261,20 @@ public static unsafe partial class {className}
                            + CodeDocumentTemplate();
         templateCode += @"
 
-namespace bottlenoselabs.C2CS;
+namespace bottlenoselabs.C2CS.Runtime;
 
-public static unsafe partial class Runtime
-{
-}
 ";
 
         var compilationUnitCode = ParseSyntaxTree(templateCode).GetCompilationUnitRoot();
-        var rootNamespace = (FileScopedNamespaceDeclarationSyntax)compilationUnitCode.Members[0];
-        var rootClassDeclarationOriginal = (ClassDeclarationSyntax)rootNamespace.Members[0];
-        var rootClassDeclarationWithMembers = rootClassDeclarationOriginal;
+        var rootNamespaceOriginal = (FileScopedNamespaceDeclarationSyntax)compilationUnitCode.Members[0];
+        var rootNamespaceWithMembers = rootNamespaceOriginal;
 
-        var members = typeof(bottlenoselabs.C2CS.Runtime.CBool).Assembly.GetManifestResourceMemberDeclarations();
-        rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.WithMembers(rootClassDeclarationWithMembers.Members.AddRange(members));
+        var members = GetManifestResourceMemberDeclarations();
+        rootNamespaceWithMembers = rootNamespaceWithMembers.WithMembers(rootNamespaceWithMembers.Members.AddRange(members));
 
         var newCompilationUnit = compilationUnitCode.ReplaceNode(
-            rootClassDeclarationOriginal,
-            rootClassDeclarationWithMembers);
+            rootNamespaceOriginal,
+            rootNamespaceWithMembers);
         var code = newCompilationUnit.Format();
 
         var document = new CSharpProjectDocument
@@ -288,6 +284,36 @@ public static unsafe partial class Runtime
         };
 
         return document;
+    }
+
+    private static ImmutableArray<MemberDeclarationSyntax> GetManifestResourceMemberDeclarations()
+    {
+        var builderMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+        var assembly = Assembly.GetExecutingAssembly();
+
+        var manifestResourcesNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+        foreach (var resourceName in manifestResourcesNames)
+        {
+            if (!resourceName.EndsWith(".cs", StringComparison.InvariantCulture))
+            {
+                continue;
+            }
+
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            using var streamReader = new StreamReader(stream!);
+            var resourceCode = streamReader.ReadToEnd()
+                .Replace($"namespace bottlenoselabs.C2CS.Runtime;", string.Empty, StringComparison.InvariantCulture);
+
+            var syntaxTree = ParseSyntaxTree(resourceCode);
+            var x = syntaxTree.GetRoot().DescendantNodes(x => x is NamespaceDeclarationSyntax);
+            var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+            foreach (var member in compilationUnit.Members)
+            {
+                builderMembers.Add(member);
+            }
+        }
+
+        return builderMembers.ToImmutable();
     }
 
     private string CodeDocumentTemplate()

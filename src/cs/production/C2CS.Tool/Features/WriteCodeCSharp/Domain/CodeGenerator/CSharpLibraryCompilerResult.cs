@@ -9,11 +9,11 @@ namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 public class CSharpLibraryCompilerResult
 {
     public readonly EmitResult EmitResult;
-    public readonly Assembly Assembly;
+    public readonly Assembly? Assembly;
 
     public CSharpLibraryCompilerResult(
         EmitResult emitResult,
-        Assembly assembly)
+        Assembly? assembly)
     {
         EmitResult = emitResult;
         Assembly = assembly;

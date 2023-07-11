@@ -15,12 +15,10 @@ internal static class Program
 {
     private static void Main()
     {
-        var thisApplicationAssemblyFilePath = typeof(Program).Assembly.Location;
-        var thisApplicationAssemblyMainFileDirectory = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(thisApplicationAssemblyFilePath)!, ".."));
-        var thisApplicationName = Path.GetFileName(thisApplicationAssemblyMainFileDirectory);
-        var rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../.."));
-        var sourceDirectoryPath =
-            Path.GetFullPath(Path.Combine(rootDirectory, "src", "cs", "examples", "helloworld", thisApplicationName));
+        var applicationName = GetApplicationName();
+        var rootDirectory = GetGitRepositoryPath();
+        var sourceDirectoryPath = Path.GetFullPath(Path.Combine(
+            rootDirectory, "src", "cs", "examples", "helloworld", applicationName));
 
         if (!BuildCLibrary(sourceDirectoryPath))
         {
@@ -72,5 +70,34 @@ internal static class Program
         C2CS.Program.Main(parametersGenerateCSharpCode);
 
         return true;
+    }
+
+    private static string GetGitRepositoryPath()
+    {
+        var baseDirectory = AppContext.BaseDirectory;
+        var directoryInfo = new DirectoryInfo(baseDirectory);
+        while (true)
+        {
+            var files = directoryInfo.GetFiles(".gitignore", SearchOption.TopDirectoryOnly);
+            if (files.Length > 0)
+            {
+                return directoryInfo.FullName;
+            }
+
+            directoryInfo = directoryInfo.Parent;
+            if (directoryInfo == null)
+            {
+                return string.Empty;
+            }
+        }
+    }
+
+    private static string GetApplicationName()
+    {
+        var applicationAssemblyFilePath = typeof(Program).Assembly.Location;
+        var applicationAssemblyMainFileDirectory =
+            Path.GetFullPath(Path.Combine(Path.GetDirectoryName(applicationAssemblyFilePath)!, ".."));
+        var applicationName = Path.GetFileName(applicationAssemblyMainFileDirectory);
+        return applicationName;
     }
 }

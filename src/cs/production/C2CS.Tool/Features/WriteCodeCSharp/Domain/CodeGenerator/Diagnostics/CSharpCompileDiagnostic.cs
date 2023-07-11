@@ -7,13 +7,13 @@ namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 
 public sealed class CSharpCompileDiagnostic : Diagnostic
 {
-    public CSharpCompileDiagnostic(string filePath, Microsoft.CodeAnalysis.Diagnostic diagnostic)
-        : base(DiagnosticSeverity.Error, CreateMessage(filePath, diagnostic))
+    public CSharpCompileDiagnostic(Microsoft.CodeAnalysis.Diagnostic diagnostic)
+        : base(DiagnosticSeverity.Error, CreateMessage(diagnostic))
     {
     }
 
-    private static string CreateMessage(string filePath, Microsoft.CodeAnalysis.Diagnostic diagnostic)
+    private static string CreateMessage(Microsoft.CodeAnalysis.Diagnostic diagnostic)
     {
-        return $"- C# code compilation diagnostic: {filePath} {diagnostic}.";
+        return $"- C# code compilation diagnostic: {diagnostic}.";
     }
 }

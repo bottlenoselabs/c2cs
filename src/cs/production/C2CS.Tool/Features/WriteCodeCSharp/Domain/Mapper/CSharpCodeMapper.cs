@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using bottlenoselabs.C2CS.Runtime;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Foundation;
 using CAstFfi.Data;

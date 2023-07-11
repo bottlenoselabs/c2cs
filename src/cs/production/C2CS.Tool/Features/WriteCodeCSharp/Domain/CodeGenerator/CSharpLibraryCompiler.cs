@@ -59,7 +59,12 @@ public static class CSharpLibraryCompiler
             using var dllStream = new MemoryStream();
             using var pdbStream = new MemoryStream();
             var emitResult = compilation.Emit(dllStream, pdbStream);
-            var assembly = Assembly.Load(dllStream.ToArray());
+
+            Assembly? assembly = null;
+            if (emitResult.Success)
+            {
+                assembly = Assembly.Load(dllStream.ToArray());
+            }
 
             foreach (var diagnostic in emitResult.Diagnostics)
             {
@@ -71,7 +76,7 @@ public static class CSharpLibraryCompiler
                     continue;
                 }
 
-                diagnostics.Add(new CSharpCompileDiagnostic(diagnostic.Location.SourceTree?.FilePath ?? string.Empty, diagnostic));
+                diagnostics.Add(new CSharpCompileDiagnostic(diagnostic));
             }
 
             return new CSharpLibraryCompilerResult(emitResult, assembly);
