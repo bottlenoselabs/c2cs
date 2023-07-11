@@ -112,11 +112,11 @@ public string {field.Name}
 {{
 	get
 	{{
-        return Runtime.CString.ToString(_{field.Name});
+        return CString.ToString(_{field.Name});
 	}}
     set
     {{
-        _{field.Name} = Runtime.CString.FromString(value);
+        _{field.Name} = CString.FromString(value);
     }}
 }}
 ".Trim();
@@ -167,7 +167,7 @@ public string {field.Name}
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
             var cString = new CString(pointer);
-            return Runtime.CString.ToString(cString);
+            return CString.ToString(cString);
 		}}
 	}}
 }}
@@ -184,7 +184,7 @@ public string {field.Name}
 		{{
 			var pointer = &@this->{field.BackingFieldName}[0];
             var cString = new CStringWide(pointer);
-            return Runtime.StringWide.ToString(cString);
+            return StringWide.ToString(cString);
 		}}
 	}}
 }}
