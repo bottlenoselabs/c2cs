@@ -4,5 +4,5 @@
   "className": "_container_library",
   "libraryName": "_container_library",
   "namespaceName": "bottlenoselabs",
-  "isEnabledGeneratingRuntimeCode": true
+  "isEnabledGeneratingRuntimeCode": false
 }

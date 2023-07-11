@@ -35,13 +35,13 @@ public sealed class TestCSharpCode : TestBase
     [Fact]
     public void Compiles()
     {
-        _fixture.AssertCSharpCodeCompiles();
+        _fixture.AssertCSharpCodeCompiles(_fixture.Output);
     }
 
     private readonly TestFixtureCSharpCode _fixture;
 
     public TestCSharpCode()
-        : base("CSharp/Data/Values", true)
+        : base("Data/Values", true)
     {
         var services = TestHost.Services;
         _fixture = services.GetService<TestFixtureCSharpCode>()!;

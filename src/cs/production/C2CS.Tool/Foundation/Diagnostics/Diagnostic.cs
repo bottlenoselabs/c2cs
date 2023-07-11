@@ -13,12 +13,12 @@ namespace C2CS.Foundation;
 public abstract class Diagnostic
 {
     /// <summary>
-    ///     The severity of this <see cref="Diagnostic" />.
+    ///     Gets the severity of this <see cref="Diagnostic" />.
     /// </summary>
     public DiagnosticSeverity Severity { get; }
 
     /// <summary>
-    ///     The message of this <see cref="Diagnostic" />.
+    ///     Gets the message of this <see cref="Diagnostic" />.
     /// </summary>
     public string Message { get; }
 

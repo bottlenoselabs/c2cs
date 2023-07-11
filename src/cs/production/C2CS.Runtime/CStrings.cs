@@ -4,6 +4,8 @@
 using System;
 using System.Runtime.InteropServices;
 
+namespace bottlenoselabs.C2CS.Runtime;
+
 /// <summary>
 ///     Utility methods for interoperability with C style strings in C#.
 /// </summary>

@@ -4,6 +4,8 @@
 using System;
 using System.Runtime.InteropServices;
 
+namespace bottlenoselabs.C2CS.Runtime;
+
 /// <summary>
 ///     A boolean value type with the same memory layout as a <see cref="byte" /> in both managed and unmanaged contexts;
 ///     equivalent to a standard bool found in C/C++/ObjC where <c>0</c> is <c>false</c> and any other value is

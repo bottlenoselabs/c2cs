@@ -2,14 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using C2CS.Features.BuildCLibrary;
 using C2CS.Features.BuildCLibrary.Domain;
 using C2CS.Features.BuildCLibrary.Input.Sanitized;
 using C2CS.Features.WriteCodeCSharp;
@@ -17,10 +14,8 @@ using C2CS.Features.WriteCodeCSharp.Output;
 using C2CS.Native;
 using C2CS.Tests.Data.Models;
 using C2CS.Tests.Foundation;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Emit;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -29,10 +24,10 @@ namespace C2CS.Tests;
 public sealed class TestFixtureCSharpCode
 {
     private readonly TestCSharpCodeAbstractSyntaxTree _abstractSyntaxTree;
-    private readonly Assembly? _assembly;
-    private readonly Type? _classType;
-    private readonly EmitResult? _emitResult;
     private const string ClassName = "bottlenoselabs._container_library";
+    private readonly Type? _classType;
+
+    public WriteCodeCSharpOutput Output { get; }
 
     public TestFixtureCSharpCode()
     {
@@ -41,34 +36,37 @@ public sealed class TestFixtureCSharpCode
         GenerateCAbstractSyntaxTree(bindgenConfigFilePath, sourceDirectoryPath);
 
         BuildCLibrary(sourceDirectoryPath, ImmutableArray<string>.Empty);
-        var outputWriteCSharp = GenerateCSharpCode(sourceDirectoryPath);
-        var compileCSharpCodeResult = CompileCSharpCode(outputWriteCSharp.OutputFileDirectory);
+        Output = Run(sourceDirectoryPath);
+        Assert.True(Output.IsSuccess);
+        _abstractSyntaxTree = CreateCSharpAbstractSyntaxTree(Output);
 
-        _assembly = compileCSharpCodeResult.Assembly;
-        if (_assembly != null)
+        var assembly = Output.CompilerResult?.Assembly;
+        if (assembly != null)
         {
-            _classType = _assembly!.GetType(ClassName);
-            NativeLibrary.SetDllImportResolver(_assembly!, NativeLibraryResolver);
+            _classType = assembly.GetType(ClassName);
+            NativeLibrary.SetDllImportResolver(assembly, NativeLibraryResolver);
         }
-
-        _emitResult = compileCSharpCodeResult.EmitResult;
-        _abstractSyntaxTree = CreateCSharpAbstractSyntaxTree(outputWriteCSharp);
     }
 
-    public void AssertCSharpCodeCompiles()
+    public void AssertCSharpCodeCompiles(WriteCodeCSharpOutput output)
     {
-        Assert.True(_assembly != null);
+        if (!Output.Input.GeneratorOptions.IsEnabledVerifyCSharpCodeCompiles)
+        {
+            return;
+        }
 
-        Assert.True(_emitResult != null, "Error compiling generated C# code.");
+        Assert.True(output.CompilerResult != null, "Error compiling generated C# code.");
+        Assert.True(output.CompilerResult!.Assembly != null, "Error compiling generated C# code.");
+        Assert.True(output.CompilerResult.EmitResult != null, "Error compiling generated C# code.");
 
-        foreach (var diagnostic in _emitResult!.Diagnostics)
+        foreach (var diagnostic in output.CompilerResult.EmitResult!.Diagnostics)
         {
             var isWarningOrError = diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Warning &&
                                    diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Error;
             Assert.True(isWarningOrError, $"C# code compilation diagnostic: {diagnostic}.");
         }
 
-        Assert.True(_emitResult!.Success, "Generated C# code did not compile successfully.");
+        Assert.True(output.CompilerResult.EmitResult.Success, "Generated C# code did not compile successfully.");
     }
 
     public CSharpTestEnum GetEnum(string name)
@@ -140,7 +138,7 @@ public sealed class TestFixtureCSharpCode
         Assert.True(astShellOutput.ExitCode == 0, "error merging platform ASTs");
     }
 
-    private WriteCodeCSharpOutput GenerateCSharpCode(string sourceDirectoryPath)
+    private WriteCodeCSharpOutput Run(string sourceDirectoryPath)
     {
         var services = TestHost.Services;
         var writeCodeCSharpTool = services.GetService<WriteCodeCSharpTool>()!;
@@ -151,36 +149,6 @@ public sealed class TestFixtureCSharpCode
         Assert.True(outputWriteCSharp!.Diagnostics.Length == 0, $"Diagnostics were reported when writing C# code: {outputWriteCSharp.OutputFileDirectory}");
         Assert.True(outputWriteCSharp.IsSuccess, "Writing C# code failed.");
         return outputWriteCSharp;
-    }
-
-    private static (Assembly? Assembly, EmitResult? EmitResult) CompileCSharpCode(string directoryPath)
-    {
-        var filesCSharp = Directory.GetFiles(directoryPath, "*.cs");
-        var syntaxTrees = filesCSharp.Select(File.ReadAllText)
-            .Select(code => CSharpSyntaxTree.ParseText(code));
-
-        try
-        {
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-                .WithPlatform(Platform.AnyCpu)
-                .WithAllowUnsafe(true);
-            var compilation = CSharpCompilation.Create(
-                "TestAssemblyName",
-                syntaxTrees,
-                new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-                compilationOptions);
-            using var dllStream = new MemoryStream();
-            using var pdbStream = new MemoryStream();
-            var emitResult = compilation.Emit(dllStream, pdbStream);
-            var assembly = Assembly.Load(dllStream.ToArray());
-            return (assembly, emitResult);
-        }
-#pragma warning disable CA1031
-        catch (Exception)
-#pragma warning restore CA1031
-        {
-            return (null, null);
-        }
     }
 
     private void AssertPInvokeEnum(string name, Array enumValues)

@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+using C2CS.Foundation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,7 +19,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 
-public sealed partial class CSharpCodeGenerator
+public sealed class CSharpCodeGenerator
 {
     private readonly IServiceProvider _services;
     private readonly CSharpCodeGeneratorOptions _options;
@@ -37,34 +38,43 @@ public sealed partial class CSharpCodeGenerator
         _versionStamp = Assembly.GetEntryAssembly()!.GetName().Version!.ToString();
     }
 
-    public CSharpProject Emit(
-        CSharpAbstractSyntaxTree abstractSyntaxTree)
+    public CSharpProject? Generate(CSharpAbstractSyntaxTree abstractSyntaxTree, DiagnosticCollection diagnostics)
     {
-        var generateCodeHandlers = CreateHandlers(_services);
-        var context = new CSharpCodeGeneratorContext(generateCodeHandlers, _options, abstractSyntaxTree.Functions);
-        var documentsBuilder = ImmutableArray.CreateBuilder<CSharpProjectDocument>();
-
-        var codeDocument = EmitCodeDocument(abstractSyntaxTree, context);
-        documentsBuilder.Add(codeDocument);
-
-        if (_options.IsEnabledGenerateCSharpRuntimeCode)
+        try
         {
-            var runtimeCodeDocument = EmitRuntimeCodeDocument();
-            documentsBuilder.Add(runtimeCodeDocument);
+            var generateCodeHandlers = CreateHandlers(_services);
+            var context = new CSharpCodeGeneratorContext(generateCodeHandlers, _options, abstractSyntaxTree.Functions);
+            var documentsBuilder = ImmutableArray.CreateBuilder<CSharpProjectDocument>();
+
+            var codeDocument = EmitCodeDocument(abstractSyntaxTree, context);
+            documentsBuilder.Add(codeDocument);
+
+            if (_options.IsEnabledGenerateCSharpRuntimeCode)
+            {
+                var runtimeCodeDocument = EmitRuntimeCodeDocument();
+                documentsBuilder.Add(runtimeCodeDocument);
+            }
+
+            if (_options.IsEnabledGenerateAssemblyAttributes)
+            {
+                var assemblyAttributesCodeDocument = EmitAssemblyAttributesCodeDocument();
+                documentsBuilder.Add(assemblyAttributesCodeDocument);
+            }
+
+            var project = new CSharpProject
+            {
+                Documents = documentsBuilder.ToImmutable()
+            };
+
+            return project;
         }
-
-        if (_options.IsEnabledGenerateAssemblyAttributes)
+#pragma warning disable CA1031
+        catch (Exception e)
+#pragma warning restore CA1031
         {
-            var assemblyAttributesCodeDocument = EmitAssemblyAttributesCodeDocument();
-            documentsBuilder.Add(assemblyAttributesCodeDocument);
+            diagnostics.Add(new DiagnosticPanic(e));
+            return null;
         }
-
-        var project = new CSharpProject
-        {
-            Documents = documentsBuilder.ToImmutable()
-        };
-
-        return project;
     }
 
     private CSharpProjectDocument EmitAssemblyAttributesCodeDocument()
@@ -263,7 +273,7 @@ public static unsafe partial class Runtime
         var rootClassDeclarationOriginal = (ClassDeclarationSyntax)rootNamespace.Members[0];
         var rootClassDeclarationWithMembers = rootClassDeclarationOriginal;
 
-        var members = typeof(CBool).Assembly.GetManifestResourceMemberDeclarations();
+        var members = typeof(bottlenoselabs.C2CS.Runtime.CBool).Assembly.GetManifestResourceMemberDeclarations();
         rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.WithMembers(rootClassDeclarationWithMembers.Members.AddRange(members));
 
         var newCompilationUnit = compilationUnitCode.ReplaceNode(
@@ -295,13 +305,12 @@ public static unsafe partial class Runtime
 #nullable enable
 #pragma warning disable CS1591
 #pragma warning disable CS8981
+global using bottlenoselabs.C2CS.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using bottlenoselabs.C2CS;
-using static bottlenoselabs.C2CS.Runtime;
 #endregion
 ";
         return code;

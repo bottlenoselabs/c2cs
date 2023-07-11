@@ -2,13 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.Linq;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
-using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 using C2CS.Features.WriteCodeCSharp.Domain.Mapper;
 using C2CS.Features.WriteCodeCSharp.Input;
 using C2CS.Features.WriteCodeCSharp.Input.Sanitized;
@@ -17,8 +14,6 @@ using C2CS.Features.WriteCodeCSharp.Output;
 using C2CS.Foundation.Tool;
 using CAstFfi.Data;
 using CAstFfi.Data.Serialization;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Features.WriteCodeCSharp;
@@ -45,12 +40,17 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
             abstractSyntaxTreesC,
             input.MapperOptions);
 
-        var project = GenerateCSharpLibrary(nodesPerPlatform, input.GeneratorOptions);
+        var project = output.Project = GenerateCSharpLibrary(nodesPerPlatform, input.GeneratorOptions);
+        if (project == null)
+        {
+            return;
+        }
+
         WriteFilesToStorage(input.OutputFileDirectory, project);
 
         if (input.GeneratorOptions.IsEnabledVerifyCSharpCodeCompiles)
         {
-            VerifyCSharpCodeCompiles(input.OutputFileDirectory, project);
+            output.CompilerResult = VerifyCSharpCodeCompiles(project, input.GeneratorOptions);
         }
     }
 
@@ -79,14 +79,14 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
         return result;
     }
 
-    private CSharpProject GenerateCSharpLibrary(
+    private CSharpProject? GenerateCSharpLibrary(
         CSharpAbstractSyntaxTree abstractSyntaxTree,
         CSharpCodeGeneratorOptions options)
     {
         BeginStep("Generate C# library files");
 
         var codeGenerator = new CSharpCodeGenerator(_services, options);
-        var project = codeGenerator.Emit(abstractSyntaxTree);
+        var project = codeGenerator.Generate(abstractSyntaxTree, Diagnostics);
 
         EndStep();
 
@@ -108,45 +108,16 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
         EndStep();
     }
 
-    private void VerifyCSharpCodeCompiles(string outputFilePath, CSharpProject project)
+    private CSharpLibraryCompilerResult? VerifyCSharpCodeCompiles(
+        CSharpProject project,
+        CSharpCodeGeneratorOptions options)
     {
         BeginStep("Verify C# code compiles");
 
-        var cSharpDocuments = project.Documents.Where(x =>
-            x.FileName.EndsWith(".cs", StringComparison.InvariantCulture));
-
-        var syntaxTrees = new List<SyntaxTree>();
-        foreach (var cSharpDocument in cSharpDocuments)
-        {
-            var sharpSyntaxTree = CSharpSyntaxTree.ParseText(cSharpDocument.Contents);
-            syntaxTrees.Add(sharpSyntaxTree);
-        }
-
-        var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-            .WithPlatform(Platform.AnyCpu)
-            .WithAllowUnsafe(true);
-        var compilation = CSharpCompilation.Create(
-            "TestAssemblyName",
-            syntaxTrees,
-            new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-            compilationOptions);
-        using var dllStream = new MemoryStream();
-        using var pdbStream = new MemoryStream();
-        var emitResult = compilation.Emit(dllStream, pdbStream);
-
-        foreach (var diagnostic in emitResult.Diagnostics)
-        {
-            // Obviously errors should be considered, but should warnings be considered too? Yes, yes they should. Some warnings can be indicative of bindings which are not correct.
-            var isErrorOrWarning = diagnostic.Severity is
-                Microsoft.CodeAnalysis.DiagnosticSeverity.Error or Microsoft.CodeAnalysis.DiagnosticSeverity.Warning;
-            if (!isErrorOrWarning)
-            {
-                continue;
-            }
-
-            Diagnostics.Add(new CSharpCompileDiagnostic(outputFilePath, diagnostic));
-        }
+        var result = CSharpLibraryCompiler.Compile(project, options, Diagnostics);
 
         EndStep();
+
+        return result;
     }
 }
