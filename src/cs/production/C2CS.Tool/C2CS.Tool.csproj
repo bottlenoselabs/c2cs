@@ -53,6 +53,9 @@
 	</ItemGroup>
 
 	<!-- Project references -->
+	<ItemGroup>
+		<ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
+	</ItemGroup>
 
 	<!-- Configuration settings -->
 	<ItemGroup>
@@ -61,18 +64,9 @@
 
 	<!-- C2CS.Runtime -->
 	<ItemGroup>
-<!--		<Compile Include="..\C2CS.Runtime\**\*.cs">-->
-<!--			<Link>Runtime\%(RecursiveDir)\%(FileName)%(Extension)</Link>-->
-<!--		</Compile>-->
 		<EmbeddedResource Include="..\C2CS.Runtime\**\*.cs">
 				<Visible>false</Visible>
 		</EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Features\WriteCodeCSharp\Domain\LibraryCompiler\" />
 	</ItemGroup>
 
 </Project>
