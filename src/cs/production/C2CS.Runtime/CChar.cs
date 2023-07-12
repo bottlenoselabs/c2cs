@@ -14,11 +14,11 @@ namespace bottlenoselabs.C2CS.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
 {
-    private readonly byte _value;
+    public readonly byte Value;
 
     private CChar(byte value)
     {
-        _value = Convert.ToByte(value);
+        Value = Convert.ToByte(value);
     }
 
     /// <summary>
@@ -58,13 +58,13 @@ public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
     /// <returns>A <see cref="byte" />.</returns>
     public static byte ToByte(CChar value)
     {
-        return value._value;
+        return value.Value;
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return _value.ToString(CultureInfo.InvariantCulture);
+        return Value.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <inheritdoc />
@@ -76,19 +76,19 @@ public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
     /// <inheritdoc />
     public bool Equals(byte other)
     {
-        return _value == other;
+        return Value == other;
     }
 
     /// <inheritdoc />
     public bool Equals(CChar other)
     {
-        return _value == other._value;
+        return Value == other.Value;
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return _value.GetHashCode();
+        return Value.GetHashCode();
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
     /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(CChar left, CChar right)
     {
-        return left._value == right._value;
+        return left.Value == right.Value;
     }
 
     /// <summary>
@@ -121,6 +121,6 @@ public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
     /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(CChar left, CChar right)
     {
-        return left._value == right._value;
+        return left.Value == right.Value;
     }
 }

@@ -12,12 +12,12 @@ namespace bottlenoselabs.C2CS.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct CString : IEquatable<CString>, IDisposable
 {
-    internal readonly nint _pointer;
+    public readonly nint Pointer;
 
     /// <summary>
     ///     Gets a value indicating whether this <see cref="CString" /> is a null pointer.
     /// </summary>
-    public bool IsNull => _pointer == 0;
+    public bool IsNull => Pointer == 0;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CString" /> struct.
@@ -25,7 +25,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <param name="value">The pointer value.</param>
     public CString(byte* value)
     {
-        _pointer = (nint)value;
+        Pointer = (nint)value;
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <param name="value">The pointer value.</param>
     public CString(nint value)
     {
-        _pointer = value;
+        Pointer = value;
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <param name="s">The string value.</param>
     public CString(string s)
     {
-        _pointer = FromString(s)._pointer;
+        Pointer = FromString(s).Pointer;
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// </summary>
     public void Dispose()
     {
-        Marshal.FreeHGlobal(_pointer);
+        Marshal.FreeHGlobal(Pointer);
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// </returns>
     public static implicit operator nint(CString value)
     {
-        return value._pointer;
+        return value.Pointer;
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// </returns>
     public static nint ToIntPtr(CString value)
     {
-        return value._pointer;
+        return value.Pointer;
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
 
         // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
         // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
-        var result = Marshal.PtrToStringAnsi(value._pointer);
+        var result = Marshal.PtrToStringAnsi(value.Pointer);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -202,13 +202,13 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <inheritdoc />
     public bool Equals(CString other)
     {
-        return _pointer == other._pointer;
+        return Pointer == other.Pointer;
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return _pointer.GetHashCode();
+        return Pointer.GetHashCode();
     }
 
     /// <summary>
@@ -219,7 +219,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(CString left, CString right)
     {
-        return left._pointer == right._pointer;
+        return left.Pointer == right.Pointer;
     }
 
     /// <summary>

@@ -12,12 +12,12 @@ namespace bottlenoselabs.C2CS.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct CStringWide : IEquatable<CStringWide>
 {
-    internal readonly nint _pointer;
+    public readonly nint Pointer;
 
     /// <summary>
     ///     Gets a value indicating whether this <see cref="CStringWide" /> is a null pointer.
     /// </summary>
-    public bool IsNull => _pointer == 0;
+    public bool IsNull => Pointer == 0;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CStringWide" /> struct.
@@ -25,7 +25,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <param name="value">The pointer value.</param>
     public CStringWide(byte* value)
     {
-        _pointer = (nint)value;
+        Pointer = (nint)value;
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <param name="value">The pointer value.</param>
     public CStringWide(nint value)
     {
-        _pointer = value;
+        Pointer = value;
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <param name="s">The string value.</param>
     public CStringWide(string s)
     {
-        _pointer = FromString(s)._pointer;
+        Pointer = FromString(s).Pointer;
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </returns>
     public static implicit operator nint(CStringWide value)
     {
-        return value._pointer;
+        return value.Pointer;
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </returns>
     public static nint ToIntPtr(CStringWide value)
     {
-        return value._pointer;
+        return value.Pointer;
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
 
         // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
         // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
-        var result = Marshal.PtrToStringUni(value._pointer);
+        var result = Marshal.PtrToStringUni(value.Pointer);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -194,13 +194,13 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <inheritdoc />
     public bool Equals(CStringWide other)
     {
-        return _pointer == other._pointer;
+        return Pointer == other.Pointer;
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return _pointer.GetHashCode();
+        return Pointer.GetHashCode();
     }
 
     /// <summary>
@@ -211,7 +211,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(CStringWide left, CStringWide right)
     {
-        return left._pointer == right._pointer;
+        return left.Pointer == right.Pointer;
     }
 
     /// <summary>
@@ -233,6 +233,6 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(CStringWide left, CStringWide right)
     {
-        return left._pointer == right._pointer;
+        return left.Pointer == right.Pointer;
     }
 }

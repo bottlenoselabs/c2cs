@@ -14,11 +14,11 @@ namespace bottlenoselabs.C2CS.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct CBool : IEquatable<CBool>
 {
-    private readonly byte _value;
+    public readonly byte Value;
 
     private CBool(bool value)
     {
-        _value = Convert.ToByte(value);
+        Value = Convert.ToByte(value);
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public readonly struct CBool : IEquatable<CBool>
     /// <returns>A <see cref="bool" />.</returns>
     public static bool ToBoolean(CBool value)
     {
-        return Convert.ToBoolean(value._value);
+        return Convert.ToBoolean(value.Value);
     }
 
     /// <inheritdoc />
@@ -76,13 +76,13 @@ public readonly struct CBool : IEquatable<CBool>
     /// <inheritdoc />
     public bool Equals(CBool other)
     {
-        return _value == other._value;
+        return Value == other.Value;
     }
 
     /// <inheritdoc />
     public override int GetHashCode()
     {
-        return _value.GetHashCode();
+        return Value.GetHashCode();
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public readonly struct CBool : IEquatable<CBool>
     /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(CBool left, CBool right)
     {
-        return left._value == right._value;
+        return left.Value == right.Value;
     }
 
     /// <summary>
@@ -115,6 +115,6 @@ public readonly struct CBool : IEquatable<CBool>
     /// <returns><c>true</c> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(CBool left, CBool right)
     {
-        return left._value == right._value;
+        return left.Value == right.Value;
     }
 }
