@@ -17,24 +17,13 @@
 		<PackAsTool>true</PackAsTool>
 		<IsPackable>true</IsPackable>
 		<PackageOutputPath>$(GitRepositoryPath)/nupkg</PackageOutputPath>
-		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/bottlenoselabs/c2cs</RepositoryUrl>
-		<PackageIcon>icon.png</PackageIcon>
 		<PackageId>bottlenoselabs.C2CS.Tool</PackageId>
 		<PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
 		<ToolCommandName>c2cs</ToolCommandName>
 		<NoWarn>$(NoWarn);NU5104</NoWarn>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
-
-	<!-- NuGet -->
-	<ItemGroup>
-		<Content Include="$(GitRepositoryPath)/icon.png">
-			<Pack>true</Pack>
-			<PackagePath>icon.png</PackagePath>
-			<Link>Properties/bottlenoselabs/icon.png</Link>
-		</Content>
-	</ItemGroup>
 
 	<!-- NuGet package references -->
 	<ItemGroup>

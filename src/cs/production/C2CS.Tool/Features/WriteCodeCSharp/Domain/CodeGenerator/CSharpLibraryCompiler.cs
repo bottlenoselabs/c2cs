@@ -40,15 +40,23 @@ public static class CSharpLibraryCompiler
                 .WithPlatform(Platform.AnyCpu)
                 .WithAllowUnsafe(true);
 
-            var dotnetAssembliesDirectoryPath = Path.GetDirectoryName(typeof(Attribute).Assembly.Location)!;
-            var references = new List<MetadataReference>
+            var references = new List<MetadataReference>();
+
+            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var loadedAssembly in loadedAssemblies)
             {
-                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(Path.Combine(dotnetAssembliesDirectoryPath, "System.Runtime.dll")),
-            };
-            if (!options.IsEnabledGenerateCSharpRuntimeCode)
-            {
-                references.Add(MetadataReference.CreateFromFile(typeof(bottlenoselabs.C2CS.Runtime.CBool).Assembly.Location));
+                if (string.IsNullOrEmpty(loadedAssembly.Location))
+                {
+                    continue;
+                }
+
+                if (options.IsEnabledGenerateCSharpRuntimeCode &&
+                    loadedAssembly.FullName!.Contains("C2CS.Runtime", StringComparison.InvariantCulture))
+                {
+                    continue;
+                }
+
+                references.Add(MetadataReference.CreateFromFile(loadedAssembly.Location));
             }
 
             var compilation = CSharpCompilation.Create(
