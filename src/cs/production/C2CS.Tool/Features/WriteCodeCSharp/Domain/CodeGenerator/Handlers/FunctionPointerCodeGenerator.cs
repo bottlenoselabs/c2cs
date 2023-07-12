@@ -43,7 +43,7 @@ public sealed class FunctionPointerCodeGenerator : GenerateCodeHandler<CSharpFun
 [StructLayout(LayoutKind.Sequential)]
 public struct {node.Name}
 {{
-	public delegate* unmanaged[Cdecl]<{parameterTypesAndReturnTypeString}> Pointer;
+	public delegate* unmanaged<{parameterTypesAndReturnTypeString}> Pointer;
 }}
 ";
         return code;
