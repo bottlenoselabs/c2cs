@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using bottlenoselabs.C2CS.Runtime;
 using static my_c_library_namespace.my_c_library;
 
 internal static class Program
