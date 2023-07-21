@@ -212,10 +212,23 @@ public sealed class CSharpCodeGenerator
         var code = CodeDocumentTemplate();
         code += @$"
 {options.HeaderCodeRegion}
+";
 
+        if (options.IsEnabledFileScopedNamespace)
+        {
+            code += @$"
 namespace {options.NamespaceName};
+                ";
+        }
+        else
+        {
+            code += @$"
+namespace {options.NamespaceName} {{
+                ";
+        }
 
-public static unsafe partial class {options.ClassName}
+        code += @$"
+    public static unsafe partial class {options.ClassName}
 {{
     private const string LibraryName = ""{options.LibraryName}"";
 }}
@@ -223,9 +236,16 @@ public static unsafe partial class {options.ClassName}
 {options.FooterCodeRegion}
 ";
 
+        if (!options.IsEnabledFileScopedNamespace)
+        {
+            code += @"
+}
+";
+        }
+
         var syntaxTree = ParseSyntaxTree(code);
         var compilationUnit = syntaxTree.GetCompilationUnitRoot();
-        var rootNamespace = (FileScopedNamespaceDeclarationSyntax)compilationUnit.Members[0];
+        var rootNamespace = (BaseNamespaceDeclarationSyntax)compilationUnit.Members[0];
         var rootClassDeclarationOriginal = (ClassDeclarationSyntax)rootNamespace.Members[0];
         var rootClassDeclarationWithMembers = rootClassDeclarationOriginal;
 
@@ -257,7 +277,9 @@ public static unsafe partial class {className}
 
     private CSharpProjectDocument EmitRuntimeCodeDocument()
     {
-        var templateCode = @"// To disable generating this file set `isEnabledGeneratingRuntimeCode` to `false` in the config file for generating C# code."
+        var templateCode = @"
+// To disable generating this file set `isEnabledGeneratingRuntimeCode` to `false` in the config file for generating C# code.
+"
                            + CodeDocumentTemplate();
         templateCode += @"
 
@@ -266,7 +288,7 @@ namespace bottlenoselabs.C2CS.Runtime;
 ";
 
         var compilationUnitCode = ParseSyntaxTree(templateCode).GetCompilationUnitRoot();
-        var rootNamespaceOriginal = (FileScopedNamespaceDeclarationSyntax)compilationUnitCode.Members[0];
+        var rootNamespaceOriginal = (BaseNamespaceDeclarationSyntax)compilationUnitCode.Members[0];
         var rootNamespaceWithMembers = rootNamespaceOriginal;
 
         var members = GetManifestResourceMemberDeclarations();
@@ -331,7 +353,7 @@ namespace bottlenoselabs.C2CS.Runtime;
 #nullable enable
 #pragma warning disable CS1591
 #pragma warning disable CS8981
-global using bottlenoselabs.C2CS.Runtime;
+using bottlenoselabs.C2CS.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
