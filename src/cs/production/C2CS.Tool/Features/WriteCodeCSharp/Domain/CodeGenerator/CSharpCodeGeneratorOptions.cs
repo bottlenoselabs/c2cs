@@ -24,4 +24,6 @@ public sealed class CSharpCodeGeneratorOptions
     public bool IsEnabledGenerateAssemblyAttributes { get; init; }
 
     public bool IsEnabledLibraryImportAttribute { get; init; }
+
+    public bool IsEnabledFileScopedNamespace { get; init; }
 }

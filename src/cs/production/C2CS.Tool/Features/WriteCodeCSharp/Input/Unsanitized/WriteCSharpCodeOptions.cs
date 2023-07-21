@@ -13,20 +13,20 @@ namespace C2CS.Features.WriteCodeCSharp.Input.Unsanitized;
 public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
 {
     /// <summary>
-    ///     The path of the input cross-platform abstract syntax tree.
+    ///     Gets or sets the path of the input cross-platform abstract syntax tree.
     /// </summary>
     [JsonPropertyName("inputFilePath")]
     public string? InputAbstractSyntaxTreeFilePath { get; set; }
 
     /// <summary>
-    ///     The path of the output C# `.cs` file.
+    ///     Gets or sets the path of the output C# `.cs` file.
     /// </summary>
     [JsonPropertyName("outputFileDirectory")]
     public string? OutputCSharpCodeFileDirectory { get; set; }
 
     /// <summary>
-    ///     The name of the dynamic link library (without the file extension) used for platform invoke (P/Invoke) with
-    ///     C#.
+    ///     Gets or sets the name of the dynamic link library (without the file extension) used for platform invoke
+    ///     (P/Invoke) with C#.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -38,7 +38,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public string? LibraryName { get; set; }
 
     /// <summary>
-    ///     The name of the namespace to be used for the C# static class.
+    ///     Gets or sets the name of the namespace to be used for the C# static class.
     /// </summary>
     /// <remarks>
     ///     <para>Default is <c>null</c>. If <see cref="NamespaceName" /> is <c>null</c>, <see cref="LibraryName" /> is used.</para>
@@ -47,7 +47,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public string? NamespaceName { get; set; }
 
     /// <summary>
-    ///     The name of the C# static class.
+    ///     Gets or sets the name of the C# static class.
     /// </summary>
     /// <remarks>
     ///     <para>Default is <c>null</c>. If <see cref="ClassName" /> is <c>null</c>, <see cref="LibraryName" /> is used.</para>
@@ -56,7 +56,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public string? ClassName { get; set; }
 
     /// <summary>
-    ///     The path of the text file which to add the file's contents to the top of the C# file.
+    ///     Gets or sets the path of the text file which to add the file's contents to the top of the C# file.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -68,7 +68,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public string? HeaderCodeRegionFilePath { get; set; }
 
     /// <summary>
-    ///     The path of the text file which to add the file's contents to the bottom of the C# file.
+    ///     Gets or sets the path of the text file which to add the file's contents to the bottom of the C# file.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -80,7 +80,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public string? FooterCodeRegionFilePath { get; set; }
 
     /// <summary>
-    ///     The pairs of strings for re-mapping names where each pair has source name and a target name.
+    ///     Gets or sets the pairs of strings for re-mapping names where each pair has source name and a target name.
     /// </summary>
     /// <remarks>
     ///     <para><see cref="MappedNames" /> does not change the bit layout of types.</para>
@@ -89,14 +89,14 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public ImmutableArray<WriteCSharpCodeOptionsMappedName>? MappedNames { get; set; }
 
     /// <summary>
-    ///     The pairs of strings for re-mapping C namespaces to C# namespaces.
+    ///     Gets or sets the pairs of strings for re-mapping C namespaces to C# namespaces.
     /// </summary>
     [JsonPropertyName("mappedCNamespaces")]
     public ImmutableArray<WriteCSharpCodeOptionsMappedName>? MappedCNamespaces { get; set; }
 
     /// <summary>
-    ///     The names of types, functions, enums, constants, or anything else that may be found when parsing C code that
-    ///     will be ignored when generating C# code.
+    ///     Gets or sets the names of types, functions, enums, constants, or anything else that may be found when
+    ///     parsing C code that will be ignored when generating C# code.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -107,7 +107,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public ImmutableArray<string?>? IgnoredNames { get; set; }
 
     /// <summary>
-    ///     Determines whether to use C# 9 function pointers or C# delegates for C function pointers.
+    ///     Gets or sets whether C# 9 function pointers is enabled or C# delegates for C function pointers is enabled.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -123,7 +123,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public bool? IsEnabledFunctionPointers { get; set; } = true;
 
     /// <summary>
-    ///     Determines whether to verify the generated C# code compiles without warnings or errors.
+    ///     Gets or sets whether to verify the generated C# code compiles without warnings or errors is enabled.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -135,7 +135,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public bool? IsEnabledVerifyCSharpCodeCompiles { get; set; } = true;
 
     /// <summary>
-    ///     Determines whether to enable generating the C# runtime glue code.
+    ///     Gets or sets whether enable generating the C# runtime glue code is enabled.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -147,9 +147,9 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public bool? IsEnabledGeneratingRuntimeCode { get; set; } = true;
 
     /// <summary>
-    ///     Determines whether to enable C# source code generation using
-    ///     <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> or
-    ///     <see cref="System.Runtime.InteropServices.DllImportAttribute" />.
+    ///     Gets or sets whether C# source code generation using
+    ///     <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> is enabled or
+    ///     <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is enabled.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -170,7 +170,8 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public bool? IsEnabledLibraryImport { get; set; } = false;
 
     /// <summary>
-    ///     Determines whether to enable generating the C# assembly attribute usages at the scope of the main namespace.
+    ///     Gets or sets whether generating the C# assembly attribute usages at the scope of the main namespace is
+    ///     enabled.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -183,7 +184,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public bool? IsEnabledGenerateAssemblyAttributes { get; set; } = true;
 
     /// <summary>
-    ///     Determines whether to enable generating idiomatic C#.
+    ///     Gets or sets whether generating idiomatic C# is enabled.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -196,7 +197,7 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     public bool? IsEnabledIdiomaticCSharp { get; set; } = false;
 
     /// <summary>
-    ///     Determines whether to parse enum value names as upper-case when generating idiomatic C#.
+    ///     Gets or sets whether parsing enum value names as upper-case when generating idiomatic C# is enabled.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -206,4 +207,16 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledEnumValueNamesUpperCase")]
     public bool? IsEnabledEnumValueNamesUpperCase { get; set; } = true;
+
+    /// <summary>
+    ///     Gets or sets whether creating a C# namespace scope is enabled.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c>. Use <c>true</c> to enable file scoped namespace when generating C# code. Use
+    ///         <c>false</c> to disable file scoped namespace and fallback to traditional namespace scope.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledFileScopedNamespace")]
+    public bool? IsEnabledFileScopedNamespace { get; set; } = true;
 }

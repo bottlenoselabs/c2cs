@@ -189,7 +189,7 @@ public sealed class TestFixtureCSharpCode
         var generatorOptions = output.Input.GeneratorOptions;
 
         Assert.True(compilationUnitSyntax.Members.Count == 1);
-        var @namespace = compilationUnitSyntax.Members[0] as FileScopedNamespaceDeclarationSyntax;
+        var @namespace = compilationUnitSyntax.Members[0] as BaseNamespaceDeclarationSyntax;
         Assert.True(@namespace != null);
         Assert.True(@namespace!.Name.ToString() == generatorOptions.NamespaceName);
 

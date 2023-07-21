@@ -43,6 +43,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         var isEnabledGenerateAssemblyAttributes = unsanitizedInput.IsEnabledGenerateAssemblyAttributes ?? true;
         var isEnabledIdiomaticCSharp = unsanitizedInput.IsEnabledIdiomaticCSharp ?? false;
         var isEnabledEnumValueNamesUpperCase = unsanitizedInput.IsEnabledEnumValueNamesUpperCase ?? true;
+        var isEnabledFileScopedNamespace = unsanitizedInput.IsEnabledFileScopedNamespace ?? true;
 
         return new WriteCodeCSharpInput
         {
@@ -68,6 +69,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 IsEnabledGenerateCSharpRuntimeCode = isEnabledGenerateCSharpRuntimeCode,
                 IsEnabledLibraryImportAttribute = isEnabledLibraryImportAttribute,
                 IsEnabledGenerateAssemblyAttributes = isEnabledGenerateAssemblyAttributes,
+                IsEnabledFileScopedNamespace = isEnabledFileScopedNamespace
             }
         };
     }
