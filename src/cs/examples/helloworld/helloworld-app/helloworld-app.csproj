@@ -12,6 +12,16 @@
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
+	<!-- C# Source Generators -->
+	<PropertyGroup>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>Generated/SourceGenerators</CompilerGeneratedFilesOutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+		<None Include="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+	</ItemGroup>
+
 	<!-- Copy native libraries -->
 	<ItemGroup>
 		<None Update="**/*.dll">

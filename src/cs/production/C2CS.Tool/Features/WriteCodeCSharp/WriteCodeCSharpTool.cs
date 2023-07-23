@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.IO.Abstractions;
+using System.Reflection;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Features.WriteCodeCSharp.Domain.Mapper;
@@ -50,7 +51,7 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
 
         if (input.GeneratorOptions.IsEnabledVerifyCSharpCodeCompiles)
         {
-            output.CompilerResult = VerifyCSharpCodeCompiles(project, input.GeneratorOptions);
+            output.Assembly = VerifyCSharpCodeCompiles(project, input.GeneratorOptions);
         }
     }
 
@@ -108,16 +109,17 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
         EndStep();
     }
 
-    private CSharpLibraryCompilerResult? VerifyCSharpCodeCompiles(
+    private Assembly? VerifyCSharpCodeCompiles(
         CSharpProject project,
         CSharpCodeGeneratorOptions options)
     {
         BeginStep("Verify C# code compiles");
 
-        var result = CSharpLibraryCompiler.Compile(project, options, Diagnostics);
+        var compiler = new CSharpLibraryCompiler();
+        var assembly = compiler.Compile(project, options, Diagnostics);
 
         EndStep();
 
-        return result;
+        return assembly;
     }
 }

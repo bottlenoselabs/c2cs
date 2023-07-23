@@ -5,15 +5,15 @@ using C2CS.Foundation;
 
 namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 
-public sealed class CSharpCompileDiagnostic : Diagnostic
+public class CSharpCompileSkipDiagnostic : Diagnostic
 {
-    public CSharpCompileDiagnostic(string compilationOutput)
-        : base(DiagnosticSeverity.Error, CreateMessage(compilationOutput))
+    public CSharpCompileSkipDiagnostic(string reason)
+        : base(DiagnosticSeverity.Warning, CreateMessage(reason))
     {
     }
 
-    private static string CreateMessage(string compilationOutput)
+    private static string CreateMessage(string reason)
     {
-        return $"- C# code compilation failure: {compilationOutput}.";
+        return $"- Skipped C# code compilation: {reason}";
     }
 }

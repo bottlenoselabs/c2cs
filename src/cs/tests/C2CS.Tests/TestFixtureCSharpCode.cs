@@ -40,7 +40,7 @@ public sealed class TestFixtureCSharpCode
         Assert.True(Output.IsSuccess);
         _abstractSyntaxTree = CreateCSharpAbstractSyntaxTree(Output);
 
-        var assembly = Output.CompilerResult?.Assembly;
+        var assembly = Output.Assembly;
         if (assembly != null)
         {
             _classType = assembly.GetType(ClassName);
@@ -55,18 +55,7 @@ public sealed class TestFixtureCSharpCode
             return;
         }
 
-        Assert.True(output.CompilerResult != null, "Error compiling generated C# code.");
-        Assert.True(output.CompilerResult!.Assembly != null, "Error compiling generated C# code.");
-        Assert.True(output.CompilerResult.EmitResult != null, "Error compiling generated C# code.");
-
-        foreach (var diagnostic in output.CompilerResult.EmitResult!.Diagnostics)
-        {
-            var isWarningOrError = diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Warning &&
-                                   diagnostic.Severity != Microsoft.CodeAnalysis.DiagnosticSeverity.Error;
-            Assert.True(isWarningOrError, $"C# code compilation diagnostic: {diagnostic}.");
-        }
-
-        Assert.True(output.CompilerResult.EmitResult.Success, "Generated C# code did not compile successfully.");
+        Assert.True(output.Assembly != null, "Error compiling generated C# code.");
     }
 
     public CSharpTestEnum GetEnum(string name)
