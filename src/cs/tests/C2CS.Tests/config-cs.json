@@ -3,6 +3,5 @@
   "outputFileDirectory": "./Generated",
   "className": "_container_library",
   "libraryName": "_container_library",
-  "namespaceName": "bottlenoselabs",
-  "isEnabledGeneratingRuntimeCode": false
+  "namespaceName": "bottlenoselabs"
 }

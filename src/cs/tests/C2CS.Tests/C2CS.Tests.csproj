@@ -13,10 +13,10 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 	
-	<!-- bottlenoselabs.Common.Tools project settings -->
-	<PropertyGroup>
-		<EnableCodeCoverage>false</EnableCodeCoverage>
-	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Generated/**/*.cs" />
+		<None Include="Generated/**/*.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.7.0" />
@@ -43,6 +43,7 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\..\production\C2CS.Tool\C2CS.Tool.csproj" />
 	</ItemGroup>

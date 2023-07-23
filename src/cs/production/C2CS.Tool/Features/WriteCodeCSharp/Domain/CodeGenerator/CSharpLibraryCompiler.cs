@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Immutable;
 using System.IO;
+using System.Reflection;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 using C2CS.Foundation;
 using C2CS.Native;
@@ -12,7 +13,7 @@ namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 
 public class CSharpLibraryCompiler
 {
-    public CSharpLibraryCompilerResult? Compile(
+    public Assembly? Compile(
         CSharpProject project,
         CSharpCodeGeneratorOptions options,
         DiagnosticCollection diagnostics)
@@ -28,7 +29,7 @@ public class CSharpLibraryCompiler
         var temporaryDirectoryPath = Directory.CreateTempSubdirectory("c2cs-").FullName;
         try
         {
-            TryCompile(temporaryDirectoryPath, project, diagnostics);
+            return TryCompile(temporaryDirectoryPath, project, diagnostics);
         }
 #pragma warning disable CA1031
         catch (Exception e)
@@ -36,12 +37,11 @@ public class CSharpLibraryCompiler
         {
             Directory.Delete(temporaryDirectoryPath, true);
             diagnostics.Add(new DiagnosticPanic(e));
+            return null;
         }
-
-        return null;
     }
 
-    private static void TryCompile(
+    private static Assembly? TryCompile(
         string directoryPath,
         CSharpProject project,
         DiagnosticCollection diagnostics)
@@ -55,6 +55,22 @@ public class CSharpLibraryCompiler
         if (compilationOutput.ExitCode != 0)
         {
             diagnostics.Add(new CSharpCompileDiagnostic(compilationOutput.Output));
+            return null;
+        }
+
+        var assemblyFilePath = Path.Combine(directoryPath, "bin/Debug/net7.0/Project.dll");
+        try
+        {
+            return Assembly.LoadFile(assemblyFilePath);
+        }
+        catch (FileNotFoundException)
+        {
+            return null;
+        }
+        catch (Exception e)
+        {
+            diagnostics.Add(new DiagnosticPanic(e));
+            throw;
         }
     }
 
@@ -74,6 +90,7 @@ public class CSharpLibraryCompiler
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 </Project>
 ".Trim();
