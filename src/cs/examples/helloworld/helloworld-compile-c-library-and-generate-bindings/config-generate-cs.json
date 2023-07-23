@@ -3,5 +3,6 @@
   "outputFileDirectory": "./../helloworld-app/Generated",
   "namespaceName": "my_c_library_namespace",
   "className": "my_c_library",
-  "isEnabledFileScopedNamespace": false
+  "isEnabledFileScopedNamespace": false,
+  "isEnabledLibraryImport": true
 }

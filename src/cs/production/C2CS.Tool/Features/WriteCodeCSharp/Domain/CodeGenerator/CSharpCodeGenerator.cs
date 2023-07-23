@@ -7,7 +7,6 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
 using C2CS.Foundation;
@@ -51,7 +50,7 @@ public sealed class CSharpCodeGenerator
 
             if (_options.IsEnabledGenerateCSharpRuntimeCode)
             {
-                var runtimeCodeDocument = EmitRuntimeCodeDocument();
+                var runtimeCodeDocument = EmitRuntimeCodeDocument(_options);
                 documentsBuilder.Add(runtimeCodeDocument);
             }
 
@@ -210,9 +209,13 @@ public sealed class CSharpCodeGenerator
         ImmutableSortedDictionary<string, List<MemberDeclarationSyntax>> membersByClassName)
     {
         var code = CodeDocumentTemplate();
-        code += @$"
+
+        if (!string.IsNullOrEmpty(options.HeaderCodeRegion))
+        {
+            code += @$"
 {options.HeaderCodeRegion}
 ";
+        }
 
         if (options.IsEnabledFileScopedNamespace)
         {
@@ -232,9 +235,14 @@ namespace {options.NamespaceName} {{
 {{
     private const string LibraryName = ""{options.LibraryName}"";
 }}
+";
 
+        if (!string.IsNullOrEmpty(options.FooterCodeRegion))
+        {
+            code += @$"
 {options.FooterCodeRegion}
 ";
+        }
 
         if (!options.IsEnabledFileScopedNamespace)
         {
@@ -275,17 +283,27 @@ public static unsafe partial class {className}
         return formattedCode;
     }
 
-    private CSharpProjectDocument EmitRuntimeCodeDocument()
+    private CSharpProjectDocument EmitRuntimeCodeDocument(CSharpCodeGeneratorOptions options)
     {
         var templateCode = @"
 // To disable generating this file set `isEnabledGeneratingRuntimeCode` to `false` in the config file for generating C# code.
 "
                            + CodeDocumentTemplate();
-        templateCode += @"
 
+        if (options.IsEnabledFileScopedNamespace)
+        {
+            templateCode += @"
 namespace bottlenoselabs.C2CS.Runtime;
-
 ";
+        }
+        else
+        {
+            templateCode += @"
+namespace bottlenoselabs.C2CS.Runtime
+{
+}
+";
+        }
 
         var compilationUnitCode = ParseSyntaxTree(templateCode).GetCompilationUnitRoot();
         var rootNamespaceOriginal = (BaseNamespaceDeclarationSyntax)compilationUnitCode.Members[0];

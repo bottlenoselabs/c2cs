@@ -114,7 +114,8 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
     {
         BeginStep("Verify C# code compiles");
 
-        var result = CSharpLibraryCompiler.Compile(project, options, Diagnostics);
+        var compiler = new CSharpLibraryCompiler();
+        var result = compiler.Compile(project, options, Diagnostics);
 
         EndStep();
 

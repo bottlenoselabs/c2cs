@@ -2,99 +2,116 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 using C2CS.Foundation;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+using C2CS.Native;
 
 namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 
-public static class CSharpLibraryCompiler
+public class CSharpLibraryCompiler
 {
-    public static CSharpLibraryCompilerResult? Compile(
+    public CSharpLibraryCompilerResult? Compile(
         CSharpProject project,
         CSharpCodeGeneratorOptions options,
         DiagnosticCollection diagnostics)
     {
+        // NOTE: Because `LibraryImportAttribute` uses a C# source generator which can not be referenced in code, we use the .NET SDK directly instead of using Roslyn.
+
+        if (!CanCompile())
+        {
+            diagnostics.Add(new CSharpCompileSkipDiagnostic(".NET 7+ SDK not found"));
+            return null;
+        }
+
+        var temporaryDirectoryPath = Directory.CreateTempSubdirectory("c2cs-").FullName;
         try
         {
-            var cSharpDocuments = project.Documents.Where(x =>
-                x.FileName.EndsWith(".cs", StringComparison.InvariantCulture));
-
-            var syntaxTrees = new List<SyntaxTree>();
-            foreach (var cSharpDocument in cSharpDocuments)
-            {
-                var sharpSyntaxTree = CSharpSyntaxTree.ParseText(
-                    cSharpDocument.Contents,
-                    path: cSharpDocument.FileName,
-                    encoding: Encoding.Default);
-                syntaxTrees.Add(sharpSyntaxTree);
-            }
-
-            var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-                .WithPlatform(Platform.AnyCpu)
-                .WithAllowUnsafe(true);
-
-            var references = new List<MetadataReference>();
-
-            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var loadedAssembly in loadedAssemblies)
-            {
-                if (string.IsNullOrEmpty(loadedAssembly.Location))
-                {
-                    continue;
-                }
-
-                if (options.IsEnabledGenerateCSharpRuntimeCode &&
-                    loadedAssembly.FullName!.Contains("C2CS.Runtime", StringComparison.InvariantCulture))
-                {
-                    continue;
-                }
-
-                references.Add(MetadataReference.CreateFromFile(loadedAssembly.Location));
-            }
-
-            var compilation = CSharpCompilation.Create(
-                "TestAssemblyName",
-                syntaxTrees,
-                references,
-                compilationOptions);
-            using var dllStream = new MemoryStream();
-            using var pdbStream = new MemoryStream();
-            var emitResult = compilation.Emit(dllStream, pdbStream);
-
-            Assembly? assembly = null;
-            if (emitResult.Success)
-            {
-                assembly = Assembly.Load(dllStream.ToArray());
-            }
-
-            foreach (var diagnostic in emitResult.Diagnostics)
-            {
-                // Obviously errors should be considered, but should warnings be considered too? Yes, yes they should. Some warnings can be indicative of bindings which are not correct.
-                var isErrorOrWarning = diagnostic.Severity is
-                    Microsoft.CodeAnalysis.DiagnosticSeverity.Error or Microsoft.CodeAnalysis.DiagnosticSeverity.Warning;
-                if (!isErrorOrWarning)
-                {
-                    continue;
-                }
-
-                diagnostics.Add(new CSharpCompileDiagnostic(diagnostic));
-            }
-
-            return new CSharpLibraryCompilerResult(emitResult, assembly);
+            TryCompile(temporaryDirectoryPath, project, diagnostics);
         }
 #pragma warning disable CA1031
         catch (Exception e)
 #pragma warning restore CA1031
         {
+            Directory.Delete(temporaryDirectoryPath, true);
             diagnostics.Add(new DiagnosticPanic(e));
-            return null;
         }
+
+        return null;
+    }
+
+    private static void TryCompile(
+        string directoryPath,
+        CSharpProject project,
+        DiagnosticCollection diagnostics)
+    {
+        var cSharpProjectFilePath = Path.Combine(directoryPath, "Project.csproj");
+
+        CreateCSharpProjectFile(cSharpProjectFilePath);
+        CreateDocumentFiles(directoryPath, project.Documents);
+
+        var compilationOutput = $"dotnet build {cSharpProjectFilePath} --verbosity quiet".ExecuteShell();
+        if (compilationOutput.ExitCode != 0)
+        {
+            diagnostics.Add(new CSharpCompileDiagnostic(compilationOutput.Output));
+        }
+    }
+
+    private static void CreateDocumentFiles(string directoryPath, ImmutableArray<CSharpProjectDocument> documents)
+    {
+        foreach (var document in documents)
+        {
+            File.WriteAllText(Path.Combine(directoryPath, document.FileName), document.Contents);
+        }
+    }
+
+    private static void CreateCSharpProjectFile(string cSharpProjectFilePath)
+    {
+        var cSharpProjectFileContents = @"
+<Project Sdk=""Microsoft.NET.Sdk"">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+</Project>
+".Trim();
+        File.WriteAllText(cSharpProjectFilePath, cSharpProjectFileContents);
+    }
+
+    private static bool CanCompile()
+    {
+        var shellOutput = "dotnet --list-sdks".ExecuteShell();
+        if (shellOutput.ExitCode != 0)
+        {
+            return false;
+        }
+
+        var lines = shellOutput.Output.Split(Environment.NewLine);
+        if (lines.Length == 0)
+        {
+            return false;
+        }
+
+        foreach (var line in lines)
+        {
+            var parse = line.Split('[', StringSplitOptions.RemoveEmptyEntries);
+            var versionString = parse[0].Trim();
+
+            if (!Version.TryParse(versionString, out var version))
+            {
+                continue;
+            }
+
+            if (version.Major < 5)
+            {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }
