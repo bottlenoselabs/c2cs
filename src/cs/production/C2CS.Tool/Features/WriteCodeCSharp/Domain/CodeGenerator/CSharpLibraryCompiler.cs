@@ -20,16 +20,24 @@ public class CSharpLibraryCompiler
     {
         // NOTE: Because `LibraryImportAttribute` uses a C# source generator which can not be referenced in code, we use the .NET SDK directly instead of using Roslyn.
 
-        if (!CanCompile())
+        if (CanCompile())
         {
-            diagnostics.Add(new CSharpCompileSkipDiagnostic(".NET 7+ SDK not found"));
-            return null;
+            return TryCompile(project, options, diagnostics);
         }
 
+        diagnostics.Add(new CSharpCompileSkipDiagnostic(".NET 7+ SDK not found"));
+        return null;
+    }
+
+    private static Assembly? TryCompile(
+        CSharpProject project,
+        CSharpCodeGeneratorOptions options,
+        DiagnosticCollection diagnostics)
+    {
         var temporaryDirectoryPath = Directory.CreateTempSubdirectory("c2cs-").FullName;
         try
         {
-            return TryCompile(temporaryDirectoryPath, project, diagnostics);
+            return Compile(temporaryDirectoryPath, project, options, diagnostics);
         }
 #pragma warning disable CA1031
         catch (Exception e)
@@ -41,20 +49,26 @@ public class CSharpLibraryCompiler
         }
     }
 
-    private static Assembly? TryCompile(
+    private static Assembly? Compile(
         string directoryPath,
         CSharpProject project,
+        CSharpCodeGeneratorOptions options,
         DiagnosticCollection diagnostics)
     {
         var cSharpProjectFilePath = Path.Combine(directoryPath, "Project.csproj");
 
-        CreateCSharpProjectFile(cSharpProjectFilePath);
+        CreateCSharpProjectFile(cSharpProjectFilePath, options);
         CreateDocumentFiles(directoryPath, project.Documents);
 
-        var compilationOutput = $"dotnet build {cSharpProjectFilePath} --verbosity quiet".ExecuteShell();
+        var compilationOutput = "dotnet build --verbosity quiet --nologo --no-incremental".ExecuteShell(workingDirectory: directoryPath);
         if (compilationOutput.ExitCode != 0)
         {
-            diagnostics.Add(new CSharpCompileDiagnostic(compilationOutput.Output));
+            var lines = compilationOutput.Output.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                diagnostics.Add(new CSharpCompileDiagnostic(line));
+            }
+
             return null;
         }
 
@@ -82,19 +96,37 @@ public class CSharpLibraryCompiler
         }
     }
 
-    private static void CreateCSharpProjectFile(string cSharpProjectFilePath)
+    private static void CreateCSharpProjectFile(
+        string cSharpProjectFilePath,
+        CSharpCodeGeneratorOptions options)
     {
-        var cSharpProjectFileContents = @"
+        var fileContents = @"
 <Project Sdk=""Microsoft.NET.Sdk"">
+
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>$(NoWarn);CS8981</NoWarn>
     </PropertyGroup>
+".TrimStart();
+
+        if (!options.IsEnabledGenerateCSharpRuntimeCode)
+        {
+            fileContents += @"
+    <!-- NuGet package references -->
+	<ItemGroup>
+        <PackageReference Include=""bottlenoselabs.C2CS.Runtime"" Version=""*"" />
+    </ItemGroup>
+";
+        }
+
+        fileContents += @"
 </Project>
 ".Trim();
-        File.WriteAllText(cSharpProjectFilePath, cSharpProjectFileContents);
+
+        File.WriteAllText(cSharpProjectFilePath, fileContents);
     }
 
     private static bool CanCompile()
