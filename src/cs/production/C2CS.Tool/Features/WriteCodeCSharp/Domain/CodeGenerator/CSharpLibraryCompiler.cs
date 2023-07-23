@@ -104,7 +104,7 @@ public class CSharpLibraryCompiler
                 continue;
             }
 
-            if (version.Major < 5)
+            if (version.Major < 7)
             {
                 continue;
             }
