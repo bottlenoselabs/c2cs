@@ -107,7 +107,7 @@ public partial class CMakeLibraryBuilder
                     .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
 
                 var installNameToolCommandAddRPath =
-                    $"install_name_tool -add_rpath @executable_path/. {outputFilePath}";
+                    $"install_name_tool -add_rpath @loader_path/. {outputFilePath}";
                 installNameToolCommandAddRPath
                     .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
             }
