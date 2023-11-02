@@ -65,7 +65,7 @@ Once you have a cross-platform abstract syntax tree, you are ready to use `c2cs`
 
 ### Execute `c2cs`
 
-Run `c2cs --config` from terminal specifying a configuration file. See the [`config-cs.json`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/config-cs.json) for an example in the `helloworld-compile-c-library-and-generate-bindings` example.
+Run `c2cs --config` from terminal specifying a configuration file. See the [`config-generate-cs.json`](/src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/config-generate-cs.json) for an example in the `helloworld-compile-c-library-and-generate-bindings` example.
 
 ## How to use `C2CS.Runtime`
 
