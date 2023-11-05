@@ -38,7 +38,7 @@ public const {node.Type} {name} = {node.Value};
         {
             code = $@"
 {attributesString}
-public static {node.Type} {name} = {node.Value};
+public static {node.Type} {name} = ({node.Type}){node.Value};
 ";
         }
 
