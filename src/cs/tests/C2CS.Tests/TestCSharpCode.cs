@@ -11,7 +11,7 @@ namespace C2CS.Tests;
 [PublicAPI]
 public sealed class TestCSharpCode : TestBase
 {
-    public static TheoryData<string> Enums() => new()
+    public static TheoryData<string> EnumNames() => new()
     {
         "EnumForceSInt8",
         "EnumForceSInt16",
@@ -25,11 +25,24 @@ public sealed class TestCSharpCode : TestBase
     };
 
     [Theory]
-    [MemberData(nameof(Enums))]
+    [MemberData(nameof(EnumNames))]
     public void Enum(string name)
     {
         var value = _fixture.GetEnum(name);
         AssertValue(name, value, "Enums");
+    }
+
+    public static TheoryData<string> MacroObjectNames() => new()
+    {
+        "MACRO_OBJECT_INT_VALUE"
+    };
+
+    [Theory]
+    [MemberData(nameof(MacroObjectNames))]
+    public void MacroObject(string name)
+    {
+        var value = _fixture.GetMacroObject(name);
+        AssertValue(name, value, "MacroObjects");
     }
 
     [Fact]
@@ -41,7 +54,7 @@ public sealed class TestCSharpCode : TestBase
     private readonly TestFixtureCSharpCode _fixture;
 
     public TestCSharpCode()
-        : base("Data/Values", true)
+        : base("Data/Values", regenerateDataFiles: true)
     {
         var services = TestHost.Services;
         _fixture = services.GetService<TestFixtureCSharpCode>()!;

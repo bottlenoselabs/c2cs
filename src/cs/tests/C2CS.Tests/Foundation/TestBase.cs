@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Abstractions;
 using System.Text.Json;
@@ -28,7 +29,8 @@ public abstract class TestBase
         Services = TestHost.Services;
 
         _fileSystem = Services.GetService<IFileSystem>()!;
-        _sourceDirectoryPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../src/cs/tests/C2CS.Tests"));
+
+        _sourceDirectoryPath = Path.Combine(GetGitDirectory(), "src/cs/tests/C2CS.Tests");
         _regenerateDataFiles = regenerateDataFiles;
 
         _jsonSerializerOptions = new JsonSerializerOptions
@@ -44,8 +46,18 @@ public abstract class TestBase
 
     protected void AssertValue<T>(string name, T value, string directory)
     {
+        var nameNormalized = name;
+        if (name.Contains('_', StringComparison.InvariantCulture))
+        {
+#pragma warning disable CA1308
+            var nameAsWords = name.ToLowerInvariant().Replace("_", " ", StringComparison.InvariantCulture);
+#pragma warning restore CA1308
+            var nameAsWordsTitleCased = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(nameAsWords);
+            nameNormalized = nameAsWordsTitleCased.Replace(" ", string.Empty, StringComparison.InvariantCulture);
+        }
+
         var relativeJsonFilePath =
-            _fileSystem.Path.Combine(_baseDataFilesDirectory, directory, $"{name}.json");
+            _fileSystem.Path.Combine(_baseDataFilesDirectory, directory, $"{nameNormalized}.json");
         string jsonFilePath;
         if (_regenerateDataFiles)
         {
@@ -103,5 +115,24 @@ public abstract class TestBase
         textWriter.Write(fileContents);
         textWriter.Close();
         fileStream.Close();
+    }
+
+    private static string GetGitDirectory()
+    {
+        Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../src/cs/tests/C2CS.Tests"));
+
+        var currentDirectory = AppContext.BaseDirectory;
+        while (!string.IsNullOrEmpty(currentDirectory) && Directory.Exists(currentDirectory))
+        {
+            var files = Directory.GetFiles(currentDirectory, "*.gitignore");
+            if (files.Length == 1)
+            {
+                return currentDirectory;
+            }
+
+            currentDirectory = Directory.GetParent(currentDirectory)?.FullName ?? string.Empty;
+        }
+
+        throw new InvalidOperationException("Could not find Git root directory");
     }
 }
