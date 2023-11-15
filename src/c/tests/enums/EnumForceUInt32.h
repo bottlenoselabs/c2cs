@@ -12,7 +12,7 @@ typedef enum EnumForceUInt32 {
 
 FFI_API_DECL void EnumForceUInt32__print_EnumForceUInt32(const EnumForceUInt32 e)
 {
-    printf("%d\n", e); // Print used for testing
+    printf("%lu\n", e); // Print used for testing
 }
 
 FFI_API_DECL EnumForceUInt32 EnumForceUInt32__return_EnumForceUInt32(const EnumForceUInt32 e)
