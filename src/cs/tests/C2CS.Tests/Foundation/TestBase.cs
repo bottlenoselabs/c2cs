@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Abstractions;
 using System.Text.Json;
@@ -44,8 +45,13 @@ public abstract class TestBase
 
     protected void AssertValue<T>(string name, T value, string directory)
     {
+#pragma warning disable CA1308
+        var nameAsWords = name.ToLowerInvariant().Replace("_", " ", StringComparison.InvariantCulture);
+#pragma warning restore CA1308
+        var nameAsWordsTitleCased = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(nameAsWords);
+        var nameNormalized = nameAsWordsTitleCased.Replace(" ", string.Empty, StringComparison.InvariantCulture);
         var relativeJsonFilePath =
-            _fileSystem.Path.Combine(_baseDataFilesDirectory, directory, $"{name}.json");
+            _fileSystem.Path.Combine(_baseDataFilesDirectory, directory, $"{nameNormalized}.json");
         string jsonFilePath;
         if (_regenerateDataFiles)
         {
