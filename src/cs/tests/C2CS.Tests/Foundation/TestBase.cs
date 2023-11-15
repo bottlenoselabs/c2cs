@@ -29,7 +29,8 @@ public abstract class TestBase
         Services = TestHost.Services;
 
         _fileSystem = Services.GetService<IFileSystem>()!;
-        _sourceDirectoryPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../src/cs/tests/C2CS.Tests"));
+
+        _sourceDirectoryPath = Path.Combine(GetGitDirectory(), "src/cs/tests/C2CS.Tests");
         _regenerateDataFiles = regenerateDataFiles;
 
         _jsonSerializerOptions = new JsonSerializerOptions
@@ -109,5 +110,24 @@ public abstract class TestBase
         textWriter.Write(fileContents);
         textWriter.Close();
         fileStream.Close();
+    }
+
+    private static string GetGitDirectory()
+    {
+        Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../src/cs/tests/C2CS.Tests"));
+
+        var currentDirectory = AppContext.BaseDirectory;
+        while (!string.IsNullOrEmpty(currentDirectory) && Directory.Exists(currentDirectory))
+        {
+            var files = Directory.GetFiles(currentDirectory, "*.gitignore");
+            if (files.Length == 1)
+            {
+                return currentDirectory;
+            }
+
+            currentDirectory = Directory.GetParent(currentDirectory)?.FullName ?? string.Empty;
+        }
+
+        throw new InvalidOperationException("Could not find Git root directory");
     }
 }
