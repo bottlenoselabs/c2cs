@@ -46,11 +46,16 @@ public abstract class TestBase
 
     protected void AssertValue<T>(string name, T value, string directory)
     {
+        var nameNormalized = name;
+        if (name.Contains('_', StringComparison.InvariantCulture))
+        {
 #pragma warning disable CA1308
-        var nameAsWords = name.ToLowerInvariant().Replace("_", " ", StringComparison.InvariantCulture);
+            var nameAsWords = name.ToLowerInvariant().Replace("_", " ", StringComparison.InvariantCulture);
 #pragma warning restore CA1308
-        var nameAsWordsTitleCased = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(nameAsWords);
-        var nameNormalized = nameAsWordsTitleCased.Replace(" ", string.Empty, StringComparison.InvariantCulture);
+            var nameAsWordsTitleCased = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(nameAsWords);
+            nameNormalized = nameAsWordsTitleCased.Replace(" ", string.Empty, StringComparison.InvariantCulture);
+        }
+
         var relativeJsonFilePath =
             _fileSystem.Path.Combine(_baseDataFilesDirectory, directory, $"{nameNormalized}.json");
         string jsonFilePath;
