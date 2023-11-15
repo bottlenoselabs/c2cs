@@ -13,25 +13,25 @@ namespace C2CS.Features.BuildCLibrary.Input.Unsanitized;
 public class BuildCLibraryOptions : ToolUnsanitizedInput
 {
     /// <summary>
-    ///     The directory path to the CMakeLists.txt file.
+    ///     Gets or sets the directory path to the CMakeLists.txt file.
     /// </summary>
     [JsonPropertyName("cMakeDirectoryPath")]
     public string? CMakeDirectoryPath { get; set; }
 
     /// <summary>
-    ///     The directory path where to place the built C shared library (`.dll`/`.dylib`/`.so`).
+    ///     Gets or sets the directory path where to place the built C shared library (`.dll`/`.dylib`/`.so`).
     /// </summary>
     [JsonPropertyName("outputDirectoryPath")]
     public string? OutputDirectoryPath { get; set; }
 
     /// <summary>
-    ///     Additional CMake arguments when generating build files.
+    ///     Gets or sets additional CMake arguments when generating build files.
     /// </summary>
     [JsonPropertyName("cMakeArguments")]
     public ImmutableArray<string?>? CMakeArguments { get; set; }
 
     /// <summary>
-    ///     Determines whether to delete CMake build files after they are no longer required.
+    ///     Gets or sets whether to delete CMake build files after they are no longer required.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -43,7 +43,7 @@ public class BuildCLibraryOptions : ToolUnsanitizedInput
     public bool? IsEnabledDeleteBuildFiles { get; set; }
 
     /// <summary>
-    ///     Determines whether to build the C shared library with debug symbols.
+    ///     Gets or sets whether to build the C shared library with debug symbols.
     /// </summary>
     /// <remarks>
     ///     <para>
