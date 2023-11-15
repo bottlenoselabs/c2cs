@@ -54,7 +54,7 @@ public sealed class TestCSharpCode : TestBase
     private readonly TestFixtureCSharpCode _fixture;
 
     public TestCSharpCode()
-        : base("Data/Values", true)
+        : base("Data/Values")
     {
         var services = TestHost.Services;
         _fixture = services.GetService<TestFixtureCSharpCode>()!;
