@@ -1,0 +1,20 @@
+{
+  "inputFilePath": "./my_c_library/include/my_c_library.h",
+  "userIncludeDirectories": [
+    "./my_c_library/include"
+  ],
+  "targetPlatforms": {
+    "windows": {
+      "x86_64-pc-windows-msvc": {},
+      "aarch64-pc-windows-msvc": {}
+    },
+    "macos": {
+      "aarch64-apple-darwin": {},
+      "x86_64-apple-darwin": {}
+    },
+    "linux": {
+      "x86_64-unknown-linux-gnu": {},
+      "aarch64-unknown-linux-gnu": {}
+    }
+  }
+}

@@ -37,15 +37,7 @@ internal static class Program
 
     private static bool GenerateBindingsCSharp(string sourceDirectoryPath)
     {
-        var bindgenConfigFileName = Native.OperatingSystem switch
-        {
-            NativeOperatingSystem.Windows => "config-extract-windows.json",
-            NativeOperatingSystem.macOS => "config-extract-macos.json",
-            NativeOperatingSystem.Linux => "config-extract-linux.json",
-            _ => throw new NotImplementedException()
-        };
-
-        var bindgenConfigFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, bindgenConfigFileName));
+        var bindgenConfigFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "config-extract.json"));
 
         var extractShellOutput = $"castffi extract --config {bindgenConfigFilePath}".ExecuteShellCommand();
         if (extractShellOutput.ExitCode != 0)
