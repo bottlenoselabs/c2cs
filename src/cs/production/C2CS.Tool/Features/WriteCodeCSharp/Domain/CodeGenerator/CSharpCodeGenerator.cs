@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using bottlenoselabs.Common.Diagnostics;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
 using C2CS.Foundation;
@@ -37,7 +38,7 @@ public sealed class CSharpCodeGenerator
         _versionStamp = Assembly.GetEntryAssembly()!.GetName().Version!.ToString();
     }
 
-    public CSharpProject? Generate(CSharpAbstractSyntaxTree abstractSyntaxTree, DiagnosticCollection diagnostics)
+    public CSharpProject? Generate(CSharpAbstractSyntaxTree abstractSyntaxTree, DiagnosticsSink diagnostics)
     {
         try
         {

@@ -2,9 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Reflection;
+using bottlenoselabs.Common.Tools;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Features.WriteCodeCSharp.Input.Sanitized;
-using C2CS.Foundation.Tool;
 
 namespace C2CS.Features.WriteCodeCSharp.Output;
 

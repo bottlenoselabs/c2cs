@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using bottlenoselabs.Common.Tools;
 using C2CS.Features.WriteCodeCSharp.Data;
-using C2CS.Foundation.Tool;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 

@@ -1,0 +1,56 @@
+name: "Test .NET solution"
+
+on:
+  workflow_call:
+
+jobs:
+
+  test-dotnet-job:
+    name: "Test .NET solution: ${{ matrix.platform.name }}"
+    runs-on: ${{ matrix.platform.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+        - { name: Windows, os: windows-latest }
+        - { name: Linux, os: ubuntu-latest }
+        - { name: macOS, os: macos-latest }
+    defaults:
+      run:
+        shell: bash
+    steps:
+
+    - name: "Clone Git repository"
+      uses: actions/checkout@v3
+
+    - name: "Install Clang: Windows"
+      if: matrix.platform.os == 'windows-latest'
+      run: |
+        source "${{ github.workspace }}\.github\scripts\install-clang-x64-windows.sh"
+  
+    - name: "Install Clang: Linux"
+      if: matrix.platform.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install gcc-i686-linux-gnu gcc-x86-64-linux-gnu gcc-aarch64-linux-gnu llvm-14 clang-14
+
+    - name: "Setup .NET"
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.x'
+
+    - name: "Install CAstFfi"
+      shell: bash
+      run: dotnet tool install --global bottlenoselabs.CAstFfi.Tool
+
+    - name: "Test .NET solution"
+      run: |
+        dotnet test '${{ github.workspace }}/src/cs' --nologo --verbosity minimal --configuration Release
+
+    - name: "Collect generated test files"
+      uses: actions/upload-artifact@v3
+      if: github.event_name == 'pull_request'
+      with:
+        name: "Test Data ${{ matrix.platform.name }}"
+        path: |
+          ${{ github.workspace }}/src/cs/tests/*.Tests/Data/Values/**/*.json

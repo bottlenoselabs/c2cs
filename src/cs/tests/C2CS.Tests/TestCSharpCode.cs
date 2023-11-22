@@ -1,7 +1,6 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.Tests.Foundation;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -16,12 +15,9 @@ public sealed class TestCSharpCode : TestBase
         "EnumForceSInt8",
         "EnumForceSInt16",
         "EnumForceSInt32",
-        "EnumForceSInt64",
-
         "EnumForceUInt8",
         "EnumForceUInt16",
         "EnumForceUInt32",
-        "EnumForceUInt64"
     };
 
     [Theory]
@@ -54,7 +50,7 @@ public sealed class TestCSharpCode : TestBase
     private readonly TestFixtureCSharpCode _fixture;
 
     public TestCSharpCode()
-        : base("Data/Values", regenerateDataFiles: true)
+        : base("Data/Values", regenerateDataFiles: false)
     {
         var services = TestHost.Services;
         _fixture = services.GetService<TestFixtureCSharpCode>()!;

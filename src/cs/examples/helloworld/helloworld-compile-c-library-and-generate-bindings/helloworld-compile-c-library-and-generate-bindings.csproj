@@ -3,7 +3,7 @@
 	<!-- MSBuild project settings -->
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
@@ -13,7 +13,6 @@
 
 	<!-- NuGet package references -->
 	<ItemGroup>
-		<PackageReference Include="System.IO.Abstractions" Version="19.2.4" />
 	</ItemGroup>
 
 	<!-- Project references -->

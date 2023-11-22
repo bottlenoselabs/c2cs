@@ -28,7 +28,7 @@
     },
     {
       "name": "_ENUM_FORCE_SINT32",
-      "value": "8388607"
+      "value": "2147483647"
     }
   ]
 }

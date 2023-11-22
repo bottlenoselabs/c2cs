@@ -29,7 +29,7 @@ See [LESSONS-LEARNED.md](./LESSONS-LEARNED.md).
 
 ## Installing `C2CS`
 
-`C2CS` is distributed as a NuGet tool. To get started, the .NET 7 software development kit (SDK) is required.
+`C2CS` is distributed as a NuGet tool. To get started, the .NET 8 software development kit (SDK) is required.
 
 ### Latest release of `C2CS`
 
@@ -75,7 +75,7 @@ The `C2CS.Runtime` C# code is directly added to the bottom of the generated bind
 
 ### Prerequisites
 
-1. Install [.NET 7 SDK](https://dotnet.microsoft.com/download).
+1. Install [.NET 8 SDK](https://dotnet.microsoft.com/download).
 2. Install build tools for C/C++.
     - Windows:
       1. Install Git Bash. (Usually installed with Git for Windows: https://git-scm.com/downloads.)

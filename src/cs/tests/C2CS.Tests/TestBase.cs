@@ -10,7 +10,7 @@ using System.Text.Json.Serialization;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace C2CS.Tests.Foundation;
+namespace C2CS.Tests;
 
 public abstract class TestBase
 {
@@ -29,8 +29,10 @@ public abstract class TestBase
         Services = TestHost.Services;
 
         _fileSystem = Services.GetService<IFileSystem>()!;
+        var path = _fileSystem.Path;
 
-        _sourceDirectoryPath = Path.Combine(GetGitDirectory(), "src/cs/tests/C2CS.Tests");
+        _sourceDirectoryPath = path.Combine(GetGitDirectory(), "src", "cs", "tests", "C2CS.Tests");
+        _baseDataFilesDirectory = path.Combine(_sourceDirectoryPath, baseDataFilesDirectory);
         _regenerateDataFiles = regenerateDataFiles;
 
         _jsonSerializerOptions = new JsonSerializerOptions
@@ -56,17 +58,11 @@ public abstract class TestBase
             nameNormalized = nameAsWordsTitleCased.Replace(" ", string.Empty, StringComparison.InvariantCulture);
         }
 
-        var relativeJsonFilePath =
-            _fileSystem.Path.Combine(_baseDataFilesDirectory, directory, $"{nameNormalized}.json");
-        string jsonFilePath;
+        var jsonFilePath = _fileSystem.Path.Combine(
+            _baseDataFilesDirectory, directory, $"{nameNormalized}.json");
         if (_regenerateDataFiles)
         {
-            jsonFilePath = _fileSystem.Path.Combine(_sourceDirectoryPath, relativeJsonFilePath);
             RegenerateDataFile(jsonFilePath, value);
-        }
-        else
-        {
-            jsonFilePath = _fileSystem.Path.Combine(AppContext.BaseDirectory, relativeJsonFilePath);
         }
 
         var expectedValue = ReadValueFromFile<T>(jsonFilePath);

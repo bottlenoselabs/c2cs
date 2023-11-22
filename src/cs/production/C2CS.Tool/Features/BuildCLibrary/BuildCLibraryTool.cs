@@ -3,12 +3,12 @@
 
 using System.Collections.Immutable;
 using System.IO.Abstractions;
+using bottlenoselabs.Common.Tools;
 using C2CS.Features.BuildCLibrary.Domain;
 using C2CS.Features.BuildCLibrary.Input;
 using C2CS.Features.BuildCLibrary.Input.Sanitized;
 using C2CS.Features.BuildCLibrary.Input.Unsanitized;
 using C2CS.Features.BuildCLibrary.Output;
-using C2CS.Foundation.Tool;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Features.BuildCLibrary;
