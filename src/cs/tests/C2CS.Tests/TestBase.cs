@@ -10,7 +10,7 @@ using System.Text.Json.Serialization;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace C2CS.Tests.Foundation;
+namespace C2CS.Tests;
 
 public abstract class TestBase
 {

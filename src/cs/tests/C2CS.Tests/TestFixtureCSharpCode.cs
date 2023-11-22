@@ -13,7 +13,6 @@ using C2CS.Features.WriteCodeCSharp;
 using C2CS.Features.WriteCodeCSharp.Output;
 using C2CS.Native;
 using C2CS.Tests.Data.Models;
-using C2CS.Tests.Foundation;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +31,7 @@ public sealed class TestFixtureCSharpCode
     public TestFixtureCSharpCode()
     {
         var sourceDirectoryPath = GetSourceDirectoryPath();
-        var bindgenConfigFilePath = GetBindgenConfigFilePath(sourceDirectoryPath);
+        var bindgenConfigFilePath = Path.Combine(sourceDirectoryPath, "config-extract.json");
         GenerateCAbstractSyntaxTree(bindgenConfigFilePath, sourceDirectoryPath);
 
         BuildCLibrary(sourceDirectoryPath, ImmutableArray<string>.Empty);
@@ -525,19 +524,5 @@ public sealed class TestFixtureCSharpCode
                 return string.Empty;
             }
         }
-    }
-
-    private static string GetBindgenConfigFilePath(string sourceDirectoryPath)
-    {
-        var bindgenConfigFileName = NativeUtility.OperatingSystem switch
-        {
-            NativeOperatingSystem.Windows => "config-windows.json",
-            NativeOperatingSystem.macOS => "config-macos.json",
-            NativeOperatingSystem.Linux => "config-linux.json",
-            _ => throw new NotImplementedException()
-        };
-
-        var bindgenConfigFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, bindgenConfigFileName));
-        return bindgenConfigFilePath;
     }
 }
