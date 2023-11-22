@@ -1,0 +1,70 @@
+name: "Release"
+on:
+  workflow_dispatch:
+    inputs:
+      pre-release:
+        description: 'Is pre-release? (NOTE: Pre-releases are uploaded to MyGet.org instead of NuGet.org.)'     
+        required: true
+        default: 'true'
+      version:
+        description: 'Version (NOTE: If left blank, the current date is used as the version.)'     
+        required: false
+        default: ''
+
+jobs:
+
+  test-job:
+    name: "Test .NET solution"
+    uses: "./.github/workflows/test.yml"
+
+  release-job:
+    name: "Release"
+    needs: [test-job]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+      - name: "Clone Git repository"
+        uses: actions/checkout@v3
+
+      - name: "Set version"
+        id: set-version
+        shell: bash
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          if [[ -z "$VERSION" ]]; then
+            IS_PRERELEASE="${{ github.event.inputs.pre-release }}"
+            if [[ "$IS_PRERELEASE" = "true" ]]; then
+              VERSION="$(date +'%Y.%m.%d')-rc"
+            else
+              VERSION="$(date +'%Y.%m.%d')"
+            fi
+          fi
+
+          echo "VERSION=$VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT" 
+
+      - name: ".NET pack"
+        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="${{ steps.set-version.outputs.VERSION }}" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
+
+      - name: "Upload packages to MyGet"
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.pre-release == 'true'
+        env:
+          MYGET_ACCESS_TOKEN: ${{ secrets.MYGET_ACCESS_TOKEN }}
+        run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $MYGET_ACCESS_TOKEN
+
+      - name: "Upload packages to NuGet"
+        if: github.event_name == 'schedule' || github.event.inputs.pre-release == 'false'
+        env:
+          NUGET_ACCESS_TOKEN: ${{ secrets.NUGET_ACCESS_TOKEN }}
+        run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
+
+      - name: "Create tag and GitHub release" 
+        uses: softprops/action-gh-release@v1
+        if: github.event_name == 'schedule' || github.event.inputs.pre-release == 'false'
+        with:
+          generate_release_notes: true
+          prerelease: "{{ github.event.inputs.pre-release == 'true' }}"
+          tag_name: "v${{ steps.set-version.outputs.VERSION }}"
+          
