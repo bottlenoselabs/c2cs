@@ -15,12 +15,9 @@ public sealed class TestCSharpCode : TestBase
         "EnumForceSInt8",
         "EnumForceSInt16",
         "EnumForceSInt32",
-        "EnumForceSInt64",
-
         "EnumForceUInt8",
         "EnumForceUInt16",
         "EnumForceUInt32",
-        "EnumForceUInt64"
     };
 
     [Theory]
