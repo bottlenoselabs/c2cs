@@ -7,7 +7,7 @@ typedef enum EnumForceSInt32 {
     ENUM_FORCE_SINT32_DAY_WEDNESDAY,
     ENUM_FORCE_SINT32_DAY_THURSDAY,
     ENUM_FORCE_SINT32_DAY_FRIDAY,
-    _ENUM_FORCE_SINT32 = 0x7FFFFF
+    _ENUM_FORCE_SINT32 = 0x7FFFFFFF
 } EnumForceSInt32;
 
 FFI_API_DECL void EnumForceSInt32__print_EnumForceSInt32(const EnumForceSInt32 e)

@@ -7,7 +7,7 @@ typedef enum EnumForceUInt64 {
     ENUM_FORCE_UINT64_DAY_WEDNESDAY,
     ENUM_FORCE_UINT64_DAY_THURSDAY,
     ENUM_FORCE_UINT64_DAY_FRIDAY,
-    _ENUM_FORCE_UINT64 = 0xffffffff
+    _ENUM_FORCE_UINT64 = 0xFFFFFFFFFFFFFFFF
 } EnumForceUInt64;
 
 FFI_API_DECL void EnumForceUInt64__print_EnumForceUInt64(const EnumForceUInt64 e)
