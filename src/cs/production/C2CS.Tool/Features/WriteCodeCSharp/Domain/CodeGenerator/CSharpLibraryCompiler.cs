@@ -5,9 +5,9 @@ using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
+using bottlenoselabs.Common;
+using bottlenoselabs.Common.Diagnostics;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
-using C2CS.Foundation;
-using C2CS.Native;
 
 namespace C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 
@@ -16,7 +16,7 @@ public class CSharpLibraryCompiler
     public Assembly? Compile(
         CSharpProject project,
         CSharpCodeGeneratorOptions options,
-        DiagnosticCollection diagnostics)
+        DiagnosticsSink diagnostics)
     {
         // NOTE: Because `LibraryImportAttribute` uses a C# source generator which can not be referenced in code, we use the .NET SDK directly instead of using Roslyn.
 
@@ -32,7 +32,7 @@ public class CSharpLibraryCompiler
     private static Assembly? TryCompile(
         CSharpProject project,
         CSharpCodeGeneratorOptions options,
-        DiagnosticCollection diagnostics)
+        DiagnosticsSink diagnostics)
     {
         var temporaryDirectoryPath = Directory.CreateTempSubdirectory("c2cs-").FullName;
         try
@@ -53,17 +53,17 @@ public class CSharpLibraryCompiler
         string directoryPath,
         CSharpProject project,
         CSharpCodeGeneratorOptions options,
-        DiagnosticCollection diagnostics)
+        DiagnosticsSink diagnostics)
     {
         var cSharpProjectFilePath = Path.Combine(directoryPath, "Project.csproj");
 
         CreateCSharpProjectFile(cSharpProjectFilePath, options);
         CreateDocumentFiles(directoryPath, project.Documents);
 
-        var compilationOutput = "dotnet build --verbosity quiet --nologo --no-incremental".ExecuteShell(workingDirectory: directoryPath);
+        var compilationOutput = "dotnet build --verbosity quiet --nologo --no-incremental".ExecuteShellCommand(workingDirectory: directoryPath);
         if (compilationOutput.ExitCode != 0)
         {
-            var lines = compilationOutput.Output.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var lines = compilationOutput.Output.Trim().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
             foreach (var line in lines)
             {
                 diagnostics.Add(new CSharpCompileDiagnostic(line));
@@ -131,13 +131,13 @@ public class CSharpLibraryCompiler
 
     private static bool CanCompile()
     {
-        var shellOutput = "dotnet --list-sdks".ExecuteShell();
+        var shellOutput = "dotnet --list-sdks".ExecuteShellCommand();
         if (shellOutput.ExitCode != 0)
         {
             return false;
         }
 
-        var lines = shellOutput.Output.Split(Environment.NewLine);
+        var lines = shellOutput.Output.Trim().Split(Environment.NewLine);
         if (lines.Length == 0)
         {
             return false;

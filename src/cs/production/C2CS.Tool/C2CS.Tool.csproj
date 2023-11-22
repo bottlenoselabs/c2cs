@@ -27,17 +27,14 @@
 
 	<!-- NuGet package references -->
 	<ItemGroup>
-		<PackageReference Include="bottlenoselabs.CAstFfi.Data" Version="1.2.6" />
-		<PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
+		<PackageReference Include="bottlenoselabs.Common" Version="2023.11.21" />
+		<PackageReference Include="bottlenoselabs.CAstFfi.Data" Version="2023.11.22" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-		<PackageReference Include="System.IO.Abstractions" Version="19.2.4" />
-		<PackageReference Include="System.Text.Json" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
 	</ItemGroup>
 

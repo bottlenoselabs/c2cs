@@ -7,11 +7,11 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using bottlenoselabs.Common;
 using C2CS.Features.BuildCLibrary.Domain;
 using C2CS.Features.BuildCLibrary.Input.Sanitized;
 using C2CS.Features.WriteCodeCSharp;
 using C2CS.Features.WriteCodeCSharp.Output;
-using C2CS.Native;
 using C2CS.Tests.Data.Models;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -114,7 +114,7 @@ public sealed class TestFixtureCSharpCode
         string bindgenConfigFilePath,
         string sourceDirectoryPath)
     {
-        var extractShellOutput = $"castffi extract --config {bindgenConfigFilePath}".ExecuteShell();
+        var extractShellOutput = $"castffi extract --config {bindgenConfigFilePath}".ExecuteShellCommand();
         Assert.True(extractShellOutput.ExitCode == 0, "error extracting platform ASTs");
 
         var abstractSyntaxTreeDirectoryPath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast"));
@@ -122,7 +122,7 @@ public sealed class TestFixtureCSharpCode
             Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast", "cross-platform.json"));
         var astShellOutput =
             $"castffi merge --inputDirectoryPath {abstractSyntaxTreeDirectoryPath} --outputFilePath {mergedAbstractSyntaxTreeFilePath}"
-                .ExecuteShell();
+                .ExecuteShellCommand();
         Assert.True(astShellOutput.ExitCode == 0, "error merging platform ASTs");
     }
 
@@ -214,7 +214,7 @@ public sealed class TestFixtureCSharpCode
         Assembly assembly,
         DllImportSearchPath? searchPath)
     {
-        var fileName = NativeUtility.OperatingSystem switch
+        var fileName = Native.OperatingSystem switch
         {
             NativeOperatingSystem.Windows => "_container_library.dll",
             NativeOperatingSystem.macOS => "lib_container_library.dylib",

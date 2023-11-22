@@ -7,8 +7,8 @@ using System.Collections.Immutable;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using bottlenoselabs.Common;
 using C2CS.Features.BuildCLibrary.Input.Sanitized;
-using C2CS.Native;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Features.BuildCLibrary.Domain;
@@ -76,14 +76,14 @@ public partial class CMakeLibraryBuilder
     {
         const string cMakeBuildCommand = "cmake --build cmake-build-release --config Release";
         LogCMakeBuildingLibrary(cMakeBuildCommand);
-        var result = cMakeBuildCommand.ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
+        var result = cMakeBuildCommand.ExecuteShellCommand(cMakeDirectoryPath, windowsUsePowerShell: false);
         if (result.ExitCode != 0)
         {
-            LogCMakeBuildingLibraryFailed(result.Output);
+            LogCMakeBuildingLibraryFailed(result.Output.Trim());
             return false;
         }
 
-        var dynamicLinkLibraryFileSearchPattern = NativeUtility.OperatingSystem switch
+        var dynamicLinkLibraryFileSearchPattern = Native.OperatingSystem switch
         {
             NativeOperatingSystem.Windows => "*.dll",
             NativeOperatingSystem.macOS => "*.dylib",
@@ -104,12 +104,12 @@ public partial class CMakeLibraryBuilder
                 var installNameToolCommandDeleteRPath =
                     $"install_name_tool -delete_rpath {cMakeOutputDirectoryPath} {outputFilePath}";
                 installNameToolCommandDeleteRPath
-                    .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
+                    .ExecuteShellCommand(cMakeDirectoryPath, windowsUsePowerShell: false);
 
                 var installNameToolCommandAddRPath =
                     $"install_name_tool -add_rpath @loader_path/. {outputFilePath}";
                 installNameToolCommandAddRPath
-                    .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
+                    .ExecuteShellCommand(cMakeDirectoryPath, windowsUsePowerShell: false);
             }
         }
 
@@ -150,14 +150,14 @@ public partial class CMakeLibraryBuilder
         var cMakeGenerateBuildFilesCommand = $"cmake -S . -B cmake-build-release {cMakeArgumentsString}";
         LogCMakeGeneratingBuildFiles(cMakeGenerateBuildFilesCommand);
         var result = cMakeGenerateBuildFilesCommand
-            .ExecuteShell(cMakeDirectoryPath, windowsUsePowerShell: false);
+            .ExecuteShellCommand(cMakeDirectoryPath, windowsUsePowerShell: false);
         if (result.ExitCode != 0)
         {
-            LogCMakeGeneratingBuildFilesFailed(result.Output);
+            LogCMakeGeneratingBuildFilesFailed(result.Output.Trim());
             return false;
         }
 
-        LogCMakeGeneratingBuildFilesSuccess(result.Output);
+        LogCMakeGeneratingBuildFilesSuccess(result.Output.Trim());
         return true;
     }
 

@@ -3,11 +3,7 @@
 
 using System;
 using System.IO;
-using System.IO.Abstractions;
-using C2CS.Features.BuildCLibrary.Domain;
-using C2CS.Native;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
+using bottlenoselabs.Common;
 
 #pragma warning disable CA1303
 
@@ -41,7 +37,7 @@ internal static class Program
 
     private static bool GenerateBindingsCSharp(string sourceDirectoryPath)
     {
-        var bindgenConfigFileName = NativeUtility.OperatingSystem switch
+        var bindgenConfigFileName = Native.OperatingSystem switch
         {
             NativeOperatingSystem.Windows => "config-extract-windows.json",
             NativeOperatingSystem.macOS => "config-extract-macos.json",
@@ -51,7 +47,7 @@ internal static class Program
 
         var bindgenConfigFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, bindgenConfigFileName));
 
-        var extractShellOutput = $"castffi extract --config {bindgenConfigFilePath}".ExecuteShell();
+        var extractShellOutput = $"castffi extract --config {bindgenConfigFilePath}".ExecuteShellCommand();
         if (extractShellOutput.ExitCode != 0)
         {
             return false;
@@ -59,7 +55,7 @@ internal static class Program
 
         var abstractSyntaxTreeDirectoryPath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast"));
         var mergedAbstractSyntaxTreeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast", "cross-platform.json"));
-        var astShellOutput = $"castffi merge --inputDirectoryPath {abstractSyntaxTreeDirectoryPath} --outputFilePath {mergedAbstractSyntaxTreeFilePath}".ExecuteShell();
+        var astShellOutput = $"castffi merge --inputDirectoryPath {abstractSyntaxTreeDirectoryPath} --outputFilePath {mergedAbstractSyntaxTreeFilePath}".ExecuteShellCommand();
         if (astShellOutput.ExitCode != 0)
         {
             return false;

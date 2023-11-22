@@ -5,9 +5,9 @@ using System;
 using System.Collections.Immutable;
 using System.IO.Abstractions;
 using System.Linq;
+using bottlenoselabs.Common.Tools;
 using C2CS.Features.BuildCLibrary.Input.Sanitized;
 using C2CS.Features.BuildCLibrary.Input.Unsanitized;
-using C2CS.Foundation.Tool;
 
 namespace C2CS.Features.BuildCLibrary.Input;
 

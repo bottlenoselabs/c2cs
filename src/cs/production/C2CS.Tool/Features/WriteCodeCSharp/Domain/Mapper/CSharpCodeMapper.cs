@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using bottlenoselabs.C2CS.Runtime;
+using bottlenoselabs.Common.Diagnostics;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Foundation;
 using CAstFfi.Data;
@@ -66,7 +67,7 @@ public sealed class CSharpCodeMapper
     }
 
     public CSharpAbstractSyntaxTree Map(
-        DiagnosticCollection diagnostics, CAbstractSyntaxTreeCrossPlatform astC)
+        DiagnosticsSink diagnostics, CAbstractSyntaxTreeCrossPlatform astC)
     {
         var enumNames = astC.Enums.Values.Select(x => x.Name.TrimEnd('_')).ToImmutableHashSet();
         var context = new CSharpCodeMapperContext(

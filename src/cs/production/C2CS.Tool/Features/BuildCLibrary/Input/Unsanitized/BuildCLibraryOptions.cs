@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
-using C2CS.Foundation.Tool;
+using bottlenoselabs.Common.Tools;
 using JetBrains.Annotations;
 
 namespace C2CS.Features.BuildCLibrary.Input.Unsanitized;

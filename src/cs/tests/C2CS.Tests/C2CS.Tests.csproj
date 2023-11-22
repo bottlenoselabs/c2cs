@@ -20,11 +20,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.7.0" />
-		<PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-		<PackageReference Include="TestableIO.System.IO.Abstractions" Version="19.2.4" />
 		<PackageReference Include="xunit" Version="2.4.1" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

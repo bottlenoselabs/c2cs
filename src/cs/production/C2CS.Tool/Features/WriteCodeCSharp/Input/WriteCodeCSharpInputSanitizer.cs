@@ -6,12 +6,12 @@ using System.Collections.Immutable;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using bottlenoselabs.Common.Tools;
 using C2CS.Features.WriteCodeCSharp.Data;
 using C2CS.Features.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Features.WriteCodeCSharp.Domain.Mapper;
 using C2CS.Features.WriteCodeCSharp.Input.Sanitized;
 using C2CS.Features.WriteCodeCSharp.Input.Unsanitized;
-using C2CS.Foundation.Tool;
 
 namespace C2CS.Features.WriteCodeCSharp.Input;
 
