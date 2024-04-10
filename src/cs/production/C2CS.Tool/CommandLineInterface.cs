@@ -2,10 +2,10 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.CommandLine;
-using C2CS.Features.BuildCLibrary;
-using C2CS.Features.WriteCodeCSharp;
+using C2CS.Commands.BuildCLibrary;
+using C2CS.Commands.WriteCodeCSharp;
 
-namespace C2CS.Foundation;
+namespace C2CS;
 
 internal sealed class CommandLineInterface : RootCommand
 {

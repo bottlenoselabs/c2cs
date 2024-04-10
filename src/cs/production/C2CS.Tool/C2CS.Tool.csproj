@@ -28,7 +28,7 @@
 	<!-- NuGet package references -->
 	<ItemGroup>
 		<PackageReference Include="bottlenoselabs.Common" Version="2023.11.21" />
-		<PackageReference Include="bottlenoselabs.CAstFfi.Data" Version="2023.11.22" />
+		<PackageReference Include="bottlenoselabs.c2ffi.data" Version="2024.4.10" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />

@@ -39,16 +39,16 @@ internal static class Program
     {
         var bindgenConfigFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "config-extract.json"));
 
-        var extractShellOutput = $"castffi extract --config {bindgenConfigFilePath}".ExecuteShellCommand();
+        var extractShellOutput = $"c2ffi extract --config {bindgenConfigFilePath}".ExecuteShellCommand();
         if (extractShellOutput.ExitCode != 0)
         {
             return false;
         }
 
-        var abstractSyntaxTreeDirectoryPath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast"));
-        var mergedAbstractSyntaxTreeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast", "cross-platform.json"));
-        var astShellOutput = $"castffi merge --inputDirectoryPath {abstractSyntaxTreeDirectoryPath} --outputFilePath {mergedAbstractSyntaxTreeFilePath}".ExecuteShellCommand();
-        if (astShellOutput.ExitCode != 0)
+        var ffiDirectoryPath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ffi"));
+        var mergedFfiFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ffi-x", "cross-platform.json"));
+        var mergedFfiShellOutput = $"c2ffi merge --inputDirectoryPath {ffiDirectoryPath} --outputFilePath {mergedFfiFilePath}".ExecuteShellCommand();
+        if (mergedFfiShellOutput.ExitCode != 0)
         {
             return false;
         }

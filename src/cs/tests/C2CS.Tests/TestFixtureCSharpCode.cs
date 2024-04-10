@@ -8,10 +8,10 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using bottlenoselabs.Common;
-using C2CS.Features.BuildCLibrary.Domain;
-using C2CS.Features.BuildCLibrary.Input.Sanitized;
-using C2CS.Features.WriteCodeCSharp;
-using C2CS.Features.WriteCodeCSharp.Output;
+using C2CS.Commands.BuildCLibrary.Domain;
+using C2CS.Commands.BuildCLibrary.Input.Sanitized;
+using C2CS.Commands.WriteCodeCSharp;
+using C2CS.Commands.WriteCodeCSharp.Output;
 using C2CS.Tests.Data.Models;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -114,16 +114,16 @@ public sealed class TestFixtureCSharpCode
         string bindgenConfigFilePath,
         string sourceDirectoryPath)
     {
-        var extractShellOutput = $"castffi extract --config {bindgenConfigFilePath}".ExecuteShellCommand();
-        Assert.True(extractShellOutput.ExitCode == 0, "error extracting platform ASTs");
+        var extractShellOutput = $"c2ffi extract --config {bindgenConfigFilePath}".ExecuteShellCommand();
+        Assert.True(extractShellOutput.ExitCode == 0, "error extracting platform FFIs");
 
-        var abstractSyntaxTreeDirectoryPath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast"));
-        var mergedAbstractSyntaxTreeFilePath =
-            Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ast", "cross-platform.json"));
-        var astShellOutput =
-            $"castffi merge --inputDirectoryPath {abstractSyntaxTreeDirectoryPath} --outputFilePath {mergedAbstractSyntaxTreeFilePath}"
+        var ffiDirectoryPath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ffi"));
+        var mergedFffFilePath =
+            Path.GetFullPath(Path.Combine(sourceDirectoryPath, "ffi-x", "cross-platform.json"));
+        var ffiShellOutput =
+            $"c2ffi merge --inputDirectoryPath {ffiDirectoryPath} --outputFilePath {mergedFffFilePath}"
                 .ExecuteShellCommand();
-        Assert.True(astShellOutput.ExitCode == 0, "error merging platform ASTs");
+        Assert.True(ffiShellOutput.ExitCode == 0, "error merging platform ASTs");
     }
 
     private WriteCodeCSharpOutput Run(string sourceDirectoryPath)

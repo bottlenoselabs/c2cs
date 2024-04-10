@@ -27,7 +27,7 @@ jobs:
       if: matrix.platform.os == 'windows-latest'
       run: |
         source "${{ github.workspace }}\.github\scripts\install-clang-x64-windows.sh"
-  
+
     - name: "Install Clang: Linux"
       if: matrix.platform.os == 'ubuntu-latest'
       run: |
@@ -39,9 +39,9 @@ jobs:
       with:
         dotnet-version: '8.x'
 
-    - name: "Install CAstFfi"
+    - name: "Install c2ffi"
       shell: bash
-      run: dotnet tool install --global bottlenoselabs.CAstFfi.Tool
+      run: dotnet tool install --global bottlenoselabs.c2ffi.tool
 
     - name: "Test .NET solution"
       run: |

@@ -75,7 +75,7 @@ public static class Startup
         services.AddHostedService<CommandLineHost>();
         services.AddSingleton<RootCommand, CommandLineInterface>();
 
-        Features.WriteCodeCSharp.Startup.ConfigureServices(services);
-        Features.BuildCLibrary.Startup.ConfigureServices(services);
+        Commands.WriteCodeCSharp.Startup.ConfigureServices(services);
+        Commands.BuildCLibrary.Startup.ConfigureServices(services);
     }
 }
