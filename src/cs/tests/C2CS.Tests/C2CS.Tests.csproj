@@ -52,5 +52,8 @@
 	<ItemGroup>
 		<None Remove="ast\**\*.*" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Functions\" />
+	</ItemGroup>
 
 </Project>

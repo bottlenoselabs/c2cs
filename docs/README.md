@@ -7,7 +7,7 @@
     - [Latest release of `C2CS`](#latest-release-of-c2cs)
     - [Latest pre-release of `C2CS`](#latest-pre-release-of-c2cs)
   - [How to use `C2CS`](#how-to-use-c2cs)
-    - [Installing and using `CAstFfi`](#installing-and-using-castffi)
+    - [Installing and using `c2ffi`](#installing-and-using-c2ffi)
     - [Execute `c2cs`](#execute-c2cs)
   - [How to use `C2CS.Runtime`](#how-to-use-c2csruntime)
   - [Building `C2CS` from source](#building-c2cs-from-source)
@@ -51,17 +51,17 @@ dotnet nuget locals all --clear
 
 ## How to use `C2CS`
 
-To generate C# bindings for a C library you need to install and use the `CAstFfi` tool and setup a couple configuration files. See the [`helloworld`](../src/cs/examples/helloworld/) example projects for an example.
+To generate C# bindings for a C library you need to install and use the `c2ffi` tool and setup a couple configuration files. See the [`helloworld`](../src/cs/examples/helloworld/) example projects for an example.
 
-### Installing and using `CAstFfi`
+### Installing and using `c2ffi`
 
-See the auxiliary project `Getting Started` section: https://github.com/bottlenoselabs/CAstFfi#getting-started. 
+See the auxiliary project `Getting Started` section: https://github.com/bottlenoselabs/c2ffi#getting-started. 
 
-You should extract all the platform specific abstract syntax trees you wish to have as target platforms. See the [`helloworld-compile-c-library-and-generate-bindings`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/) for example configuration files for Windows, macOS, and Linux platforms.
+You should extract all the platform specific FFIs you wish to have as target platforms. See the [`helloworld-compile-c-library-and-generate-bindings`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/) for example configuration files for Windows, macOS, and Linux platforms.
 
-Once all the platform abstract syntax trees are extracted to a directory, merge them together into a cross-platform abstract syntax tree using `CAstFfi merge` option.
+Once all the platform FFIs are extracted to a directory, merge them together into a cross-platform FFI using `c2ffi merge` option.
 
-Once you have a cross-platform abstract syntax tree, you are ready to use `c2cs`.
+Once you have a cross-platform FFI `.json` file, you are ready to use `c2cs`.
 
 ### Execute `c2cs`
 

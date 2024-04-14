@@ -9,7 +9,7 @@
         - [Problem](#problem)
         - [Solution](#solution)
   - [Calling C platform code from your .NET application](#calling-c-platform-code-from-your-net-application)
-    - [Dynamic loading & dynamic linking](#dynamic-loading--dynamic-linking)
+    - [Dynamic loading \& dynamic linking](#dynamic-loading--dynamic-linking)
       - [Dynamic loading](#dynamic-loading)
       - [Dynamic linking](#dynamic-linking)
     - [Static linking](#static-linking)
@@ -58,7 +58,7 @@ While Clang is free and open-source, an annoying problem is that some target pla
 
 `C2CS` the main flow has evolved into two programs to overcome this problem.
 
-1. `ast`: (NOTE: Moved to https://github.com/bottlenoselabs/CAstFfi !) Reading C code and extracting information of the target platform for generating C# code later in form a C abstract syntax tree `.json` file. The extracted information _**does not contain any source code**_; it is purely meta data about the bitwidth and names of functions, structs, enums, typedefs, etc.
+1. `ast`: (NOTE: Moved to https://github.com/bottlenoselabs/c2ffi !) Reading C code and extracting information of the target platform for generating C# code later in from a C ffi `.json` file. The extracted information _**does not contain any source code**_; it is purely meta data about the bitwidth and names of functions, structs, enums, typedefs, etc.
 2. `cs`: (NOTE: now just the main `c2cs` program!) Reading one or more previously generated C abstract syntax tree `.json` files to generate C# code for the specified target platforms.
    
 This allows the `ast` program of `C2CS` to run and extract the information for the target platforms with restrictive system headers. The resulting `.json` files of the C abstract syntax trees can be moved to any operating system to generate the C# code for multiple target platforms at once using the `cs` program of `C2CS`.

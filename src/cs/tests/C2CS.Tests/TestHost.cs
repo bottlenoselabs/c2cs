@@ -2,7 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
-using C2CS.Features.BuildCLibrary.Domain;
+using C2CS.Commands.BuildCLibrary.Domain;
+using C2CS.Tests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -25,8 +26,7 @@ public static class TestHost
 
     private static void ConfigureServices(IServiceCollection services)
     {
+        services.AddSingleton<FileSystemHelper>();
         services.AddSingleton<CMakeLibraryBuilder>();
-        services.AddSingleton<TestCSharpCode>();
-        services.AddSingleton<TestFixtureCSharpCode>();
     }
 }
