@@ -1,0 +1,31 @@
+{
+  "inputFilePath": "./main.c",
+  "userIncludeDirectories": [
+    "../../../production/ffi_helper/include"
+  ],
+  "ignoredIncludeFiles": [
+    "../../../production/ffi_helper/include/ffi_helper.h"
+  ],
+  "ignoredFunctions": [
+    "function_not_allowed",
+    "function_ignored*"
+  ],
+  "targetPlatforms": {
+    "windows": {
+      "i686-pc-windows-msvc": {},
+      "x86_64-pc-windows-msvc": {},
+      "aarch64-pc-windows-msvc": {}
+    },
+    "macos": {
+      "i686-apple-darwin": {},
+      "aarch64-apple-darwin": {},
+      "x86_64-apple-darwin": {},
+      "aarch64-apple-ios": {}
+    },
+    "linux": {
+      "i686-unknown-linux-gnu": {},
+      "x86_64-unknown-linux-gnu": {},
+      "aarch64-unknown-linux-gnu": {}
+    }
+  }
+}

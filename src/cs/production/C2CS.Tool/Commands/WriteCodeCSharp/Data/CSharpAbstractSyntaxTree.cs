@@ -3,13 +3,12 @@
 
 using System.Collections.Immutable;
 using bottlenoselabs.Common;
+using c2ffi.Data;
 
 namespace C2CS.Commands.WriteCodeCSharp.Data;
 
 public sealed record CSharpAbstractSyntaxTree
 {
-    public ImmutableArray<TargetPlatform> Platforms { get; init; }
-
     public ImmutableArray<CSharpFunction> Functions { get; init; }
 
     public ImmutableArray<CSharpFunctionPointer> FunctionPointers { get; init; }

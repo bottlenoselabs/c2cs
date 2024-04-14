@@ -368,15 +368,8 @@ public sealed class CSharpCodeMapper
 
         foreach (var record in records)
         {
-            if (_builtinAliases.Contains(record.Name) ||
-                _ignoredNames.Contains(record.Name))
-            {
-                // short circuit, prevents emitting the type
-                continue;
-            }
-
             var value = Struct(context, record, functionNames);
-            if (_ignoredNames.Contains(value.Name))
+            if (value == null)
             {
                 continue;
             }
@@ -388,12 +381,18 @@ public sealed class CSharpCodeMapper
         return builder.ToImmutable();
     }
 
-    private CSharpStruct Struct(
+    private CSharpStruct? Struct(
         CSharpCodeMapperContext context,
         CRecord cRecord,
         ImmutableHashSet<string> functionNames)
     {
-        var name = cRecord.Name;
+        var name = TypeNameCSharpRaw(cRecord.Name, 0);
+
+        if (IsIgnored(name))
+        {
+            return null;
+        }
+
         if (functionNames.Contains(cRecord.Name))
         {
             name = cRecord.Name + "_";
@@ -482,25 +481,29 @@ public sealed class CSharpCodeMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var opaqueDataTypeC in cOpaqueDataTypes)
         {
-            var value = OpaqueDataStruct(opaqueDataTypeC);
-
-            if (_ignoredNames.Contains(value.Name))
+            var opaqueStruct = OpaqueStruct(opaqueDataTypeC);
+            if (opaqueStruct == null)
             {
                 continue;
             }
 
-            builder.Add(value);
+            builder.Add(opaqueStruct);
         }
 
         builder.Sort();
         return builder.ToImmutable();
     }
 
-    private CSharpOpaqueType OpaqueDataStruct(COpaqueType cOpaqueType)
+    private CSharpOpaqueType? OpaqueStruct(COpaqueType cOpaqueType)
     {
-        var nameCSharp = TypeNameCSharpRaw(cOpaqueType.Name, 0);
+        var name = TypeNameCSharpRaw(cOpaqueType.Name, 0);
+        if (IsIgnored(name))
+        {
+            return null;
+        }
+
         var className = ClassName(
-            nameCSharp, out var nameCSharpMapped);
+            name, out var nameCSharpMapped);
         var nameCSharpFinal = IdiomaticName(nameCSharpMapped, false);
 
         var opaqueTypeCSharp = new CSharpOpaqueType(
@@ -519,36 +522,36 @@ public sealed class CSharpCodeMapper
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var typedef in typedefs)
         {
-            if (IsIgnored(typedef.Name))
+            var aliasStruct = AliasStruct(context, typedef);
+            if (aliasStruct == null)
             {
                 continue;
             }
 
-            if (context.EnumNames.Contains(typedef.Name))
-            {
-                // Skip if there is already an enum with the same name
-                continue;
-            }
-
-            var value = AliasStruct(context, typedef);
-            if (_ignoredNames.Contains(value.Name))
-            {
-                continue;
-            }
-
-            builder.Add(value);
+            builder.Add(aliasStruct);
         }
 
         builder.Sort();
         return builder.ToImmutable();
     }
 
-    private CSharpAliasType AliasStruct(
+    private CSharpAliasType? AliasStruct(
         CSharpCodeMapperContext context,
         CTypeAlias cTypeAlias)
     {
+        if (IsIgnored(cTypeAlias.Name))
+        {
+            return null;
+        }
+
         var underlyingTypeC = cTypeAlias.UnderlyingType;
         var underlyingTypeCSharp = TypeCSharp(context, underlyingTypeC);
+
+        if (underlyingTypeCSharp.Name == cTypeAlias.Name)
+        {
+            return null;
+        }
+
         var className = ClassName(
             cTypeAlias.Name,
             out var cSharpNameMapped);
@@ -558,7 +561,7 @@ public sealed class CSharpCodeMapper
             cSharpNameFinal,
             className,
             cTypeAlias.Name,
-            underlyingTypeC.SizeOf,
+            underlyingTypeC.SizeOf ?? 0,
             underlyingTypeCSharp);
 
         return result;
@@ -746,7 +749,6 @@ public sealed class CSharpCodeMapper
         CType type)
     {
         var nameCSharp = TypeNameCSharp(context, type);
-
         var className = ClassName(nameCSharp, out var nameCSharpMapped);
         var nameCSharpFinal = IdiomaticName(nameCSharpMapped, true);
 
@@ -756,7 +758,7 @@ public sealed class CSharpCodeMapper
             ClassName = className,
             OriginalName = type.Name,
             SizeOf = type.SizeOf ?? 0,
-            AlignOf = type.AlignOf,
+            AlignOf = type.AlignOf ?? 0,
             ArraySizeOf = type.ArraySizeOf
         };
 
@@ -1015,8 +1017,23 @@ public sealed class CSharpCodeMapper
         return result;
     }
 
-    private string TypeNameCSharpRaw(string typeName, int sizeOf, bool forceUnsignedInteger = false)
+    private string TypeNameCSharpRaw(string typeName, int? sizeOf = null, bool forceUnsignedInteger = false)
     {
+        if (typeName.StartsWith("struct ", StringComparison.InvariantCulture))
+        {
+            typeName = typeName.ReplaceFirst("struct ", string.Empty, StringComparison.InvariantCulture);
+        }
+
+        if (typeName.StartsWith("union ", StringComparison.InvariantCulture))
+        {
+            typeName = typeName.ReplaceFirst("union ", string.Empty, StringComparison.InvariantCulture);
+        }
+
+        if (typeName.StartsWith("enum ", StringComparison.InvariantCulture))
+        {
+            typeName = typeName.ReplaceFirst("enum ", string.Empty, StringComparison.InvariantCulture);
+        }
+
         if (_userTypeNameAliases.TryGetValue(typeName, out var aliasName))
         {
             return aliasName;
@@ -1065,7 +1082,7 @@ public sealed class CSharpCodeMapper
             case "unsigned long long":
             case "unsigned long long int":
             case "size_t":
-                return TypeNameMapUnsignedInteger(sizeOf);
+                return TypeNameMapUnsignedInteger(sizeOf!.Value);
 
             case "signed char":
             case "short":
@@ -1083,12 +1100,17 @@ public sealed class CSharpCodeMapper
             case "long long int":
             case "signed long long int":
             case "ssize_t":
-                return forceUnsignedInteger ? TypeNameMapUnsignedInteger(sizeOf) : TypeNameMapSignedInteger(sizeOf);
+                if (forceUnsignedInteger)
+                {
+                    return TypeNameMapUnsignedInteger(sizeOf!.Value);
+                }
+
+                return TypeNameMapSignedInteger(sizeOf!.Value);
 
             case "float":
             case "double":
             case "long double":
-                return TypeNameMapFloatingPoint(sizeOf);
+                return TypeNameMapFloatingPoint(sizeOf!.Value);
 
             default:
                 return typeName;

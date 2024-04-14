@@ -35,6 +35,11 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCode
         _fileSystem = fileSystem;
     }
 
+    public new WriteCodeCSharpOutput Run(string configurationFilePath)
+    {
+        return base.Run(configurationFilePath);
+    }
+
     protected override void Execute(WriteCodeCSharpInput input, WriteCodeCSharpOutput output)
     {
         var abstractSyntaxTreesC = LoadCFfi(input.InputFilePath);

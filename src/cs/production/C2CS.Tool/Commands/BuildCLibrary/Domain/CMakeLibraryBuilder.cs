@@ -9,6 +9,7 @@ using System.IO.Abstractions;
 using System.Linq;
 using bottlenoselabs.Common;
 using C2CS.Commands.BuildCLibrary.Input.Sanitized;
+using c2ffi.Data;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.Commands.BuildCLibrary.Domain;

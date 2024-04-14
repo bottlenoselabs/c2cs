@@ -22,8 +22,12 @@ lib/
 *.dylib
 *.so
 
-# C2CS artifacts
-ast/
+# c2ffi artifacts
+src/c/tests/**/ffi/
+src/c/tests/**/ffi-x/
+
+# c2cs artifacts
+src/c/tests/**/cs
 
 # macOS
 .DS_Store

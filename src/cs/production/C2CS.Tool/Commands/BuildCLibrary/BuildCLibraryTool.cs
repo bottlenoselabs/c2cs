@@ -29,6 +29,11 @@ public class BuildCLibraryTool : Tool<BuildCLibraryOptions, BuildCLibraryInput, 
         _cMakeLibraryBuilder = cMakeLibraryBuilder;
     }
 
+    public new BuildCLibraryOutput Run(string configurationFilePath)
+    {
+        return base.Run(configurationFilePath);
+    }
+
     protected override void Execute(
         BuildCLibraryInput input,
         BuildCLibraryOutput output)
