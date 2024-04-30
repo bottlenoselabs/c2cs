@@ -20,9 +20,9 @@ public class CSharpLibraryCompiler
     {
         // NOTE: Because `LibraryImportAttribute` uses a C# source generator which can not be referenced in code, we use the .NET SDK directly instead of using Roslyn.
 
-        if (!DotNetSdkIsInstalled())
+        if (!IsDotNetSdkInstalled())
         {
-            diagnostics.Add(new CSharpCompileSkipDiagnostic(".NET 8+ SDK not found"));
+            diagnostics.Add(new CSharpCompileSkipDiagnostic(".NET 8 SDK not found"));
             return null;
         }
 
@@ -100,26 +100,30 @@ public class CSharpLibraryCompiler
         string cSharpProjectFilePath,
         CSharpCodeGeneratorOptions options)
     {
-        var fileContents = @"
-<Project Sdk=""Microsoft.NET.Sdk"">
+        var fileContents = """
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <NoWarn>$(NoWarn);CS8981</NoWarn>
-    </PropertyGroup>
-".TrimStart();
+                           <Project Sdk="Microsoft.NET.Sdk">
+
+                               <PropertyGroup>
+                                   <TargetFramework>net8.0</TargetFramework>
+                                   <Nullable>enable</Nullable>
+                                   <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+                                   <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+                                   <NoWarn>$(NoWarn);CS8981</NoWarn>
+                               </PropertyGroup>
+
+                           """.Trim();
 
         if (!options.IsEnabledGenerateCSharpRuntimeCode)
         {
-            fileContents += @"
-    <!-- NuGet package references -->
-	<ItemGroup>
-        <PackageReference Include=""bottlenoselabs.Bindgen.Runtime"" Version=""*"" />
-    </ItemGroup>
-";
+            fileContents += """
+
+                                <!-- NuGet package references -->
+                                <ItemGroup>
+                                    <PackageReference Include="bottlenoselabs.Bindgen.Runtime" Version="*" />
+                                </ItemGroup>
+
+                            """;
         }
 
         fileContents += @"
@@ -129,7 +133,7 @@ public class CSharpLibraryCompiler
         File.WriteAllText(cSharpProjectFilePath, fileContents);
     }
 
-    private static bool DotNetSdkIsInstalled()
+    private static bool IsDotNetSdkInstalled()
     {
         var shellOutput = "dotnet --list-sdks".ExecuteShellCommand();
         if (shellOutput.ExitCode != 0)
