@@ -40,7 +40,7 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="..\C2CS.Runtime\C2CS.Runtime.csproj" />
+		<ProjectReference Include="..\Bindgen.Runtime\Bindgen.Runtime.csproj" />
 	</ItemGroup>
 
 	<!-- Configuration settings -->
@@ -48,9 +48,9 @@
 		<EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
 
-	<!-- C2CS.Runtime -->
+	<!-- Bindgen.Runtime -->
 	<ItemGroup>
-		<EmbeddedResource Include="..\C2CS.Runtime\**\*.cs">
+		<EmbeddedResource Include="..\Bindgen.Runtime\**\*.cs">
 				<Visible>false</Visible>
 		</EmbeddedResource>
 	</ItemGroup>

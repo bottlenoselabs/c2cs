@@ -280,7 +280,7 @@ public static unsafe partial class {className}
         var newCompilationUnit = compilationUnit.ReplaceNode(
             rootClassDeclarationOriginal,
             rootClassDeclarationWithMembers);
-        var formattedCode = newCompilationUnit.Format();
+        var formattedCode = newCompilationUnit.GetCode();
         return formattedCode;
     }
 
@@ -294,13 +294,13 @@ public static unsafe partial class {className}
         if (options.IsEnabledFileScopedNamespace)
         {
             templateCode += @"
-namespace bottlenoselabs.C2CS.Runtime;
+namespace Bindgen.Runtime;
 ";
         }
         else
         {
             templateCode += @"
-namespace bottlenoselabs.C2CS.Runtime
+namespace Bindgen.Runtime
 {
 }
 ";
@@ -316,11 +316,11 @@ namespace bottlenoselabs.C2CS.Runtime
         var newCompilationUnit = compilationUnitCode.ReplaceNode(
             rootNamespaceOriginal,
             rootNamespaceWithMembers);
-        var code = newCompilationUnit.Format();
+        var code = newCompilationUnit.GetCode();
 
         var document = new CSharpProjectDocument
         {
-            FileName = "Runtime.gen.cs",
+            FileName = "Bindgen.Runtime.gen.cs",
             Contents = code
         };
 
@@ -342,11 +342,10 @@ namespace bottlenoselabs.C2CS.Runtime
 
             using var stream = assembly.GetManifestResourceStream(resourceName);
             using var streamReader = new StreamReader(stream!);
-            var resourceCode = streamReader.ReadToEnd()
-                .Replace($"namespace bottlenoselabs.C2CS.Runtime;", string.Empty, StringComparison.InvariantCulture);
+            var code = streamReader.ReadToEnd()
+                .Replace("namespace Bindgen.Runtime;", string.Empty, StringComparison.InvariantCulture);
 
-            var syntaxTree = ParseSyntaxTree(resourceCode);
-            var x = syntaxTree.GetRoot().DescendantNodes(x => x is NamespaceDeclarationSyntax);
+            var syntaxTree = ParseSyntaxTree(code);
             var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
             foreach (var member in compilationUnit.Members)
             {
@@ -372,7 +371,7 @@ namespace bottlenoselabs.C2CS.Runtime
 #nullable enable
 #pragma warning disable CS1591
 #pragma warning disable CS8981
-using bottlenoselabs.C2CS.Runtime;
+using Bindgen.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

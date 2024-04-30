@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace bottlenoselabs.C2CS.Runtime;
+namespace Bindgen.Runtime;
 
 /// <summary>
 ///     A pointer value type that represents a wide string; C type `wchar_t*`.
