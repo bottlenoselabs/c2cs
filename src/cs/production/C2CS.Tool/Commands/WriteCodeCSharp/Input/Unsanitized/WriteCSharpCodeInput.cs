@@ -10,7 +10,7 @@ namespace C2CS.Commands.WriteCodeCSharp.Input.Unsanitized;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
+public sealed class WriteCSharpCodeInput : ToolUnsanitizedInput
 {
     /// <summary>
     ///     Gets or sets the path of the input cross-platform abstract syntax tree.
@@ -86,13 +86,13 @@ public sealed class WriteCSharpCodeOptions : ToolUnsanitizedInput
     ///     <para><see cref="MappedNames" /> does not change the bit layout of types.</para>
     /// </remarks>
     [JsonPropertyName("mappedNames")]
-    public ImmutableArray<WriteCSharpCodeOptionsMappedName>? MappedNames { get; set; }
+    public ImmutableArray<WriteCSharpCodeInputMappedName>? MappedNames { get; set; }
 
     /// <summary>
     ///     Gets or sets the pairs of strings for re-mapping C namespaces to C# namespaces.
     /// </summary>
     [JsonPropertyName("mappedCNamespaces")]
-    public ImmutableArray<WriteCSharpCodeOptionsMappedName>? MappedCNamespaces { get; set; }
+    public ImmutableArray<WriteCSharpCodeInputMappedName>? MappedCNamespaces { get; set; }
 
     /// <summary>
     ///     Gets or sets the names of types, functions, enums, constants, or anything else that may be found when

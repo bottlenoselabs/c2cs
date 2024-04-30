@@ -15,7 +15,7 @@ using C2CS.Commands.WriteCodeCSharp.Input.Unsanitized;
 
 namespace C2CS.Commands.WriteCodeCSharp.Input;
 
-public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSharpCodeOptions, WriteCodeCSharpInput>
+public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSharpCodeInput, WriteCodeCSharpInput>
 {
     private readonly IFileSystem _fileSystem;
 
@@ -24,7 +24,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         _fileSystem = fileSystem;
     }
 
-    public override WriteCodeCSharpInput Sanitize(WriteCSharpCodeOptions unsanitizedInput)
+    public override WriteCodeCSharpInput Sanitize(WriteCSharpCodeInput unsanitizedInput)
     {
         var inputFilePath = InputFilePath(unsanitizedInput.InputAbstractSyntaxTreeFilePath);
         var outputFileDirectory = OutputFileDirectory(unsanitizedInput.OutputCSharpCodeFileDirectory);
@@ -111,7 +111,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
     }
 
     private static ImmutableArray<CSharpMappedName> MappedNames(
-        ImmutableArray<WriteCSharpCodeOptionsMappedName>? mappedNames)
+        ImmutableArray<WriteCSharpCodeInputMappedName>? mappedNames)
     {
         if (mappedNames == null || mappedNames.Value.IsDefaultOrEmpty)
         {
