@@ -20,13 +20,13 @@ public class CSharpLibraryCompiler
     {
         // NOTE: Because `LibraryImportAttribute` uses a C# source generator which can not be referenced in code, we use the .NET SDK directly instead of using Roslyn.
 
-        if (CanCompile())
+        if (!IsDotNetSdkInstalled())
         {
-            return TryCompile(project, options, diagnostics);
+            diagnostics.Add(new CSharpCompileSkipDiagnostic(".NET 8 SDK not found"));
+            return null;
         }
 
-        diagnostics.Add(new CSharpCompileSkipDiagnostic(".NET 7+ SDK not found"));
-        return null;
+        return TryCompile(project, options, diagnostics);
     }
 
     private static Assembly? TryCompile(
@@ -72,7 +72,7 @@ public class CSharpLibraryCompiler
             return null;
         }
 
-        var assemblyFilePath = Path.Combine(directoryPath, "bin/Debug/net7.0/Project.dll");
+        var assemblyFilePath = Path.Combine(directoryPath, "bin/Debug/net8.0/Project.dll");
         try
         {
             return Assembly.LoadFile(assemblyFilePath);
@@ -100,26 +100,30 @@ public class CSharpLibraryCompiler
         string cSharpProjectFilePath,
         CSharpCodeGeneratorOptions options)
     {
-        var fileContents = @"
-<Project Sdk=""Microsoft.NET.Sdk"">
+        var fileContents = """
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <NoWarn>$(NoWarn);CS8981</NoWarn>
-    </PropertyGroup>
-".TrimStart();
+                           <Project Sdk="Microsoft.NET.Sdk">
+
+                               <PropertyGroup>
+                                   <TargetFramework>net8.0</TargetFramework>
+                                   <Nullable>enable</Nullable>
+                                   <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+                                   <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+                                   <NoWarn>$(NoWarn);CS8981</NoWarn>
+                               </PropertyGroup>
+
+                           """.Trim();
 
         if (!options.IsEnabledGenerateCSharpRuntimeCode)
         {
-            fileContents += @"
-    <!-- NuGet package references -->
-	<ItemGroup>
-        <PackageReference Include=""bottlenoselabs.C2CS.Runtime"" Version=""*"" />
-    </ItemGroup>
-";
+            fileContents += """
+
+                                <!-- NuGet package references -->
+                                <ItemGroup>
+                                    <PackageReference Include="bottlenoselabs.Bindgen.Runtime" Version="*" />
+                                </ItemGroup>
+
+                            """;
         }
 
         fileContents += @"
@@ -129,7 +133,7 @@ public class CSharpLibraryCompiler
         File.WriteAllText(cSharpProjectFilePath, fileContents);
     }
 
-    private static bool CanCompile()
+    private static bool IsDotNetSdkInstalled()
     {
         var shellOutput = "dotnet --list-sdks".ExecuteShellCommand();
         if (shellOutput.ExitCode != 0)
@@ -153,7 +157,7 @@ public class CSharpLibraryCompiler
                 continue;
             }
 
-            if (version.Major < 7)
+            if (version.Major < 8)
             {
                 continue;
             }

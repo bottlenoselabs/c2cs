@@ -11,16 +11,16 @@ namespace C2CS.Commands.WriteCodeCSharp.Input.Unsanitized;
 /// </summary>
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
 [PublicAPI]
-public sealed class WriteCSharpCodeOptionsMappedName
+public sealed class WriteCSharpCodeInputMappedName
 {
     /// <summary>
-    ///     The name to rename.
+    ///     Gets or sets the name to rename.
     /// </summary>
     [JsonPropertyName("source")]
     public string? Source { get; set; } = string.Empty;
 
     /// <summary>
-    ///     The renamed name.
+    ///     Gets or sets the renamed name.
     /// </summary>
     [JsonPropertyName("target")]
     public string? Target { get; set; } = string.Empty;

@@ -10,7 +10,6 @@ using System.Reflection;
 using bottlenoselabs.Common.Diagnostics;
 using C2CS.Commands.WriteCodeCSharp.Data;
 using C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
-using C2CS.Foundation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -79,18 +78,22 @@ public sealed class CSharpCodeGenerator
 
     private CSharpProjectDocument EmitAssemblyAttributesCodeDocument()
     {
-        var code = @"// To disable generating this file set `isEnabledGenerateAssemblyAttributes` to `false` in the config file for generating C# code."
+        var code = "// To disable generating this file set `isEnabledGenerateAssemblyAttributes` to `false` in the config file for generating C# code."
                            + CodeDocumentTemplate();
 
-        code += @"
-#if NET7_0_OR_GREATER
-[assembly: DisableRuntimeMarshalling]
-#endif
-";
+        code += """
 
-        code += @"
-[assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
-";
+                #if NET7_0_OR_GREATER
+                [assembly: DisableRuntimeMarshalling]
+                #endif
+
+                """;
+
+        code += """
+
+                [assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
+
+                """;
 
         var document = new CSharpProjectDocument
         {
@@ -213,43 +216,55 @@ public sealed class CSharpCodeGenerator
 
         if (!string.IsNullOrEmpty(options.HeaderCodeRegion))
         {
-            code += @$"
-{options.HeaderCodeRegion}
-";
+            code += $"""
+
+                     {options.HeaderCodeRegion}
+
+                     """;
         }
 
         if (options.IsEnabledFileScopedNamespace)
         {
-            code += @$"
-namespace {options.NamespaceName};
-                ";
+            code += $"""
+
+                     namespace {options.NamespaceName};
+
+                     """;
         }
         else
         {
-            code += @$"
-namespace {options.NamespaceName} {{
-                ";
+            code += $$"""
+
+                      namespace {{options.NamespaceName}} {
+
+                      """;
         }
 
-        code += @$"
-    public static unsafe partial class {options.ClassName}
-{{
-    private const string LibraryName = ""{options.LibraryName}"";
-}}
-";
+        code += $$"""
+
+                      public static unsafe partial class {{options.ClassName}}
+                  {
+                      private const string LibraryName = "{{options.LibraryName}}";
+                  }
+
+                  """;
 
         if (!string.IsNullOrEmpty(options.FooterCodeRegion))
         {
-            code += @$"
-{options.FooterCodeRegion}
-";
+            code += $"""
+
+                     {options.FooterCodeRegion}
+
+                     """;
         }
 
         if (!options.IsEnabledFileScopedNamespace)
         {
-            code += @"
-}
-";
+            code += """
+
+                    }
+
+                    """;
         }
 
         var syntaxTree = ParseSyntaxTree(code);
@@ -266,11 +281,13 @@ namespace {options.NamespaceName} {{
             }
             else
             {
-                var classCode = @$"
-public static unsafe partial class {className}
-{{
-}}
-";
+                var classCode = $$"""
+
+                                  public static unsafe partial class {{className}}
+                                  {
+                                  }
+
+                                  """;
                 var classDeclaration = (ClassDeclarationSyntax)ParseMemberDeclaration(classCode)!;
                 var classDeclarationWithMembers = classDeclaration.AddMembers(classMembers.ToArray());
                 rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.AddMembers(classDeclarationWithMembers);
@@ -280,58 +297,65 @@ public static unsafe partial class {className}
         var newCompilationUnit = compilationUnit.ReplaceNode(
             rootClassDeclarationOriginal,
             rootClassDeclarationWithMembers);
-        var formattedCode = newCompilationUnit.Format();
+        var formattedCode = newCompilationUnit.GetCode();
         return formattedCode;
     }
 
     private CSharpProjectDocument EmitRuntimeCodeDocument(CSharpCodeGeneratorOptions options)
     {
-        var templateCode = @"
-// To disable generating this file set `isEnabledGeneratingRuntimeCode` to `false` in the config file for generating C# code.
-"
+        var templateCode = """
+
+                           // To disable generating this file set `isEnabledGeneratingRuntimeCode` to `false` in the config file for generating C# code.
+
+                           """
                            + CodeDocumentTemplate();
 
         if (options.IsEnabledFileScopedNamespace)
         {
-            templateCode += @"
-namespace bottlenoselabs.C2CS.Runtime;
-";
+            templateCode += """
+
+                            namespace Bindgen.Runtime;
+
+                            """;
         }
         else
         {
-            templateCode += @"
-namespace bottlenoselabs.C2CS.Runtime
-{
-}
-";
+            templateCode += """
+
+                            namespace Bindgen.Runtime
+                            {
+                            }
+
+                            """;
         }
 
         var compilationUnitCode = ParseSyntaxTree(templateCode).GetCompilationUnitRoot();
         var rootNamespaceOriginal = (BaseNamespaceDeclarationSyntax)compilationUnitCode.Members[0];
         var rootNamespaceWithMembers = rootNamespaceOriginal;
 
-        var members = GetManifestResourceMemberDeclarations();
+        var codeFileContents = GetRuntimeCodeFileContents();
+        var members = GetRuntimeMemberDeclarations(codeFileContents);
         rootNamespaceWithMembers = rootNamespaceWithMembers.WithMembers(rootNamespaceWithMembers.Members.AddRange(members));
 
         var newCompilationUnit = compilationUnitCode.ReplaceNode(
             rootNamespaceOriginal,
             rootNamespaceWithMembers);
-        var code = newCompilationUnit.Format();
+        var code = newCompilationUnit.GetCode();
 
         var document = new CSharpProjectDocument
         {
-            FileName = "Runtime.gen.cs",
+            FileName = "Bindgen.Runtime.gen.cs",
             Contents = code
         };
 
         return document;
     }
 
-    private static ImmutableArray<MemberDeclarationSyntax> GetManifestResourceMemberDeclarations()
+    private ImmutableArray<string> GetRuntimeCodeFileContents()
     {
-        var builderMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
-        var assembly = Assembly.GetExecutingAssembly();
+        var builderCodeFileContents = ImmutableArray.CreateBuilder<string>();
 
+        var assembly = Assembly.GetExecutingAssembly();
         var manifestResourcesNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
         foreach (var resourceName in manifestResourcesNames)
         {
@@ -342,12 +366,27 @@ namespace bottlenoselabs.C2CS.Runtime
 
             using var stream = assembly.GetManifestResourceStream(resourceName);
             using var streamReader = new StreamReader(stream!);
-            var resourceCode = streamReader.ReadToEnd()
-                .Replace($"namespace bottlenoselabs.C2CS.Runtime;", string.Empty, StringComparison.InvariantCulture);
+            var code = streamReader.ReadToEnd()
+                .Replace("namespace Bindgen.Runtime;", string.Empty, StringComparison.InvariantCulture);
+            builderCodeFileContents.Add(code);
+        }
 
-            var syntaxTree = ParseSyntaxTree(resourceCode);
-            var x = syntaxTree.GetRoot().DescendantNodes(x => x is NamespaceDeclarationSyntax);
-            var compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
+        return builderCodeFileContents.ToImmutable();
+    }
+
+    private static ImmutableArray<MemberDeclarationSyntax> GetRuntimeMemberDeclarations(
+        ImmutableArray<string> codeFileContents)
+    {
+        var builderMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+
+        foreach (var code in codeFileContents)
+        {
+            var syntaxTree = ParseSyntaxTree(code);
+            if (syntaxTree.GetRoot() is not CompilationUnitSyntax compilationUnit)
+            {
+                continue;
+            }
+
             foreach (var member in compilationUnit.Members)
             {
                 builderMembers.Add(member);
@@ -359,27 +398,29 @@ namespace bottlenoselabs.C2CS.Runtime
 
     private string CodeDocumentTemplate()
     {
-        var code = $@"
-// <auto-generated>
-//  This code was generated by the following tool on {_dateTimeStamp}:
-//      https://github.com/bottlenoselabs/c2cs (v{_versionStamp})
-//
-//  Changes to this file may cause incorrect behavior and will be lost if the code is regenerated.
-// </auto-generated>
-// ReSharper disable All
+        var code = $"""
 
-#region Template
-#nullable enable
-#pragma warning disable CS1591
-#pragma warning disable CS8981
-using bottlenoselabs.C2CS.Runtime;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-#endregion
-";
+                    // <auto-generated>
+                    //  This code was generated by the following tool on {_dateTimeStamp}:
+                    //      https://github.com/bottlenoselabs/c2cs (v{_versionStamp})
+                    //
+                    //  Changes to this file may cause incorrect behavior and will be lost if the code is regenerated.
+                    // </auto-generated>
+                    // ReSharper disable All
+
+                    #region Template
+                    #nullable enable
+                    #pragma warning disable CS1591
+                    #pragma warning disable CS8981
+                    using Bindgen.Runtime;
+                    using System;
+                    using System.Collections.Generic;
+                    using System.Globalization;
+                    using System.Runtime.InteropServices;
+                    using System.Runtime.CompilerServices;
+                    #endregion
+
+                    """;
         return code;
     }
 

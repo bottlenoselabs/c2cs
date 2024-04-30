@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-compile-c-librar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Tool", "production\C2CS.Tool\C2CS.Tool.csproj", "{1B67F4A2-24E6-43A6-A031-918DD44CD991}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Runtime", "production\C2CS.Runtime\C2CS.Runtime.csproj", "{DB492E65-25D9-44A0-86F4-ABB07283BEE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bindgen.Runtime", "production\Bindgen.Runtime\Bindgen.Runtime.csproj", "{DB492E65-25D9-44A0-86F4-ABB07283BEE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-app", "examples\helloworld\helloworld-app\helloworld-app.csproj", "{EA3E3362-32A5-4395-BF56-39BDBE2B7CC9}"
 EndProject

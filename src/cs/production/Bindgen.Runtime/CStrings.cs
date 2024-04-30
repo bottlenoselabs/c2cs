@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace bottlenoselabs.C2CS.Runtime;
+namespace Bindgen.Runtime;
 
 /// <summary>
 ///     Utility methods for interoperability with C style strings in C#.
@@ -36,7 +36,7 @@ public static unsafe class CStrings
 
     /// <summary>
     ///     Converts an array of strings to an array of C strings of type `wchar_t` (multi-dimensional array of one
-    ///     dimensional ushort arrays each terminated by a <c>0x0</c>) by allocating and copying if not already cached.
+    ///     dimensional ushort arrays each terminated by a <c>0x0</c>) by allocating and copying.
     /// </summary>
     /// <remarks>
     ///     <para>Calls <see cref="CString" />.</para>

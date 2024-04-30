@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.Commands.WriteCodeCSharp;
 
-public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeOptions, WriteCodeCSharpInput, WriteCodeCSharpOutput>
+public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeInput, WriteCodeCSharpInput, WriteCodeCSharpOutput>
 {
     private readonly IServiceProvider _services;
     private readonly IFileSystem _fileSystem;

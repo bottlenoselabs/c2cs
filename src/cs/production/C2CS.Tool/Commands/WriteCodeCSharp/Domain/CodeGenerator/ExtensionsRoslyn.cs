@@ -13,7 +13,7 @@ namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator;
 [PublicAPI]
 public static partial class ExtensionsRoslyn
 {
-    public static string Format<T>(this T syntaxNode)
+    public static string GetCode<T>(this T syntaxNode)
         where T : SyntaxNode
     {
         using var workspace = new AdhocWorkspace();
