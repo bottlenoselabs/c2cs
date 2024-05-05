@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 
 public class FunctionCodeGenerator : GenerateCodeHandler<CSharpFunction>
 {
@@ -32,10 +32,12 @@ public class FunctionCodeGenerator : GenerateCodeHandler<CSharpFunction>
             var callingConvention = FunctionCallingConventionDllImport(node.CallingConvention);
             var dllImportParametersString = string.Join(',', "LibraryName", $"EntryPoint = \"{node.CName}\"", callingConvention);
 
-            code = $@"
-[DllImport({dllImportParametersString})]
-public static extern {node.ReturnType.FullName} {node.Name}({parametersString});
-";
+            code = $"""
+
+                    [DllImport({dllImportParametersString})]
+                    public static extern {node.ReturnType.FullName} {node.Name}({parametersString});
+
+                    """;
         }
         else
         {
@@ -50,11 +52,13 @@ public static extern {node.ReturnType.FullName} {node.Name}({parametersString});
 
             var libraryImportParametersString = string.Join(",", libraryImportParameters);
 
-            code = $@"
-[LibraryImport({libraryImportParametersString})]
-[UnmanagedCallConv(CallConvs = new[] {{ typeof({callingConvention}) }})]
-public static partial {node.ReturnType.FullName} {node.Name}({parametersString});
-";
+            code = $$"""
+
+                     [LibraryImport({{libraryImportParametersString}})]
+                     [UnmanagedCallConv(CallConvs = new[] { typeof({{callingConvention}}) })]
+                     public static partial {{node.ReturnType.FullName}} {{node.Name}}({{parametersString}});
+
+                     """;
         }
 
         var member = context.ParseMemberCode<MethodDeclarationSyntax>(code);

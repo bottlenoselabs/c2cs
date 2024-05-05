@@ -10,7 +10,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 
 public class EnumCodeGenerator : GenerateCodeHandler<CSharpEnum>
 {
@@ -38,12 +38,14 @@ public class EnumCodeGenerator : GenerateCodeHandler<CSharpEnum>
         var valuesString = values.Select(x => x.ToFullString());
         var members = string.Join(",\n", valuesString);
 
-        var code = $@"
-public enum {enumName} : {enumIntegerTypeName}
-    {{
-        {members}
-    }}
-";
+        var code = $$"""
+
+                     public enum {{enumName}} : {{enumIntegerTypeName}}
+                         {
+                             {{members}}
+                         }
+
+                     """;
 
         var member = context.ParseMemberCode<EnumDeclarationSyntax>(code);
         return member;

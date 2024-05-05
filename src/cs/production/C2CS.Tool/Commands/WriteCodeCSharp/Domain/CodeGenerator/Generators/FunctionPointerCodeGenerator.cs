@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 
 public sealed class FunctionPointerCodeGenerator : GenerateCodeHandler<CSharpFunctionPointer>
 {
@@ -37,13 +37,15 @@ public sealed class FunctionPointerCodeGenerator : GenerateCodeHandler<CSharpFun
         var parameterTypesString = context.GenerateCodeParameters(node.Parameters, false);
         var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString) ? node.ReturnType.FullName : $"{parameterTypesString}, {node.ReturnType.FullName}";
 
-        var code = $@"
-[StructLayout(LayoutKind.Sequential)]
-public struct {node.Name}
-{{
-	public delegate* unmanaged<{parameterTypesAndReturnTypeString}> Pointer;
-}}
-";
+        var code = $$"""
+
+                     [StructLayout(LayoutKind.Sequential)]
+                     public struct {{node.Name}}
+                     {
+                     	public delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> Pointer;
+                     }
+
+                     """;
         return code;
     }
 
@@ -51,21 +53,23 @@ public struct {node.Name}
     {
         var parameterTypesString = context.GenerateCodeParameters(node.Parameters);
 
-        var code = $@"
-[StructLayout(LayoutKind.Sequential)]
-public struct {node.Name}
-{{
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate {node.ReturnType.FullName} @delegate({parameterTypesString});
+        var code = $$"""
 
-    public IntPtr Pointer;
+                     [StructLayout(LayoutKind.Sequential)]
+                     public struct {{node.Name}}
+                     {
+                         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+                         public unsafe delegate {{node.ReturnType.FullName}} @delegate({{parameterTypesString}});
 
-    public {node.Name}(@delegate d)
-     {{
-         Pointer = Marshal.GetFunctionPointerForDelegate(d);
-     }}
-}}
-";
+                         public IntPtr Pointer;
+
+                         public {{node.Name}}(@delegate d)
+                          {
+                              Pointer = Marshal.GetFunctionPointerForDelegate(d);
+                          }
+                     }
+
+                     """;
         return code;
     }
 }

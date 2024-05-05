@@ -170,19 +170,12 @@ public sealed class CSharpCodeMapper
         var parameterNames = new List<string>();
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (var functionExternParameterC in functionParameters)
+        foreach (var functionParameter in functionParameters)
         {
-            var parameterName = CSharpUniqueParameterName(functionExternParameterC.Name, parameterNames);
+            var parameterName = CSharpUniqueParameterName(functionParameter.Name, parameterNames);
             parameterNames.Add(parameterName);
             var value =
-                FunctionParameter(context, functionName, functionExternParameterC, parameterName);
-            if (value.TypeName.Contains("uint16_t", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var value2 =
-                    FunctionParameter(context, functionName, functionExternParameterC, parameterName);
-                Console.WriteLine();
-            }
-
+                FunctionParameter(context, functionName, functionParameter, parameterName);
             builder.Add(value);
         }
 

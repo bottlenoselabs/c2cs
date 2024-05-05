@@ -9,7 +9,7 @@ using System.IO;
 using System.Reflection;
 using bottlenoselabs.Common.Diagnostics;
 using C2CS.Commands.WriteCodeCSharp.Data;
-using C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+using C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 
 public class ConstantCodeGenerator : GenerateCodeHandler<CSharpConstant>
 {
@@ -18,9 +18,11 @@ public class ConstantCodeGenerator : GenerateCodeHandler<CSharpConstant>
 
     protected override SyntaxNode GenerateCode(CSharpCodeGeneratorContext context, CSharpConstant node)
     {
-        var code = $@"
-public const {node.Type} {node.Name} = {node.Value};
-";
+        var code = $"""
+
+                    public const {node.Type} {node.Name} = {node.Value};
+
+                    """;
 
         var member = context.ParseMemberCode<FieldDeclarationSyntax>(code);
         return member;

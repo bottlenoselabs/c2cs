@@ -11,7 +11,7 @@ using C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Diagnostics;
 
 namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator;
 
-public class CSharpLibraryCompiler
+public sealed class CSharpLibraryCompiler
 {
     public Assembly? Compile(
         CSharpProject project,
@@ -26,10 +26,10 @@ public class CSharpLibraryCompiler
             return null;
         }
 
-        return TryCompile(project, options, diagnostics);
+        return TryCompileProject(project, options, diagnostics);
     }
 
-    private static Assembly? TryCompile(
+    private static Assembly? TryCompileProject(
         CSharpProject project,
         CSharpCodeGeneratorOptions options,
         DiagnosticsSink diagnostics)
