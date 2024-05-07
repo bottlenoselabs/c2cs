@@ -214,6 +214,12 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
                 $"The Target Framework Moniker (TFM) '{targetFrameworkMoniker}' is not supported because it has a platform. Remove the platform parts from the TFM and try again.");
         }
 
+        if (nuGetFramework.IsUnsupported)
+        {
+            throw new InvalidOperationException(
+                $"The Target Framework Moniker (TFM) '{targetFrameworkMoniker}' is not supported.");
+        }
+
         return nuGetFramework;
     }
 
