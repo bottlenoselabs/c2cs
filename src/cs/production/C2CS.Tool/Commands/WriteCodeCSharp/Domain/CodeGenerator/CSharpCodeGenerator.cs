@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using bottlenoselabs.Common.Diagnostics;
 using C2CS.Commands.WriteCodeCSharp.Data;
-using C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+using C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -54,11 +55,8 @@ public sealed class CSharpCodeGenerator
                 documentsBuilder.Add(runtimeCodeDocument);
             }
 
-            if (_options.IsEnabledGenerateAssemblyAttributes)
-            {
-                var assemblyAttributesCodeDocument = EmitAssemblyAttributesCodeDocument();
-                documentsBuilder.Add(assemblyAttributesCodeDocument);
-            }
+            var assemblyAttributesCodeDocument = EmitAssemblyAttributesCodeDocument();
+            documentsBuilder.Add(assemblyAttributesCodeDocument);
 
             var project = new CSharpProject
             {
@@ -78,20 +76,26 @@ public sealed class CSharpCodeGenerator
 
     private CSharpProjectDocument EmitAssemblyAttributesCodeDocument()
     {
-        var code = "// To disable generating this file set `isEnabledGenerateAssemblyAttributes` to `false` in the config file for generating C# code."
-                           + CodeDocumentTemplate();
+        var code = CodeDocumentTemplate();
+
+        if (!_options.IsEnabledRuntimeMarshalling)
+        {
+            code += """
+
+                    #if NET7_0_OR_GREATER
+                    // NOTE: Disabling runtime marshalling is preferred for performance improvements. You can learn more here: https://learn.microsoft.com/en-us/dotnet/standard/native-interop/disabled-marshalling
+                    [assembly: DisableRuntimeMarshalling]
+                    #endif
+
+                    """;
+        }
 
         code += """
 
-                #if NET7_0_OR_GREATER
-                [assembly: DisableRuntimeMarshalling]
-                #endif
-
-                """;
-
-        code += """
-
+                #if (NETCOREAPP1_0_OR_GREATER) || (NET45_OR_GREATER || NETFRAMEWORK && (NET45 || NET451 || NET452 || NET46 || NET461 || NET462 || NET47 || NET471 || NET472 || NET48)) || (NETSTANDARD1_1_OR_GREATER || NETSTANDARD && !NETSTANDARD1_0)
+                // NOTE: Only takes effect on Windows. Specifies the recommended maximum number of directories (the application directory, the %WinDir%\System32 directory, and user directories in the DLL search path) to search for native libraries. You can learn more here at (1) https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.defaultdllimportsearchpathsattribute and (2) https://learn.microsoft.com/en-ca/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryexa#parameters
                 [assembly: DefaultDllImportSearchPathsAttribute(DllImportSearchPath.SafeDirectories)]
+                #endif
 
                 """;
 
@@ -223,26 +227,29 @@ public sealed class CSharpCodeGenerator
                      """;
         }
 
-        if (options.IsEnabledFileScopedNamespace)
+        if (!string.IsNullOrEmpty(options.NamespaceName))
         {
-            code += $"""
+            if (options.IsEnabledFileScopedNamespace)
+            {
+                code += $"""
 
-                     namespace {options.NamespaceName};
+                         namespace {options.NamespaceName};
 
-                     """;
-        }
-        else
-        {
-            code += $$"""
+                         """;
+            }
+            else
+            {
+                code += $$"""
 
-                      namespace {{options.NamespaceName}} {
+                          namespace {{options.NamespaceName}} {
 
-                      """;
+                          """;
+            }
         }
 
         code += $$"""
 
-                      public static unsafe partial class {{options.ClassName}}
+                  public static unsafe partial class {{options.ClassName}}
                   {
                       private const string LibraryName = "{{options.LibraryName}}";
                   }
@@ -258,7 +265,7 @@ public sealed class CSharpCodeGenerator
                      """;
         }
 
-        if (!options.IsEnabledFileScopedNamespace)
+        if (!string.IsNullOrEmpty(options.NamespaceName) && !options.IsEnabledFileScopedNamespace)
         {
             code += """
 
@@ -269,9 +276,14 @@ public sealed class CSharpCodeGenerator
 
         var syntaxTree = ParseSyntaxTree(code);
         var compilationUnit = syntaxTree.GetCompilationUnitRoot();
-        var rootNamespace = (BaseNamespaceDeclarationSyntax)compilationUnit.Members[0];
-        var rootClassDeclarationOriginal = (ClassDeclarationSyntax)rootNamespace.Members[0];
-        var rootClassDeclarationWithMembers = rootClassDeclarationOriginal;
+
+        var rootClassDeclaration = compilationUnit.DescendantNodes().OfType<ClassDeclarationSyntax>().FirstOrDefault();
+        if (rootClassDeclaration == null)
+        {
+            throw new InvalidOperationException("Unable to find class declaration.");
+        }
+
+        var rootClassDeclarationWithMembers = rootClassDeclaration;
 
         foreach (var (className, classMembers) in membersByClassName)
         {
@@ -295,7 +307,7 @@ public sealed class CSharpCodeGenerator
         }
 
         var newCompilationUnit = compilationUnit.ReplaceNode(
-            rootClassDeclarationOriginal,
+            rootClassDeclaration,
             rootClassDeclarationWithMembers);
         var formattedCode = newCompilationUnit.GetCode();
         return formattedCode;

@@ -1,7 +1,6 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 using C2CS.Commands.WriteCodeCSharp.Data;
@@ -9,7 +8,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 
 public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
 {
@@ -30,13 +29,15 @@ public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
         var memberStrings = memberSyntaxes.Select(x => x.ToFullString());
         var members = string.Join("\n\n", memberStrings);
 
-        var code = $@"
-[StructLayout(LayoutKind.Explicit, Size = {@struct.SizeOf}, Pack = {@struct.AlignOf})]
-public struct {@struct.Name}
-{{
-	{members}
-}}
-";
+        var code = $$"""
+
+                     [StructLayout(LayoutKind.Explicit, Size = {{@struct.SizeOf}}, Pack = {{@struct.AlignOf}})]
+                     public struct {{@struct.Name}}
+                     {
+                     	{{members}}
+                     }
+
+                     """;
 
         if (isNested)
         {
@@ -99,29 +100,33 @@ public struct {@struct.Name}
         string code;
         if (field.Type.Name == "CString")
         {
-            code = $@"
-[FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
-public {field.Type.FullName} _{field.Name};
+            code = $$"""
 
-public string {field.Name}
-{{
-	get
-	{{
-        return CString.ToString(_{field.Name});
-	}}
-    set
-    {{
-        _{field.Name} = CString.FromString(value);
-    }}
-}}
-".Trim();
+                     [FieldOffset({{field.OffsetOf}})] // size = {{field.Type.SizeOf}}
+                     public {{field.Type.FullName}} _{{field.Name}};
+
+                     public string {{field.Name}}
+                     {
+                     	get
+                     	{
+                             return CString.ToString(_{{field.Name}});
+                     	}
+                         set
+                         {
+                             _{{field.Name}} = CString.FromString(value);
+                         }
+                     }
+
+                     """.Trim();
         }
         else
         {
-            code = $@"
-[FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
-public {field.Type.FullName} {field.Name};
-".Trim();
+            code = $"""
+
+                    [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
+                    public {field.Type.FullName} {field.Name};
+
+                    """.Trim();
         }
 
         var member = context.ParseMemberCode<FieldDeclarationSyntax>(code);
@@ -132,10 +137,12 @@ public {field.Type.FullName} {field.Name};
         CSharpCodeGeneratorContext context,
         CSharpStructField field)
     {
-        var code = $@"
-[FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
-public fixed byte {field.BackingFieldName}[{field.Type.SizeOf}]; // {field.Type.OriginalName}
-".Trim();
+        var code = $"""
+
+                    [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
+                    public fixed byte {field.BackingFieldName}[{field.Type.SizeOf}]; // {field.Type.OriginalName}
+
+                    """.Trim();
 
         return context.ParseMemberCode<FieldDeclarationSyntax>(code);
     }
@@ -149,37 +156,41 @@ public fixed byte {field.BackingFieldName}[{field.Type.SizeOf}]; // {field.Type.
 
         if (field.Type.Name == "CString")
         {
-            code = $@"
-public string {field.Name}
-{{
-	get
-	{{
-		fixed ({structName}*@this = &this)
-		{{
-			var pointer = &@this->{field.BackingFieldName}[0];
-            var cString = new CString(pointer);
-            return CString.ToString(cString);
-		}}
-	}}
-}}
-".Trim();
+            code = $$"""
+
+                     public string {{field.Name}}
+                     {
+                     	get
+                     	{
+                     		fixed ({{structName}}*@this = &this)
+                     		{
+                     			var pointer = &@this->{{field.BackingFieldName}}[0];
+                                 var cString = new CString(pointer);
+                                 return CString.ToString(cString);
+                     		}
+                     	}
+                     }
+
+                     """.Trim();
         }
         else if (field.Type.Name == "CStringWide")
         {
-            code = $@"
-public string {field.Name}
-{{
-	get
-	{{
-		fixed ({structName}*@this = &this)
-		{{
-			var pointer = &@this->{field.BackingFieldName}[0];
-            var cString = new CStringWide(pointer);
-            return StringWide.ToString(cString);
-		}}
-	}}
-}}
-".Trim();
+            code = $$"""
+
+                     public string {{field.Name}}
+                     {
+                     	get
+                     	{
+                     		fixed ({{structName}}*@this = &this)
+                     		{
+                     			var pointer = &@this->{{field.BackingFieldName}}[0];
+                                 var cString = new CStringWide(pointer);
+                                 return StringWide.ToString(cString);
+                     		}
+                     	}
+                     }
+
+                     """.Trim();
         }
         else
         {

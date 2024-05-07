@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 
 public class OpaqueTypeCodeGenerator : GenerateCodeHandler<CSharpOpaqueType>
 {
@@ -18,12 +18,14 @@ public class OpaqueTypeCodeGenerator : GenerateCodeHandler<CSharpOpaqueType>
 
     protected override SyntaxNode GenerateCode(CSharpCodeGeneratorContext context, CSharpOpaqueType node)
     {
-        var code = $@"
-[StructLayout(LayoutKind.Sequential)]
-public struct {node.Name}
-{{
-}}
-";
+        var code = $$"""
+
+                     [StructLayout(LayoutKind.Sequential)]
+                     public struct {{node.Name}}
+                     {
+                     }
+
+                     """;
 
         return context.ParseMemberCode<StructDeclarationSyntax>(code);
     }

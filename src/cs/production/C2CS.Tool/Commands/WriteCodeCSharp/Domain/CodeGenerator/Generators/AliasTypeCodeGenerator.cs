@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Handlers;
+namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 
 public class AliasTypeCodeGenerator : GenerateCodeHandler<CSharpAliasType>
 {
@@ -18,17 +18,19 @@ public class AliasTypeCodeGenerator : GenerateCodeHandler<CSharpAliasType>
 
     protected override SyntaxNode GenerateCode(CSharpCodeGeneratorContext context, CSharpAliasType node)
     {
-        var code = $@"
-[StructLayout(LayoutKind.Explicit, Size = {node.UnderlyingType.SizeOf}, Pack = {node.UnderlyingType.AlignOf})]
-public struct {node.Name}
-{{
-	[FieldOffset(0)]
-    public {node.UnderlyingType.Name} Data;
+        var code = $$"""
 
-	public static implicit operator {node.UnderlyingType.Name}({node.Name} data) => data.Data;
-	public static implicit operator {node.Name}({node.UnderlyingType.Name} data) => new() {{Data = data}};
-}}
-";
+                     [StructLayout(LayoutKind.Explicit, Size = {{node.UnderlyingType.SizeOf}}, Pack = {{node.UnderlyingType.AlignOf}})]
+                     public struct {{node.Name}}
+                     {
+                     	[FieldOffset(0)]
+                         public {{node.UnderlyingType.Name}} Data;
+
+                     	public static implicit operator {{node.UnderlyingType.Name}}({{node.Name}} data) => data.Data;
+                     	public static implicit operator {{node.Name}}({{node.UnderlyingType.Name}} data) => new() {Data = data};
+                     }
+
+                     """;
 
         var member = context.ParseMemberCode<StructDeclarationSyntax>(code);
         return member;

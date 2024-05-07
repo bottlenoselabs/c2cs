@@ -12,12 +12,12 @@ namespace Bindgen.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct CString : IEquatable<CString>, IDisposable
 {
-    public readonly nint Pointer;
+    public readonly IntPtr Pointer;
 
     /// <summary>
     ///     Gets a value indicating whether this <see cref="CString" /> is a null pointer.
     /// </summary>
-    public bool IsNull => Pointer == 0;
+    public bool IsNull => Pointer == IntPtr.Zero;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CString" /> struct.
@@ -25,14 +25,14 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <param name="value">The pointer value.</param>
     public CString(byte* value)
     {
-        Pointer = (nint)value;
+        Pointer = (IntPtr)value;
     }
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CString" /> struct.
     /// </summary>
     /// <param name="value">The pointer value.</param>
-    public CString(nint value)
+    public CString(IntPtr value)
     {
         Pointer = value;
     }
@@ -61,7 +61,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <returns>
     ///     The resulting <see cref="CString" />.
     /// </returns>
-    public static explicit operator CString(nint value)
+    public static explicit operator CString(IntPtr value)
     {
         return FromIntPtr(value);
     }
@@ -73,7 +73,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <returns>
     ///     The resulting <see cref="CString" />.
     /// </returns>
-    public static CString FromIntPtr(nint value)
+    public static CString FromIntPtr(IntPtr value)
     {
         return new CString(value);
     }
@@ -99,7 +99,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// </returns>
     public static CString From(byte* value)
     {
-        return new CString((nint)value);
+        return new CString((IntPtr)value);
     }
 
     /// <summary>
@@ -109,7 +109,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <returns>
     ///     The resulting <see cref="IntPtr" />.
     /// </returns>
-    public static implicit operator nint(CString value)
+    public static implicit operator IntPtr(CString value)
     {
         return value.Pointer;
     }
@@ -121,7 +121,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <returns>
     ///     The resulting <see cref="IntPtr" />.
     /// </returns>
-    public static nint ToIntPtr(CString value)
+    public static IntPtr ToIntPtr(CString value)
     {
         return value.Pointer;
     }

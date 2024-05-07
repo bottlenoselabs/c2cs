@@ -23,7 +23,7 @@ public sealed class CSharpCodeMapper
     private readonly CSharpCodeMapperOptions _options;
     private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
 
-    private static readonly string[] IgnoredNames = { "FFI_PLATFORM_NAME" };
+    private static readonly string[] IgnoredNames = [];
     private static readonly char[] IdentifierSeparatorCharacters = { '_', '.', '@' };
 
     public CSharpCodeMapper(CSharpCodeMapperOptions options)
@@ -170,19 +170,12 @@ public sealed class CSharpCodeMapper
         var parameterNames = new List<string>();
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-        foreach (var functionExternParameterC in functionParameters)
+        foreach (var functionParameter in functionParameters)
         {
-            var parameterName = CSharpUniqueParameterName(functionExternParameterC.Name, parameterNames);
+            var parameterName = CSharpUniqueParameterName(functionParameter.Name, parameterNames);
             parameterNames.Add(parameterName);
             var value =
-                FunctionParameter(context, functionName, functionExternParameterC, parameterName);
-            if (value.TypeName.Contains("uint16_t", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var value2 =
-                    FunctionParameter(context, functionName, functionExternParameterC, parameterName);
-                Console.WriteLine();
-            }
-
+                FunctionParameter(context, functionName, functionParameter, parameterName);
             builder.Add(value);
         }
 
@@ -829,7 +822,8 @@ public sealed class CSharpCodeMapper
                 or "nint"
                 or "CBool"
                 or "CString"
-                or "CStringWide")
+                or "CStringWide"
+                or "IntPtr")
             {
                 return identifier + pointersTrailing;
             }
@@ -903,7 +897,7 @@ public sealed class CSharpCodeMapper
         // TODO: https://github.com/lithiumtoast/c2cs/issues/15
         if (typeName == "va_list")
         {
-            typeName = "nint";
+            typeName = "IntPtr";
         }
 
         return typeName;
@@ -991,12 +985,12 @@ public sealed class CSharpCodeMapper
 
         if (pointerTypeName.StartsWith("FILE *", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.ReplaceFirst("FILE *", "nint", StringComparison.InvariantCulture);
+            return pointerTypeName.ReplaceFirst("FILE *", "IntPtr", StringComparison.InvariantCulture);
         }
 
         if (pointerTypeName.StartsWith("DIR *", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.ReplaceFirst("DIR *", "nint", StringComparison.InvariantCulture);
+            return pointerTypeName.ReplaceFirst("DIR *", "IntPtr", StringComparison.InvariantCulture);
         }
 
         var elementTypeName = pointerTypeName.TrimEnd('*').TrimEnd();

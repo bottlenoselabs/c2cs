@@ -12,12 +12,12 @@ namespace Bindgen.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct CStringWide : IEquatable<CStringWide>
 {
-    public readonly nint Pointer;
+    public readonly IntPtr Pointer;
 
     /// <summary>
     ///     Gets a value indicating whether this <see cref="CStringWide" /> is a null pointer.
     /// </summary>
-    public bool IsNull => Pointer == 0;
+    public bool IsNull => Pointer == IntPtr.Zero;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CStringWide" /> struct.
@@ -25,14 +25,14 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <param name="value">The pointer value.</param>
     public CStringWide(byte* value)
     {
-        Pointer = (nint)value;
+        Pointer = (IntPtr)value;
     }
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CStringWide" /> struct.
     /// </summary>
     /// <param name="value">The pointer value.</param>
-    public CStringWide(nint value)
+    public CStringWide(IntPtr value)
     {
         Pointer = value;
     }
@@ -53,7 +53,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <returns>
     ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static explicit operator CStringWide(nint value)
+    public static explicit operator CStringWide(IntPtr value)
     {
         return FromIntPtr(value);
     }
@@ -65,7 +65,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <returns>
     ///     The resulting <see cref="CStringWide" />.
     /// </returns>
-    public static CStringWide FromIntPtr(nint value)
+    public static CStringWide FromIntPtr(IntPtr value)
     {
         return new CStringWide(value);
     }
@@ -91,7 +91,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// </returns>
     public static CStringWide From(byte* value)
     {
-        return new CStringWide((nint)value);
+        return new CStringWide((IntPtr)value);
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <returns>
     ///     The resulting <see cref="IntPtr" />.
     /// </returns>
-    public static implicit operator nint(CStringWide value)
+    public static implicit operator IntPtr(CStringWide value)
     {
         return value.Pointer;
     }
@@ -113,7 +113,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     /// <returns>
     ///     The resulting <see cref="IntPtr" />.
     /// </returns>
-    public static nint ToIntPtr(CStringWide value)
+    public static IntPtr ToIntPtr(CStringWide value)
     {
         return value.Pointer;
     }

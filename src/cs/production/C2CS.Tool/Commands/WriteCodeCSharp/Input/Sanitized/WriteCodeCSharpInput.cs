@@ -3,6 +3,7 @@
 
 using C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Commands.WriteCodeCSharp.Domain.Mapper;
+using NuGet.Frameworks;
 
 namespace C2CS.Commands.WriteCodeCSharp.Input.Sanitized;
 

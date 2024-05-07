@@ -1,0 +1,4 @@
+{
+  "cMakeDirectoryPath": "./my_c_library",
+  "outputDirectoryPath": "../../helloworld/helloworld-app/"
+}

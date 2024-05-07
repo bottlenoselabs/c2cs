@@ -13,10 +13,10 @@ namespace C2CS.Commands.WriteCodeCSharp.Input.Unsanitized;
 public sealed class WriteCSharpCodeInput : ToolUnsanitizedInput
 {
     /// <summary>
-    ///     Gets or sets the path of the input cross-platform abstract syntax tree.
+    ///     Gets or sets the path of the input cross-platform FFI json file.
     /// </summary>
     [JsonPropertyName("inputFilePath")]
-    public string? InputAbstractSyntaxTreeFilePath { get; set; }
+    public string? InputCrossPlatformFfiFilePath { get; set; }
 
     /// <summary>
     ///     Gets or sets the path of the output C# `.cs` file.
@@ -41,7 +41,10 @@ public sealed class WriteCSharpCodeInput : ToolUnsanitizedInput
     ///     Gets or sets the name of the namespace to be used for the C# static class.
     /// </summary>
     /// <remarks>
-    ///     <para>Default is <c>null</c>. If <see cref="NamespaceName" /> is <c>null</c>, <see cref="LibraryName" /> is used.</para>
+    ///     <para>
+    ///         Default is <c>null</c>. If <see cref="NamespaceName" /> is <c>null</c>, no namespace is explicitly used
+    ///         and thus the default implicit global namespace 'global::' is used.
+    ///     </para>
     /// </remarks>
     [JsonPropertyName("namespaceName")]
     public string? NamespaceName { get; set; }
@@ -107,20 +110,13 @@ public sealed class WriteCSharpCodeInput : ToolUnsanitizedInput
     public ImmutableArray<string?>? IgnoredNames { get; set; }
 
     /// <summary>
-    ///     Gets or sets whether C# 9 function pointers is enabled or C# delegates for C function pointers is enabled.
+    ///     Gets or sets the Target Framework Moniker (TFM) used for generating C# code.
     /// </summary>
     /// <remarks>
-    ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to generate C function pointers as C# 9 function pointers. Use
-    ///         <c>false</c> to fallback to generate C function pointers as C# delegates.
-    ///     </para>
-    ///     <para>
-    ///         If you have the choice, C# delegates are not recommended in comparison to C# function pointers as they
-    ///         require more setup, teardown, and memory allocations.
-    ///     </para>
+    ///     <para>See https://learn.microsoft.com/en-us/dotnet/standard/frameworks#latest-versions for list of valid TFMs.</para>
     /// </remarks>
-    [JsonPropertyName("isEnabledFunctionPointers")]
-    public bool? IsEnabledFunctionPointers { get; set; } = true;
+    [JsonPropertyName("targetFrameworkMoniker")]
+    public string? TargetFrameworkMoniker { get; set; }
 
     /// <summary>
     ///     Gets or sets whether to verify the generated C# code compiles without warnings or errors is enabled.
@@ -145,43 +141,6 @@ public sealed class WriteCSharpCodeInput : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledGeneratingRuntimeCode")]
     public bool? IsEnabledGeneratingRuntimeCode { get; set; } = true;
-
-    /// <summary>
-    ///     Gets or sets whether C# source code generation using
-    ///     <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> is enabled or
-    ///     <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is enabled.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>false</c>. Use <c>true</c> to generate C# source code using
-    ///         <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> . Use <c>false</c> to generate C#
-    ///         source code using <see cref="System.Runtime.InteropServices.DllImportAttribute" />.
-    ///     </para>
-    ///     <para>
-    ///         The <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> is only available in .NET 7.
-    ///         The advantages of using <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> over
-    ///         <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is that source generators are used to
-    ///         create stubs at compile time instead of runtime. This can increase performance due to IL trimming and
-    ///         inlining; make debugging easier with cleaner stack traces; and adds support for full NativeAOT scenarios
-    ///         where the <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is not available.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("isEnabledLibraryImport")]
-    public bool? IsEnabledLibraryImport { get; set; } = false;
-
-    /// <summary>
-    ///     Gets or sets whether generating the C# assembly attribute usages at the scope of the main namespace is
-    ///     enabled.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to enabled generation of assembly attributes usages which are
-    ///         applied at the scope of the main namespace. Use <c>false</c> to disable generation of assembly attribute
-    ///         usages.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("isEnabledGenerateAssemblyAttributes")]
-    public bool? IsEnabledGenerateAssemblyAttributes { get; set; } = true;
 
     /// <summary>
     ///     Gets or sets whether generating idiomatic C# is enabled.
@@ -209,14 +168,71 @@ public sealed class WriteCSharpCodeInput : ToolUnsanitizedInput
     public bool? IsEnabledEnumValueNamesUpperCase { get; set; } = true;
 
     /// <summary>
+    ///     Gets or sets whether function pointers are enabled for unmanaged callbacks.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c> when <see cref="TargetFrameworkMoniker" /> is at least .NET Core 5 or greater
+    ///         and <c>false</c> otherwise. Use <c>true</c> to generate C# function pointers for unmanaged callbacks.
+    ///         Use <c>false</c> to fallback to using C# delegates for callbacks.
+    ///     </para>
+    ///     <para>
+    ///         If you targeting .NET Core 5 or greater, you have the choice to use function pointers or delegates.
+    ///         However, C# delegates are not recommended in comparison to C# function pointers as they require more
+    ///         setup, teardown, memory allocations, and a level of indirection.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledFunctionPointers")]
+    public bool? IsEnabledFunctionPointers { get; set; } = true;
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether runtime marshalling is enabled.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>false</c> when <see cref="TargetFrameworkMoniker" /> is at least .NET Core 7 or greater
+    ///         and <c>true</c> otherwise. Use <c>true</c> to enable runtime marshalling. Use <c>false</c> to disable
+    ///         runtime marshalling.
+    ///     </para>
+    ///     <para>
+    ///         Disabling runtime marshalling is preferred for performance as it removes any possible slow downs that
+    ///         could happen at runtime in transforming the data types to/from the unmanaged context. For more
+    ///         information, see https://learn.microsoft.com/en-us/dotnet/standard/native-interop/disabled-marshalling.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledRuntimeMarshalling")]
+    public bool? IsEnabledRuntimeMarshalling { get; set; }
+
+    /// <summary>
     ///     Gets or sets whether creating a C# namespace scope is enabled.
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to enable file scoped namespace when generating C# code. Use
+    ///         Default is <c>true</c> when <see cref="TargetFrameworkMoniker" /> is at least .NET Core 6 or greater
+    ///         and <c>true</c> otherwise. Use <c>true</c> to enable file scoped namespace when generating C# code. Use
     ///         <c>false</c> to disable file scoped namespace and fallback to traditional namespace scope.
     ///     </para>
     /// </remarks>
     [JsonPropertyName("isEnabledFileScopedNamespace")]
     public bool? IsEnabledFileScopedNamespace { get; set; } = true;
+
+    /// <summary>
+    ///     Gets or sets whether C# source code generation using
+    ///     <see cref="System.Runtime.InteropServices.LibraryImportAttribute" /> is enabled or
+    ///     <see cref="System.Runtime.InteropServices.DllImportAttribute" /> is enabled.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c> when <see cref="TargetFrameworkMoniker" /> is at least .NET Core 7 or greater
+    ///         and <c>false</c> otherwise. Use <c>true</c> to generate C# source code using
+    ///         <see cref="System.Runtime.InteropServices.LibraryImportAttribute" />. Use <c>false</c> to generate C#
+    ///         source code using <see cref="System.Runtime.InteropServices.DllImportAttribute" />.
+    ///     </para>
+    ///     <para>
+    ///         For more information see:
+    ///         https://learn.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke-source-generation.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledLibraryImport")]
+    public bool? IsEnabledLibraryImport { get; set; } = true;
 }
