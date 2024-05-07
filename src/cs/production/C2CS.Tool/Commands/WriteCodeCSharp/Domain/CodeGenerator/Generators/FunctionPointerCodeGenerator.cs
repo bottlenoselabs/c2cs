@@ -43,6 +43,11 @@ public sealed class FunctionPointerCodeGenerator : GenerateCodeHandler<CSharpFun
                      public struct {{node.Name}}
                      {
                      	public delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> Pointer;
+
+                     	public FnPtr_CString_Void(delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> pointer)
+                        {
+                            Pointer = pointer;
+                        }
                      }
 
                      """;
@@ -64,9 +69,9 @@ public sealed class FunctionPointerCodeGenerator : GenerateCodeHandler<CSharpFun
                          public IntPtr Pointer;
 
                          public {{node.Name}}(@delegate d)
-                          {
-                              Pointer = Marshal.GetFunctionPointerForDelegate(d);
-                          }
+                         {
+                             Pointer = Marshal.GetFunctionPointerForDelegate(d);
+                         }
                      }
 
                      """;

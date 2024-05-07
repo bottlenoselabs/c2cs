@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 using Bindgen.Runtime;
-using static my_c_library_namespace.my_c_library;
+using static my_c_library;
 
 internal static class Program
 {
@@ -23,14 +23,19 @@ internal static class Program
         ulong c = 24242;
         hw_pass_integers_by_reference(&a, &b, &c);
 
-        var callback = default(FnPtr_CString_Void);
-        callback.Pointer = &Callback;
+#if NET5_0_OR_GREATER
+        var functionPointer = new FnPtr_CString_Void(&Callback);
+#else
+        var functionPointer = new FnPtr_CString_Void(Callback);
+#endif
         var cString2 = (CString)"Hello from callback!";
-        hw_invoke_callback(callback, cString2);
+        hw_invoke_callback(functionPointer, cString2);
         Marshal.FreeHGlobal(cString2);
     }
 
+#if NET5_0_OR_GREATER
     [UnmanagedCallersOnly]
+#endif
     private static void Callback(CString param)
     {
         // This C# function is called from C

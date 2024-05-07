@@ -57,6 +57,11 @@ public static unsafe partial class my_c_library
     public struct FnPtr_CString_Void
     {
         public delegate* unmanaged<CString, void> Pointer;
+
+        public FnPtr_CString_Void(delegate* unmanaged<CString, void> pointer)
+        {
+            Pointer = pointer;
+        }
     }
 
     public enum hw_my_enum_week_day : int
