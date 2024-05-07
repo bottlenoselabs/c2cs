@@ -822,7 +822,8 @@ public sealed class CSharpCodeMapper
                 or "nint"
                 or "CBool"
                 or "CString"
-                or "CStringWide")
+                or "CStringWide"
+                or "IntPtr")
             {
                 return identifier + pointersTrailing;
             }
@@ -896,7 +897,7 @@ public sealed class CSharpCodeMapper
         // TODO: https://github.com/lithiumtoast/c2cs/issues/15
         if (typeName == "va_list")
         {
-            typeName = "nint";
+            typeName = "IntPtr";
         }
 
         return typeName;
@@ -984,12 +985,12 @@ public sealed class CSharpCodeMapper
 
         if (pointerTypeName.StartsWith("FILE *", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.ReplaceFirst("FILE *", "nint", StringComparison.InvariantCulture);
+            return pointerTypeName.ReplaceFirst("FILE *", "IntPtr", StringComparison.InvariantCulture);
         }
 
         if (pointerTypeName.StartsWith("DIR *", StringComparison.InvariantCulture))
         {
-            return pointerTypeName.ReplaceFirst("DIR *", "nint", StringComparison.InvariantCulture);
+            return pointerTypeName.ReplaceFirst("DIR *", "IntPtr", StringComparison.InvariantCulture);
         }
 
         var elementTypeName = pointerTypeName.TrimEnd('*').TrimEnd();
