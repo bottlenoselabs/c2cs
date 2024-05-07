@@ -9,6 +9,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<IsPackable>false</IsPackable>
+		<RootNamespace>helloworld-compile-c-library-and-generate-bindings</RootNamespace>
 	</PropertyGroup>
 
 	<!-- NuGet package references -->

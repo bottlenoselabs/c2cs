@@ -2,10 +2,14 @@
 
 #include <stdint.h>
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    #define MY_C_LIBRARY_API_DECL __declspec(dllexport)
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
+    #if defined(__clang__)
+        #define MY_C_LIBRARY_API_DECL __declspec(dllexport) __attribute__ ((visibility("default")))
+    #else
+        #define MY_C_LIBRARY_API_DECL __declspec(dllexport)
+    #endif
 #else
-    #define MY_C_LIBRARY_API_DECL extern
+    #define MY_C_LIBRARY_API_DECL extern __attribute__ ((visibility("default")))
 #endif
 
 typedef enum hw_my_enum_week_day {

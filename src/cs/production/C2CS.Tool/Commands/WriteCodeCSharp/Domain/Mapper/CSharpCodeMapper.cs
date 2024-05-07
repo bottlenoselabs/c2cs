@@ -23,7 +23,7 @@ public sealed class CSharpCodeMapper
     private readonly CSharpCodeMapperOptions _options;
     private readonly ImmutableDictionary<string, string> _userTypeNameAliases;
 
-    private static readonly string[] IgnoredNames = { "FFI_PLATFORM_NAME" };
+    private static readonly string[] IgnoredNames = [];
     private static readonly char[] IdentifierSeparatorCharacters = { '_', '.', '@' };
 
     public CSharpCodeMapper(CSharpCodeMapperOptions options)

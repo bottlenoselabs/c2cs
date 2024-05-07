@@ -1,8 +1,6 @@
 {
   "inputFilePath": "./ffi-x/cross-platform.json",
   "outputFileDirectory": "./../helloworld-app/Generated",
-  "namespaceName": "my_c_library_namespace",
   "className": "my_c_library",
-  "isEnabledFileScopedNamespace": false,
-  "isEnabledLibraryImport": true
+  "targetFramework": "net8.0"
 }

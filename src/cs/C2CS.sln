@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{56
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helloworld", "helloworld", "{24028D61-CCE1-4893-9BD6-1D7C28563DC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-compile-c-library-and-generate-bindings", "examples\helloworld\helloworld-compile-c-library-and-generate-bindings\helloworld-compile-c-library-and-generate-bindings.csproj", "{841E561C-B3BB-499B-AEB3-0874ACDDB2BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-bindgen", "examples\helloworld\helloworld-bindgen\helloworld-bindgen.csproj", "{841E561C-B3BB-499B-AEB3-0874ACDDB2BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Tool", "production\C2CS.Tool\C2CS.Tool.csproj", "{1B67F4A2-24E6-43A6-A031-918DD44CD991}"
 EndProject

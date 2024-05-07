@@ -53,7 +53,7 @@ internal static class Program
             return false;
         }
 
-        var configGenerateCSharpCodeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "config-generate-cs.json"));
+        var configGenerateCSharpCodeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "config-generate-cs-net80.json"));
         var parametersGenerateCSharpCode = new[] { "generate", "--config", configGenerateCSharpCodeFilePath };
         C2CS.Program.Main(parametersGenerateCSharpCode);
 

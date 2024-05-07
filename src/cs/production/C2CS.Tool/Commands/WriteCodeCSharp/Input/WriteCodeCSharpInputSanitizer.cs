@@ -12,6 +12,7 @@ using C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator;
 using C2CS.Commands.WriteCodeCSharp.Domain.Mapper;
 using C2CS.Commands.WriteCodeCSharp.Input.Sanitized;
 using C2CS.Commands.WriteCodeCSharp.Input.Unsanitized;
+using NuGet.Frameworks;
 
 namespace C2CS.Commands.WriteCodeCSharp.Input;
 
@@ -26,51 +27,50 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
 
     public override WriteCodeCSharpInput Sanitize(WriteCSharpCodeInput unsanitizedInput)
     {
-        var inputFilePath = InputFilePath(unsanitizedInput.InputAbstractSyntaxTreeFilePath);
+        var inputFilePath = InputFilePath(unsanitizedInput.InputCrossPlatformFfiFilePath);
         var outputFileDirectory = OutputFileDirectory(unsanitizedInput.OutputCSharpCodeFileDirectory);
-        var className = ClassName(unsanitizedInput.ClassName);
-        var libraryName = LibraryName(unsanitizedInput.LibraryName, className);
-        var namespaceName = NamespaceName(unsanitizedInput.NamespaceName, libraryName);
-        var mappedTypeNames = MappedNames(unsanitizedInput.MappedNames);
-        var ignoredNames = IgnoredTypeNames(unsanitizedInput.IgnoredNames);
-        var headerCodeRegion = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath);
-        var footerCodeRegion = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath);
-        var isEnabledFunctionPointers = unsanitizedInput.IsEnabledFunctionPointers ?? true;
-        var isEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true;
-        var isEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true;
-        var isEnabledLibraryImportAttribute = unsanitizedInput.IsEnabledLibraryImport ?? false;
-        var mappedCNamespaces = MappedNames(unsanitizedInput.MappedCNamespaces);
-        var isEnabledGenerateAssemblyAttributes = unsanitizedInput.IsEnabledGenerateAssemblyAttributes ?? true;
-        var isEnabledIdiomaticCSharp = unsanitizedInput.IsEnabledIdiomaticCSharp ?? false;
-        var isEnabledEnumValueNamesUpperCase = unsanitizedInput.IsEnabledEnumValueNamesUpperCase ?? true;
-        var isEnabledFileScopedNamespace = unsanitizedInput.IsEnabledFileScopedNamespace ?? true;
 
         return new WriteCodeCSharpInput
         {
             InputFilePath = inputFilePath,
             OutputFileDirectory = outputFileDirectory,
-            MapperOptions = new CSharpCodeMapperOptions
-            {
-                MappedTypeNames = mappedTypeNames,
-                IgnoredNames = ignoredNames,
-                MappedCNamespaces = mappedCNamespaces,
-                IsEnabledIdiomaticCSharp = isEnabledIdiomaticCSharp,
-                IsEnabledEnumValueNamesUpperCase = isEnabledEnumValueNamesUpperCase
-            },
-            GeneratorOptions = new CSharpCodeGeneratorOptions
-            {
-                ClassName = className,
-                LibraryName = libraryName,
-                NamespaceName = namespaceName,
-                HeaderCodeRegion = headerCodeRegion,
-                FooterCodeRegion = footerCodeRegion,
-                IsEnabledFunctionPointers = isEnabledFunctionPointers,
-                IsEnabledVerifyCSharpCodeCompiles = isEnabledVerifyCSharpCodeCompiles,
-                IsEnabledGenerateCSharpRuntimeCode = isEnabledGenerateCSharpRuntimeCode,
-                IsEnabledLibraryImportAttribute = isEnabledLibraryImportAttribute,
-                IsEnabledGenerateAssemblyAttributes = isEnabledGenerateAssemblyAttributes,
-                IsEnabledFileScopedNamespace = isEnabledFileScopedNamespace
-            }
+            MapperOptions = MapperOptions(unsanitizedInput),
+            GeneratorOptions = GeneratorOptions(unsanitizedInput)
+        };
+    }
+
+    private static CSharpCodeMapperOptions MapperOptions(WriteCSharpCodeInput unsanitizedInput)
+    {
+        return new CSharpCodeMapperOptions
+        {
+            MappedTypeNames = MappedNames(unsanitizedInput.MappedNames),
+            IgnoredNames = IgnoredTypeNames(unsanitizedInput.IgnoredNames),
+            MappedCNamespaces = MappedNames(unsanitizedInput.MappedCNamespaces),
+            IsEnabledIdiomaticCSharp = unsanitizedInput.IsEnabledIdiomaticCSharp ?? false,
+            IsEnabledEnumValueNamesUpperCase = unsanitizedInput.IsEnabledEnumValueNamesUpperCase ?? true
+        };
+    }
+
+    private CSharpCodeGeneratorOptions GeneratorOptions(WriteCSharpCodeInput unsanitizedInput)
+    {
+        var className = ClassName(unsanitizedInput.ClassName);
+        var libraryName = LibraryName(unsanitizedInput.LibraryName, className);
+        var targetFramework = TargetFramework(unsanitizedInput.TargetFrameworkMoniker);
+
+        return new CSharpCodeGeneratorOptions
+        {
+            TargetFramework = targetFramework,
+            ClassName = className,
+            LibraryName = libraryName,
+            NamespaceName = NamespaceName(unsanitizedInput.NamespaceName),
+            HeaderCodeRegion = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath),
+            FooterCodeRegion = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath),
+            IsEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true,
+            IsEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true,
+            IsEnabledFunctionPointers = IsEnabledFunctionPointers(unsanitizedInput, targetFramework),
+            IsEnabledRuntimeMarshalling = IsEnabledRuntimeMarshalling(unsanitizedInput, targetFramework),
+            IsEnabledFileScopedNamespace = IsEnabledFileScopedNamespace(unsanitizedInput, targetFramework),
+            IsEnabledLibraryImportAttribute = IsEnabledLibraryImport(unsanitizedInput, targetFramework)
         };
     }
 
@@ -79,7 +79,7 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         if (string.IsNullOrWhiteSpace(filePath))
         {
             throw new ToolInputSanitizationException(
-                $"The abstract syntax tree input directory can not be an empty or null string.");
+                $"The FFI input file path can not be an empty or a null string.");
         }
 
         var fullFilePath = _fileSystem.Path.GetFullPath(filePath);
@@ -155,9 +155,9 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
         return !string.IsNullOrEmpty(libraryName) ? libraryName : className;
     }
 
-    private static string NamespaceName(string? @namespace, string libraryName)
+    private static string NamespaceName(string? @namespace)
     {
-        return !string.IsNullOrEmpty(@namespace) ? @namespace : libraryName;
+        return !string.IsNullOrEmpty(@namespace) ? @namespace : string.Empty;
     }
 
     private static string ClassName(string? className)
@@ -191,5 +191,77 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
 
         var code = File.ReadAllText(footerCodeRegionFilePath);
         return code;
+    }
+
+    private NuGetFramework TargetFramework(string? targetFrameworkMoniker)
+    {
+        if (string.IsNullOrEmpty(targetFrameworkMoniker))
+        {
+            targetFrameworkMoniker = "net8.0";
+        }
+
+        // NuGet uses the word "folder" for what Microsoft calls a TFM
+        var nuGetFramework = NuGetFramework.ParseFolder(targetFrameworkMoniker);
+        if (nuGetFramework.HasProfile)
+        {
+            throw new InvalidOperationException(
+                $"The Target Framework Moniker (TFM) '{targetFrameworkMoniker}' is not supported because it has a profile. Remove the profile from the TFM and try again.");
+        }
+
+        if (nuGetFramework.HasPlatform)
+        {
+            throw new InvalidOperationException(
+                $"The Target Framework Moniker (TFM) '{targetFrameworkMoniker}' is not supported because it has a platform. Remove the platform parts from the TFM and try again.");
+        }
+
+        return nuGetFramework;
+    }
+
+    private static bool IsEnabledFunctionPointers(WriteCSharpCodeInput unsanitizedInput, NuGetFramework nuGetFramework)
+    {
+        // Function pointers are supported only in C# 9+ and .NET 5+
+        var isAtLeastNetCoreV5 = nuGetFramework is { Framework: ".NETCoreApp", Version.Major: >= 5 };
+        if (!isAtLeastNetCoreV5)
+        {
+            return false;
+        }
+
+        return unsanitizedInput.IsEnabledFunctionPointers ?? true;
+    }
+
+    private bool IsEnabledRuntimeMarshalling(WriteCSharpCodeInput unsanitizedInput, NuGetFramework nuGetFramework)
+    {
+        // Disabling runtime marshalling is only supported in .NET 7+
+        var isAtLeastNetCoreV7 = nuGetFramework is { Framework: ".NETCoreApp", Version.Major: >= 7 };
+        if (!isAtLeastNetCoreV7)
+        {
+            return false;
+        }
+
+        return unsanitizedInput.IsEnabledRuntimeMarshalling ?? false;
+    }
+
+    private static bool IsEnabledFileScopedNamespace(WriteCSharpCodeInput unsanitizedInput, NuGetFramework nuGetFramework)
+    {
+        // File scoped namespaces are only supported in .NET 6+
+        var isAtLeastNetCoreV6 = nuGetFramework is { Framework: ".NETCoreApp", Version.Major: >= 6 };
+        if (!isAtLeastNetCoreV6)
+        {
+            return false;
+        }
+
+        return unsanitizedInput.IsEnabledFileScopedNamespace ?? true;
+    }
+
+    private static bool IsEnabledLibraryImport(WriteCSharpCodeInput unsanitizedInput, NuGetFramework nuGetFramework)
+    {
+        // LibraryImport is only supported in .NET 7+
+        var isAtLeastNetCoreV7 = nuGetFramework is { Framework: ".NETCoreApp", Version.Major: >= 7 };
+        if (!isAtLeastNetCoreV7)
+        {
+            return false;
+        }
+
+        return unsanitizedInput.IsEnabledLibraryImport ?? true;
     }
 }
