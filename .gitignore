@@ -23,6 +23,8 @@ lib/
 *.so
 
 # c2ffi artifacts
+src/cs/examples/**/ffi/
+src/cs/examples/**/ffi-x/
 src/c/tests/**/ffi/
 src/c/tests/**/ffi-x/
 
