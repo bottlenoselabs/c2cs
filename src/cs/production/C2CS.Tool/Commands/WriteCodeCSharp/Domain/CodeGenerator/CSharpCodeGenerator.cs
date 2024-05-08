@@ -320,7 +320,7 @@ public sealed class CSharpCodeGenerator
                            // To disable generating this file set `isEnabledGeneratingRuntimeCode` to `false` in the config file for generating C# code.
 
                            """
-                           + CodeDocumentTemplate();
+                           + CodeDocumentTemplate(isEnabledNullables: false);
 
         if (options.IsEnabledFileScopedNamespace)
         {
@@ -408,7 +408,7 @@ public sealed class CSharpCodeGenerator
         return builderMembers.ToImmutable();
     }
 
-    private string CodeDocumentTemplate()
+    private string CodeDocumentTemplate(bool isEnabledNullables = true)
     {
         var code = $"""
 
@@ -421,18 +421,29 @@ public sealed class CSharpCodeGenerator
                     // ReSharper disable All
 
                     #region Template
-                    #nullable enable
-                    #pragma warning disable CS1591
-                    #pragma warning disable CS8981
-                    using Bindgen.Runtime;
-                    using System;
-                    using System.Collections.Generic;
-                    using System.Globalization;
-                    using System.Runtime.InteropServices;
-                    using System.Runtime.CompilerServices;
-                    #endregion
 
                     """;
+
+        if (isEnabledNullables)
+        {
+            code += """
+                    #nullable enable
+
+                    """;
+        }
+
+        code += """
+                #pragma warning disable CS1591
+                #pragma warning disable CS8981
+                using Bindgen.Runtime;
+                using System;
+                using System.Collections.Generic;
+                using System.Globalization;
+                using System.Runtime.InteropServices;
+                using System.Runtime.CompilerServices;
+                #endregion
+
+                """;
         return code;
     }
 

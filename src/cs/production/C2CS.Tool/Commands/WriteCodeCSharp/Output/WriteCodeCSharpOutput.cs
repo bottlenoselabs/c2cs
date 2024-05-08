@@ -14,8 +14,6 @@ public class WriteCodeCSharpOutput : ToolOutput<WriteCodeCSharpInput>
 
     public CSharpProject? Project { get; set; }
 
-    public Assembly? Assembly { get; set; }
-
     protected override void OnComplete()
     {
         OutputFileDirectory = Input.OutputFileDirectory;

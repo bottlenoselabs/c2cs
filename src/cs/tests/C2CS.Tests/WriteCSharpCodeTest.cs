@@ -46,18 +46,7 @@ public abstract class WriteCSharpCodeTest
         var output = _tool.Run(cSharpConfigFilePath);
         Assert.True(output.IsSuccess);
         var ast = CreateCSharpAbstractSyntaxTree(output);
-        AssertCSharpCodeCompiles(output);
         return ast;
-    }
-
-    public void AssertCSharpCodeCompiles(WriteCodeCSharpOutput output)
-    {
-        if (!output.Input.GeneratorOptions.IsEnabledVerifyCSharpCodeCompiles)
-        {
-            return;
-        }
-
-        Assert.True(output.Assembly != null, "Error compiling generated C# code.");
     }
 
     private static void BuildCLibrary(

@@ -119,18 +119,6 @@ public sealed class WriteCSharpCodeInput : ToolUnsanitizedInput
     public string? TargetFrameworkMoniker { get; set; }
 
     /// <summary>
-    ///     Gets or sets whether to verify the generated C# code compiles without warnings or errors is enabled.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to verify the generated C# code compiles without warnings or
-    ///         errors. Use <c>false</c> to disable verifying that the generated C# code compiles.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("isEnabledVerifyCSharpCodeCompiles")]
-    public bool? IsEnabledVerifyCSharpCodeCompiles { get; set; } = true;
-
-    /// <summary>
     ///     Gets or sets whether enable generating the C# runtime glue code is enabled.
     /// </summary>
     /// <remarks>
