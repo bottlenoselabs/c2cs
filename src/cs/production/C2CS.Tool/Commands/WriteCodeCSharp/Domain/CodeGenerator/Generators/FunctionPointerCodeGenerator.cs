@@ -44,7 +44,7 @@ public sealed class FunctionPointerCodeGenerator : GenerateCodeHandler<CSharpFun
                      {
                      	public delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> Pointer;
 
-                     	public FnPtr_CString_Void(delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> pointer)
+                     	public {{node.Name}}(delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> pointer)
                         {
                             Pointer = pointer;
                         }
