@@ -68,7 +68,7 @@ public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
     }
 
     /// <inheritdoc />
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
         return obj is CChar value && Equals(value);
     }

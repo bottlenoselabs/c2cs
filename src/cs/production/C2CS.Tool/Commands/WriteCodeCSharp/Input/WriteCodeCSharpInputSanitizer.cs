@@ -65,7 +65,6 @@ public sealed class WriteCodeCSharpInputSanitizer : ToolInputSanitizer<WriteCSha
             NamespaceName = NamespaceName(unsanitizedInput.NamespaceName),
             HeaderCodeRegion = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath),
             FooterCodeRegion = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath),
-            IsEnabledVerifyCSharpCodeCompiles = unsanitizedInput.IsEnabledVerifyCSharpCodeCompiles ?? true,
             IsEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true,
             IsEnabledFunctionPointers = IsEnabledFunctionPointers(unsanitizedInput, targetFramework),
             IsEnabledRuntimeMarshalling = IsEnabledRuntimeMarshalling(unsanitizedInput, targetFramework),

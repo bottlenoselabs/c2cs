@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Nullable>enable</Nullable>
+		<Nullable>disable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<RootNamespace>Bindgen.Runtime</RootNamespace>
 		<AssemblyName>Bindgen.Runtime</AssemblyName>

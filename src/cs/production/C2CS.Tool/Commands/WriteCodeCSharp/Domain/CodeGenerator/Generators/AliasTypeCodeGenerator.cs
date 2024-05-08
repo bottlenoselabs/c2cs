@@ -27,7 +27,7 @@ public class AliasTypeCodeGenerator : GenerateCodeHandler<CSharpAliasType>
                          public {{node.UnderlyingType.Name}} Data;
 
                      	public static implicit operator {{node.UnderlyingType.Name}}({{node.Name}} data) => data.Data;
-                     	public static implicit operator {{node.Name}}({{node.UnderlyingType.Name}} data) => new() {Data = data};
+                     	public static implicit operator {{node.Name}}({{node.UnderlyingType.Name}} data) => new {{node.Name}}() {Data = data};
                      }
 
                      """;

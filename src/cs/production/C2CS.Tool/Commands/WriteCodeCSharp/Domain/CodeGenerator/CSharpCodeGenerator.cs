@@ -76,7 +76,7 @@ public sealed class CSharpCodeGenerator
 
     private CSharpProjectDocument EmitAssemblyAttributesCodeDocument()
     {
-        var code = CodeDocumentTemplate();
+        var code = CodeDocumentTemplate(isEnabledNullables: false);
 
         if (!_options.IsEnabledRuntimeMarshalling)
         {
@@ -101,7 +101,7 @@ public sealed class CSharpCodeGenerator
 
         var document = new CSharpProjectDocument
         {
-            FileName = "AssemblyAttributes.gen.cs",
+            FileName = "AssemblyAttributes.g.cs",
             Contents = code
         };
 
@@ -120,7 +120,7 @@ public sealed class CSharpCodeGenerator
 
         var codeDocument = new CSharpProjectDocument
         {
-            FileName = $"{_options.ClassName}.gen.cs",
+            FileName = $"{_options.ClassName}.g.cs",
             Contents = code
         };
 
@@ -216,7 +216,8 @@ public sealed class CSharpCodeGenerator
         CSharpCodeGeneratorOptions options,
         ImmutableSortedDictionary<string, List<MemberDeclarationSyntax>> membersByClassName)
     {
-        var code = CodeDocumentTemplate();
+        var isEnabledNullables = options.TargetFramework is { Framework: ".NETCoreApp", Version.Major: >= 3 };
+        var code = CodeDocumentTemplate(isEnabledNullables);
 
         if (!string.IsNullOrEmpty(options.HeaderCodeRegion))
         {
@@ -320,7 +321,7 @@ public sealed class CSharpCodeGenerator
                            // To disable generating this file set `isEnabledGeneratingRuntimeCode` to `false` in the config file for generating C# code.
 
                            """
-                           + CodeDocumentTemplate();
+                           + CodeDocumentTemplate(isEnabledNullables: false);
 
         if (options.IsEnabledFileScopedNamespace)
         {
@@ -356,7 +357,7 @@ public sealed class CSharpCodeGenerator
 
         var document = new CSharpProjectDocument
         {
-            FileName = "Bindgen.Runtime.gen.cs",
+            FileName = "Bindgen.Runtime.g.cs",
             Contents = code
         };
 
@@ -408,7 +409,7 @@ public sealed class CSharpCodeGenerator
         return builderMembers.ToImmutable();
     }
 
-    private string CodeDocumentTemplate()
+    private string CodeDocumentTemplate(bool isEnabledNullables = true)
     {
         var code = $"""
 
@@ -421,18 +422,29 @@ public sealed class CSharpCodeGenerator
                     // ReSharper disable All
 
                     #region Template
-                    #nullable enable
-                    #pragma warning disable CS1591
-                    #pragma warning disable CS8981
-                    using Bindgen.Runtime;
-                    using System;
-                    using System.Collections.Generic;
-                    using System.Globalization;
-                    using System.Runtime.InteropServices;
-                    using System.Runtime.CompilerServices;
-                    #endregion
 
                     """;
+
+        if (isEnabledNullables)
+        {
+            code += """
+                    #nullable enable
+
+                    """;
+        }
+
+        code += """
+                #pragma warning disable CS1591
+                #pragma warning disable CS8981
+                using Bindgen.Runtime;
+                using System;
+                using System.Collections.Generic;
+                using System.Globalization;
+                using System.Runtime.InteropServices;
+                using System.Runtime.CompilerServices;
+                #endregion
+
+                """;
         return code;
     }
 

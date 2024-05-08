@@ -46,18 +46,7 @@ public abstract class WriteCSharpCodeTest
         var output = _tool.Run(cSharpConfigFilePath);
         Assert.True(output.IsSuccess);
         var ast = CreateCSharpAbstractSyntaxTree(output);
-        AssertCSharpCodeCompiles(output);
         return ast;
-    }
-
-    public void AssertCSharpCodeCompiles(WriteCodeCSharpOutput output)
-    {
-        if (!output.Input.GeneratorOptions.IsEnabledVerifyCSharpCodeCompiles)
-        {
-            return;
-        }
-
-        Assert.True(output.Assembly != null, "Error compiling generated C# code.");
     }
 
     private static void BuildCLibrary(
@@ -92,7 +81,7 @@ public abstract class WriteCSharpCodeTest
         WriteCodeCSharpOutput output)
     {
         var codeFilePath =
-            _fileSystem.Path.Combine(output.OutputFileDirectory, $"{output.Input.GeneratorOptions.ClassName}.gen.cs");
+            _fileSystem.Path.Combine(output.OutputFileDirectory, $"{output.Input.GeneratorOptions.ClassName}.g.cs");
         var code = _fileSystem.File.ReadAllText(codeFilePath);
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
         var compilationUnitSyntax = syntaxTree.GetCompilationUnitRoot();

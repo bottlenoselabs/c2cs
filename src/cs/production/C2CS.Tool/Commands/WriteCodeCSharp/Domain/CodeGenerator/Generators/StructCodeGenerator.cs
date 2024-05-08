@@ -1,9 +1,13 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using C2CS.Commands.WriteCodeCSharp.Data;
+using c2ffi.Data;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
@@ -12,6 +16,8 @@ namespace C2CS.Commands.WriteCodeCSharp.Domain.CodeGenerator.Generators;
 
 public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
 {
+    private Version _spanNetCoreRequiredVersion = new Version("2.1");
+
     public StructCodeGenerator(
         ILogger<StructCodeGenerator> logger)
         : base(logger)
@@ -76,20 +82,70 @@ public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
     {
         foreach (var field in fields)
         {
-            if (field.Type.IsArray)
-            {
-                var fieldMember = EmitStructFieldFixedBuffer(context, field);
-                builder.Add(fieldMember);
+            StructField(context, structName, builder, field);
+        }
+    }
 
-                var methodMember = StructFieldFixedBufferProperty(
-                    context, structName, field);
-                builder.Add(methodMember);
-            }
-            else
-            {
-                var fieldMember = StructField(context, field);
-                builder.Add(fieldMember);
-            }
+    private void StructField(
+        CSharpCodeGeneratorContext context,
+        string structName,
+        ImmutableArray<MemberDeclarationSyntax>.Builder builder,
+        CSharpStructField field)
+    {
+        if (field.Type.IsArray)
+        {
+            StructFieldFixedBuffer(context, structName, builder, field);
+        }
+        else
+        {
+            var fieldMember = StructField(context, field);
+            builder.Add(fieldMember);
+        }
+    }
+
+    private void StructFieldFixedBuffer(
+        CSharpCodeGeneratorContext context,
+        string structName,
+        ImmutableArray<MemberDeclarationSyntax>.Builder builder,
+        CSharpStructField field)
+    {
+        var elementTypeName = field.Type.Name[..^1];
+        if (elementTypeName.EndsWith('*'))
+        {
+            elementTypeName = "IntPtr";
+        }
+
+        var elementType = field.Type.InnerType;
+        var elementTypeIsEnum = elementType != null && (elementType.OriginalNodeKind == CNodeKind.Enum || (elementType.OriginalNodeKind == CNodeKind.TypeAlias && elementType.InnerType!.OriginalNodeKind == CNodeKind.Enum));
+        var typeNameIsFixedBufferCompatible = elementTypeIsEnum ||
+            elementTypeName is "byte" or "char" or "short" or "int" or "long" or "sbyte" or "ushort" or "uint"
+                or "ulong" or "float" or "double";
+
+        if (typeNameIsFixedBufferCompatible)
+        {
+            var fixedBufferTypeName = elementTypeIsEnum ? "int" : elementTypeName;
+            var code = $"""
+
+                        [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
+                        public fixed {fixedBufferTypeName} {field.Name}[{field.Type.ArraySizeOf}];
+
+                        """.Trim();
+            var fieldMember = context.ParseMemberCode<FieldDeclarationSyntax>(code);
+            builder.Add(fieldMember);
+        }
+        else
+        {
+            var code = $"""
+
+                        [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
+                        public fixed byte {field.BackingFieldName}[{field.Type.SizeOf}]; // {field.Type.OriginalName}
+
+                        """.Trim();
+            var fieldMember = context.ParseMemberCode<FieldDeclarationSyntax>(code);
+            builder.Add(fieldMember);
+
+            var methodMember = StructFieldFixedBufferProperty(context, structName, field);
+            builder.Add(methodMember);
         }
     }
 
@@ -133,20 +189,6 @@ public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
         return member;
     }
 
-    private FieldDeclarationSyntax EmitStructFieldFixedBuffer(
-        CSharpCodeGeneratorContext context,
-        CSharpStructField field)
-    {
-        var code = $"""
-
-                    [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
-                    public fixed byte {field.BackingFieldName}[{field.Type.SizeOf}]; // {field.Type.OriginalName}
-
-                    """.Trim();
-
-        return context.ParseMemberCode<FieldDeclarationSyntax>(code);
-    }
-
     private PropertyDeclarationSyntax StructFieldFixedBufferProperty(
         CSharpCodeGeneratorContext context,
         string structName,
@@ -164,9 +206,9 @@ public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
                      	{
                      		fixed ({{structName}}*@this = &this)
                      		{
-                     			var pointer = &@this->{{field.BackingFieldName}}[0];
-                                 var cString = new CString(pointer);
-                                 return CString.ToString(cString);
+                     		    var pointer = &@this->{{field.BackingFieldName}}[0];
+                                var cString = new CString(pointer);
+                                return CString.ToString(cString);
                      		}
                      	}
                      }
@@ -198,23 +240,54 @@ public class StructCodeGenerator : GenerateCodeHandler<CSharpStruct>
             var elementType = fieldTypeName[..^1];
             if (elementType.EndsWith('*'))
             {
-                elementType = "nint";
+                elementType = "IntPtr";
             }
 
-            code = $@"
-public readonly Span<{elementType}> {field.Name}
-{{
-	get
-	{{
-		fixed ({structName}*@this = &this)
-		{{
-			var pointer = &@this->{field.BackingFieldName}[0];
-			var span = new Span<{elementType}>(pointer, {field.Type.ArraySizeOf});
-			return span;
-		}}
-	}}
-}}
-".Trim();
+            var isAtLeastNetCoreV21 = context.Options.TargetFramework.Framework == ".NETCoreApp" &&
+                                  context.Options.TargetFramework.Version >= _spanNetCoreRequiredVersion;
+
+            if (isAtLeastNetCoreV21)
+            {
+                code = $$"""
+
+                         public readonly Span<{{elementType}}> {{field.Name}}
+                         {
+                         	get
+                         	{
+                         		fixed ({{structName}}*@this = &this)
+                         		{
+                         			var pointer = &@this->{{field.BackingFieldName}}[0];
+                         			var span = new Span<{{elementType}}>(pointer, {{field.Type.ArraySizeOf}});
+                         			return span;
+                         		}
+                         	}
+                         }
+
+                         """.Trim();
+            }
+            else
+            {
+                code = $$"""
+
+                         public {{elementType}}[] {{field.Name}}
+                         {
+                         	get
+                         	{
+                         		fixed ({{structName}}*@this = &this)
+                         		{
+                         			var pointer = ({{elementType}}*)&@this->{{field.BackingFieldName}}[0];
+                         			var array = new {{elementType}}[{{field.Type.ArraySizeOf}}];
+                                    for (var i = 0; i < {{field.Type.ArraySizeOf}}; i++, pointer++)
+                                    {
+                                        array[i] = *pointer;
+                                    }
+                                    return array;
+                                }
+                            }
+                         }
+
+                         """.Trim();
+            }
         }
 
         return context.ParseMemberCode<PropertyDeclarationSyntax>(code);

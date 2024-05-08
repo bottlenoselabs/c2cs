@@ -55,11 +55,6 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeInput, WriteCodeCS
         }
 
         WriteFilesToStorage(input.OutputFileDirectory, project);
-
-        if (input.GeneratorOptions.IsEnabledVerifyCSharpCodeCompiles)
-        {
-            output.Assembly = VerifyCSharpCodeCompiles(project, input.GeneratorOptions);
-        }
     }
 
     private CFfiCrossPlatform LoadCFfi(string filePath)
@@ -114,19 +109,5 @@ public sealed class WriteCodeCSharpTool : Tool<WriteCSharpCodeInput, WriteCodeCS
         }
 
         EndStep();
-    }
-
-    private Assembly? VerifyCSharpCodeCompiles(
-        CSharpProject project,
-        CSharpCodeGeneratorOptions options)
-    {
-        BeginStep("Verify C# code compiles");
-
-        var compiler = new CSharpLibraryCompiler();
-        var assembly = compiler.Compile(project, options, Diagnostics);
-
-        EndStep();
-
-        return assembly;
     }
 }

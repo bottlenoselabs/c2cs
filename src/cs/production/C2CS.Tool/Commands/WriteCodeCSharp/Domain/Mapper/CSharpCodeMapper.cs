@@ -451,7 +451,6 @@ public sealed class CSharpCodeMapper
         var typeC = cField.Type;
         var typeInfoCSharp = TypeCSharp(context, typeC);
         var offsetOf = cField.OffsetOf;
-        var isWrapped = typeInfoCSharp.IsArray && !IsValidFixedBufferType(typeInfoCSharp.Name);
 
         var result = new CSharpStructField(
             nameCSharpFinal,
@@ -459,8 +458,7 @@ public sealed class CSharpCodeMapper
             cField.Name,
             typeC.SizeOf,
             typeInfoCSharp,
-            offsetOf,
-            isWrapped);
+            offsetOf);
 
         return result;
     }
@@ -744,15 +742,18 @@ public sealed class CSharpCodeMapper
         var nameCSharp = TypeNameCSharp(context, type);
         var className = ClassName(nameCSharp, out var nameCSharpMapped);
         var nameCSharpFinal = IdiomaticName(nameCSharpMapped, true);
+        var innerType = type.InnerType != null ? TypeCSharp(context, type.InnerType) : null;
 
         var result = new CSharpType
         {
+            OriginalNodeKind = type.NodeKind,
             Name = nameCSharpFinal,
             ClassName = className,
             OriginalName = type.Name,
             SizeOf = type.SizeOf ?? 0,
             AlignOf = type.AlignOf ?? 0,
-            ArraySizeOf = type.ArraySizeOf
+            ArraySizeOf = type.ArraySizeOf,
+            InnerType = innerType
         };
 
         return result;

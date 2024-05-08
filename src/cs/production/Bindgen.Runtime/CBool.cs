@@ -68,7 +68,7 @@ public readonly struct CBool : IEquatable<CBool>
     }
 
     /// <inheritdoc />
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
         return obj is CBool b && Equals(b);
     }
