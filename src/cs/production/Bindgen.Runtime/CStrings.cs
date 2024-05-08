@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Bindgen.Runtime;
@@ -20,7 +21,7 @@ public static unsafe class CStrings
     /// </remarks>
     /// <param name="values">The strings.</param>
     /// <returns>An array pointer of C string pointers. You are responsible for freeing the returned pointer.</returns>
-    public static CString* CStringArray(ReadOnlySpan<string> values)
+    public static CString* CStringArray(string[] values)
     {
         var pointerSize = IntPtr.Size;
         var result = (CString*)Marshal.AllocHGlobal(pointerSize * values.Length);
@@ -43,7 +44,7 @@ public static unsafe class CStrings
     /// </remarks>
     /// <param name="values">The strings.</param>
     /// <returns>An array pointer of C string pointers. You are responsible for freeing the returned pointer.</returns>
-    public static CStringWide* CStringWideArray(ReadOnlySpan<string> values)
+    public static CStringWide* CStringWideArray(string[] values)
     {
         var pointerSize = IntPtr.Size;
         var result = (CStringWide*)Marshal.AllocHGlobal(pointerSize * values.Length);
