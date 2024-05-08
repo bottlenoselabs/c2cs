@@ -2,11 +2,14 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using c2ffi.Data;
 
 namespace C2CS.Commands.WriteCodeCSharp.Data;
 
 public sealed class CSharpType : IEquatable<CSharpType>
 {
+    public CNodeKind OriginalNodeKind { get; init; }
+
     public string Name { get; init; } = string.Empty;
 
     public string ClassName { get; init; } = string.Empty;
@@ -22,6 +25,8 @@ public sealed class CSharpType : IEquatable<CSharpType>
     public int? ArraySizeOf { get; init; }
 
     public bool IsArray => ArraySizeOf > 0;
+
+    public CSharpType? InnerType { get; init; }
 
     public bool Equals(CSharpType? other)
     {

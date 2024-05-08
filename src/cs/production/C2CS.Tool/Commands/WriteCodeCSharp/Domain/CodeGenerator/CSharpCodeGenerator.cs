@@ -76,7 +76,7 @@ public sealed class CSharpCodeGenerator
 
     private CSharpProjectDocument EmitAssemblyAttributesCodeDocument()
     {
-        var code = CodeDocumentTemplate();
+        var code = CodeDocumentTemplate(isEnabledNullables: false);
 
         if (!_options.IsEnabledRuntimeMarshalling)
         {
@@ -216,7 +216,8 @@ public sealed class CSharpCodeGenerator
         CSharpCodeGeneratorOptions options,
         ImmutableSortedDictionary<string, List<MemberDeclarationSyntax>> membersByClassName)
     {
-        var code = CodeDocumentTemplate();
+        var isEnabledNullables = options.TargetFramework is { Framework: ".NETCoreApp", Version.Major: >= 3 };
+        var code = CodeDocumentTemplate(isEnabledNullables);
 
         if (!string.IsNullOrEmpty(options.HeaderCodeRegion))
         {
