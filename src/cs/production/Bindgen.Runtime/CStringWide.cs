@@ -186,7 +186,7 @@ public readonly unsafe struct CStringWide : IEquatable<CStringWide>
     }
 
     /// <inheritdoc />
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
         return obj is CStringWide value && Equals(value);
     }

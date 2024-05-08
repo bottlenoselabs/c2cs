@@ -194,7 +194,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     }
 
     /// <inheritdoc />
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
         return obj is CString value && Equals(value);
     }
