@@ -92,7 +92,7 @@ public abstract class WriteCSharpCodeTest
         WriteCodeCSharpOutput output)
     {
         var codeFilePath =
-            _fileSystem.Path.Combine(output.OutputFileDirectory, $"{output.Input.GeneratorOptions.ClassName}.gen.cs");
+            _fileSystem.Path.Combine(output.OutputFileDirectory, $"{output.Input.GeneratorOptions.ClassName}.g.cs");
         var code = _fileSystem.File.ReadAllText(codeFilePath);
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
         var compilationUnitSyntax = syntaxTree.GetCompilationUnitRoot();

@@ -101,7 +101,7 @@ public sealed class CSharpCodeGenerator
 
         var document = new CSharpProjectDocument
         {
-            FileName = "AssemblyAttributes.gen.cs",
+            FileName = "AssemblyAttributes.g.cs",
             Contents = code
         };
 
@@ -120,7 +120,7 @@ public sealed class CSharpCodeGenerator
 
         var codeDocument = new CSharpProjectDocument
         {
-            FileName = $"{_options.ClassName}.gen.cs",
+            FileName = $"{_options.ClassName}.g.cs",
             Contents = code
         };
 
@@ -356,7 +356,7 @@ public sealed class CSharpCodeGenerator
 
         var document = new CSharpProjectDocument
         {
-            FileName = "Bindgen.Runtime.gen.cs",
+            FileName = "Bindgen.Runtime.g.cs",
             Contents = code
         };
 
