@@ -73,9 +73,9 @@ public static class Startup
         services.AddSingleton(new CommandLineArgumentsProvider(args ?? Environment.GetCommandLineArgs()));
         services.AddSingleton<IFileSystem, FileSystem>();
         services.AddHostedService<CommandLineHost>();
-        services.AddSingleton<RootCommand, CommandLineInterface>();
+        services.AddSingleton<System.CommandLine.RootCommand, RootCommand>();
 
-        Commands.WriteCodeCSharp.Startup.ConfigureServices(services);
-        Commands.BuildCLibrary.Startup.ConfigureServices(services);
+        WriteCodeCSharp.Startup.ConfigureServices(services);
+        BuildCLibrary.Startup.ConfigureServices(services);
     }
 }

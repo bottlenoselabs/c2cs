@@ -4,7 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "production", "production", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{65B41709-3C9F-4556-83C8-A4380AC14E56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Tests", "tests\C2CS.Tests\C2CS.Tests.csproj", "{1BE51A85-A187-46CC-A307-04A66316CD55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c2cs.Tests", "tests\c2cs.Tests\c2cs.Tests.csproj", "{1BE51A85-A187-46CC-A307-04A66316CD55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{5657F8E9-D2C6-48EA-9556-1A358B2AE333}"
 EndProject
@@ -12,9 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helloworld", "helloworld", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-bindgen", "examples\helloworld\helloworld-bindgen\helloworld-bindgen.csproj", "{841E561C-B3BB-499B-AEB3-0874ACDDB2BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2CS.Tool", "production\C2CS.Tool\C2CS.Tool.csproj", "{1B67F4A2-24E6-43A6-A031-918DD44CD991}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c2cs.Tool", "production\c2cs.Tool\c2cs.Tool.csproj", "{1B67F4A2-24E6-43A6-A031-918DD44CD991}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bindgen.Runtime", "production\Bindgen.Runtime\Bindgen.Runtime.csproj", "{DB492E65-25D9-44A0-86F4-ABB07283BEE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c2cs.Interop.Runtime", "production\c2cs.Interop.Runtime\c2cs.Interop.Runtime.csproj", "{DB492E65-25D9-44A0-86F4-ABB07283BEE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-app", "examples\helloworld\helloworld-app\helloworld-app.csproj", "{EA3E3362-32A5-4395-BF56-39BDBE2B7CC9}"
 EndProject

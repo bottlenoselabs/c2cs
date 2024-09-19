@@ -3,7 +3,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Bindgen.Runtime;
+using bottlenoselabs.c2cs.Interop.Runtime;
 using static my_c_library;
 
 internal static class Program

@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="bottlenoselabs.Common.Tools" Version="*">
+    <PackageReference Include="bottlenoselabs.MSBuild.Extensions" Version="*">
      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    
+
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

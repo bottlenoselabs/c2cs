@@ -7,7 +7,7 @@ public static unsafe partial class my_c_library
 public static unsafe partial class my_c_library
 {
     [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_invoke_callback", ExactSpelling = true)]
-    public static extern partial void hw_invoke_callback(global::my_c_library.FnPtr_CString_Void f, global::Bindgen.Runtime.CString s);
+    public static extern partial void hw_invoke_callback(global::my_c_library.FnPtr_CString_Void f, global::bottlenoselabs.c2cs.Interop.Runtime.CString s);
 }
 public static unsafe partial class my_c_library
 {
@@ -27,5 +27,5 @@ public static unsafe partial class my_c_library
 public static unsafe partial class my_c_library
 {
     [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_string", ExactSpelling = true)]
-    public static extern partial void hw_pass_string(global::Bindgen.Runtime.CString s);
+    public static extern partial void hw_pass_string(global::bottlenoselabs.c2cs.Interop.Runtime.CString s);
 }

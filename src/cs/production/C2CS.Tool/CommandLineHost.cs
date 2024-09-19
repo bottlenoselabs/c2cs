@@ -7,18 +7,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
-namespace C2CS.Foundation;
+namespace C2CS;
 
 internal sealed class CommandLineHost : IHostedService
 {
     private readonly IHostApplicationLifetime _applicationLifetime;
     private readonly string[] _commandLineArguments;
-    private readonly RootCommand _rootCommand;
+    private readonly System.CommandLine.RootCommand _rootCommand;
 
     public CommandLineHost(
         IHostApplicationLifetime applicationLifetime,
         CommandLineArgumentsProvider commandLineArgumentsProvider,
-        RootCommand command)
+        System.CommandLine.RootCommand command)
     {
         _applicationLifetime = applicationLifetime;
         _commandLineArguments = commandLineArgumentsProvider.CommandLineArguments;

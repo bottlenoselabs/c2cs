@@ -18,7 +18,7 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\production\C2CS.Tool\C2CS.Tool.csproj" />
+	  <ProjectReference Include="..\..\..\production\c2cs.Tool\c2cs.Tool.csproj" />
 	</ItemGroup>
 
 </Project>
