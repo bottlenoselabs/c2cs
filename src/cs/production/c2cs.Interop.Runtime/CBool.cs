@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace bottlenoselabs.c2cs.Interop.Runtime;
+namespace Interop.Runtime;
 
 /// <summary>
 ///     A boolean value type with the same memory layout as a <see cref="byte" /> in both managed and unmanaged contexts;

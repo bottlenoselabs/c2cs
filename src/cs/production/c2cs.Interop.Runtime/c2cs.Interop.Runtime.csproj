@@ -6,7 +6,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Nullable>disable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<RootNamespace>bottlenoselabs.c2cs.Interop.Runtime</RootNamespace>
+		<RootNamespace>Interop.Runtime</RootNamespace>
 	</PropertyGroup>
 
 	<!-- NuGet -->

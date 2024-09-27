@@ -20,6 +20,7 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=data_005Cc/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=foundation_005Cdiagnostics/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=foundation/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=generatecsharpcode_005Cnodecodegenerators/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=usecases_005Cabstractsyntaxtreec_005Cc/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=usecases_005Cabstractsyntaxtreec_005Cdata/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=usecases_005Cabstractsyntaxtreec_005Cdiagnostics/@EntryIndexedValue">True</s:Boolean>

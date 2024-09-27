@@ -161,7 +161,7 @@ public partial class CMakeLibraryBuilder
         return true;
     }
 
-    [LoggerMessage(0, LogLevel.Information, "- CMake generating build files. Command: {Command}")]
+    [LoggerMessage(0, LogLevel.Information, "- CMake generating build files. Command:\n{Command}")]
     private partial void LogCMakeGeneratingBuildFiles(string command);
 
     [LoggerMessage(1, LogLevel.Error, "- Output: \n{Output}\nGenerating CMake build files failed.")]
@@ -170,7 +170,7 @@ public partial class CMakeLibraryBuilder
     [LoggerMessage(2, LogLevel.Information, "- Output: \n{Output}\nGenerating CMake build files success.")]
     private partial void LogCMakeGeneratingBuildFilesSuccess(string output);
 
-    [LoggerMessage(3, LogLevel.Information, "- CMake building shared library. Command: {Command}")]
+    [LoggerMessage(3, LogLevel.Information, "- CMake building shared library. Command:\n{Command}")]
     private partial void LogCMakeBuildingLibrary(string command);
 
     [LoggerMessage(4, LogLevel.Error, "- Output: \n{Output}\nCMake building shared library failed.")]

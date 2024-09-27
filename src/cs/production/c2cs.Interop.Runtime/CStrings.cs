@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace bottlenoselabs.c2cs.Interop.Runtime;
+namespace Interop.Runtime;
 
 /// <summary>
 ///     Utility methods for interoperability with C style strings in C#.

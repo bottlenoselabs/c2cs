@@ -16,8 +16,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using InputSanitized = C2CS.BuildCLibrary.InputSanitized;
-using Output = C2CS.WriteCodeCSharp.Output;
-using Tool = C2CS.WriteCodeCSharp.Tool;
+using Output = C2CS.GenerateCSharpCode.Output;
+using Tool = C2CS.GenerateCSharpCode.Tool;
 
 namespace C2CS.Tests;
 
@@ -81,21 +81,21 @@ public abstract class WriteCSharpCodeTest
         Output output)
     {
         var codeFilePath =
-            _fileSystem.Path.Combine(output.OutputFileDirectory, $"{output.Input.GeneratorOptions.ClassName}.g.cs");
+            _fileSystem.Path.Combine(output.OutputFileDirectory, $"{output.Input.ClassName}.g.cs");
         var code = _fileSystem.File.ReadAllText(codeFilePath);
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
         var compilationUnitSyntax = syntaxTree.GetCompilationUnitRoot();
-        var generatorOptions = output.Input.GeneratorOptions;
+        var input = output.Input;
 
         Assert.True(compilationUnitSyntax.Members.Count == 1);
         var @namespace = compilationUnitSyntax.Members[0] as BaseNamespaceDeclarationSyntax;
         Assert.True(@namespace != null);
-        Assert.True(@namespace!.Name.ToString() == generatorOptions.NamespaceName);
+        Assert.True(@namespace!.Name.ToString() == input.NamespaceName);
 
         Assert.True(@namespace.Members.Count == 1);
         var @class = @namespace.Members[0] as ClassDeclarationSyntax;
         Assert.True(@class != null);
-        Assert.True(@class!.Identifier.ToString() == generatorOptions.ClassName);
+        Assert.True(@class!.Identifier.ToString() == input.ClassName);
 
         var functionsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestFunction>();
         var enumsByNameBuilder = ImmutableDictionary.CreateBuilder<string, CSharpTestEnum>();

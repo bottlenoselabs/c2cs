@@ -54,6 +54,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Functions\" />
+	  <Folder Include="Generated\" />
 	</ItemGroup>
 
 </Project>

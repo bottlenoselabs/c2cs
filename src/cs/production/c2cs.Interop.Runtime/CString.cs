@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace bottlenoselabs.c2cs.Interop.Runtime;
+namespace Interop.Runtime;
 
 /// <summary>
 ///     A pointer value type of bytes that represent a string; the C type `char*`.

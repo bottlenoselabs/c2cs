@@ -7,10 +7,10 @@ internal sealed class RootCommand : System.CommandLine.RootCommand
 {
     public RootCommand(
         BuildCLibrary.Command buildCLibraryCommand,
-        WriteCodeCSharp.Command writeCodeCSharpCommand)
+        GenerateCSharpCode.Command generateCSharpCodeCommand)
         : base("C2CS - C to C# bindings code generator.")
     {
         AddCommand(buildCLibraryCommand);
-        AddCommand(writeCodeCSharpCommand);
+        AddCommand(generateCSharpCodeCommand);
     }
 }

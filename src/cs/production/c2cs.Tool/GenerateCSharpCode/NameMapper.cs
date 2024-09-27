@@ -1,0 +1,298 @@
+// Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using c2ffi.Data;
+using c2ffi.Data.Nodes;
+
+namespace C2CS.GenerateCSharpCode;
+
+public sealed class NameMapper
+{
+    private readonly Dictionary<string, string> _cSharpNamesByCNames = [];
+
+    private static readonly char[] IdentifierSeparatorCharacters = ['_', '.', '@'];
+
+    public NameMapper()
+    {
+        // C types -> C# Interop.Runtime types
+        _cSharpNamesByCNames.Add("char", "CChar");
+        _cSharpNamesByCNames.Add("bool", "CBool");
+        _cSharpNamesByCNames.Add("_Bool", "CBool");
+        _cSharpNamesByCNames.Add("char*", "CString");
+        _cSharpNamesByCNames.Add("wchar_t*", "CWideString");
+
+        // C types -> C# native CLR types
+        _cSharpNamesByCNames.Add("int8_t", "sbyte");
+        _cSharpNamesByCNames.Add("uint8_t", "byte");
+        _cSharpNamesByCNames.Add("int16_t", "short");
+        _cSharpNamesByCNames.Add("uint16_t", "ushort");
+        _cSharpNamesByCNames.Add("int32_t", "int");
+        _cSharpNamesByCNames.Add("uint32_t", "uint");
+        _cSharpNamesByCNames.Add("int64_t", "long");
+        _cSharpNamesByCNames.Add("uint64_t", "ulong");
+        _cSharpNamesByCNames.Add("intptr_t", "IntPtr");
+        _cSharpNamesByCNames.Add("uintptr_t", "UIntPtr");
+
+        // C types -> C# opaque pointers
+        _cSharpNamesByCNames.Add("FILE*", "IntPtr");
+        _cSharpNamesByCNames.Add("DIR*", "IntPtr");
+        _cSharpNamesByCNames.Add("va_list", "IntPtr");
+    }
+
+    public string GetNodeNameCSharp(CNode nodeC)
+    {
+        var nameC = SanitizeNameC(nodeC.Name);
+        if (_cSharpNamesByCNames.TryGetValue(nameC, out var nameCSharp))
+        {
+            return nameCSharp;
+        }
+
+        if (nodeC is CFunction or CEnum or CTypeAlias)
+        {
+            nameCSharp = nameC;
+        }
+        else if (nodeC is CFunctionPointer functionPointerC)
+        {
+            nameCSharp = GetFunctionPointerNameCSharp(functionPointerC);
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
+
+        _cSharpNamesByCNames.Add(nameC, nameCSharp);
+        return nameCSharp;
+    }
+
+    public string GetTypeNameCSharp(CType type, int? sizeOf = null)
+    {
+        var nameC = SanitizeNameC(type.Name);
+        if (_cSharpNamesByCNames.TryGetValue(nameC, out var typeNameCSharp))
+        {
+            return typeNameCSharp;
+        }
+
+        if (type.NodeKind is CNodeKind.Pointer or CNodeKind.Array)
+        {
+            typeNameCSharp = GetTypeNameCSharpPointerOrArray(nameC, type.InnerType);
+        }
+        else if (type.NodeKind is CNodeKind.FunctionPointer)
+        {
+            throw new NotImplementedException();
+        }
+        else
+        {
+            var forceUnsigned = type.NodeKind == CNodeKind.EnumValue;
+            typeNameCSharp = GetTypeNameCSharpRaw(nameC, type.SizeOf ?? 0, forceUnsigned);
+        }
+
+        _cSharpNamesByCNames.Add(nameC, typeNameCSharp);
+        return typeNameCSharp;
+    }
+
+    private string GetFunctionPointerNameCSharp(CFunctionPointer functionPointer)
+    {
+        var functionPointerNameCSharp = $"FnPtr_{ParameterStringsCSharp()}_{ReturnTypeNameCSharp()}"
+            .Replace("__", "_", StringComparison.InvariantCulture)
+            .Replace(".", string.Empty, StringComparison.InvariantCulture);
+        return functionPointerNameCSharp;
+
+        string ReturnTypeNameCSharp()
+        {
+            var typeC = functionPointer.ReturnType;
+            var typeNameCSharp = GetTypeNameCSharp(typeC)
+                .Replace("*", "Ptr", StringComparison.InvariantCulture);
+            var typeNameCSharpParts = typeNameCSharp.Split(IdentifierSeparatorCharacters, StringSplitOptions.RemoveEmptyEntries);
+            var typeNameCSharpPartsCapitalized = typeNameCSharpParts.Select(x =>
+                char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..]);
+            var result = string.Join(string.Empty, typeNameCSharpPartsCapitalized);
+            return result;
+        }
+
+        string ParameterStringsCSharp()
+        {
+            var parameterStringsCSharp = new List<string>();
+            foreach (var parameter in functionPointer.Parameters)
+            {
+                var typeC = parameter.Type;
+                var typeNameCSharp = GetTypeNameCSharp(typeC).Replace("*", "Ptr", StringComparison.InvariantCulture);
+                var typeNameCSharpParts = typeNameCSharp.Split(IdentifierSeparatorCharacters, StringSplitOptions.RemoveEmptyEntries);
+
+                var typeNameCSharpPartsCapitalized = typeNameCSharpParts.Select(x =>
+                    char.ToUpper(x[0], CultureInfo.InvariantCulture) + x[1..]);
+                var typeNameParameter = string.Join(string.Empty, typeNameCSharpPartsCapitalized);
+                parameterStringsCSharp.Add(typeNameParameter);
+            }
+
+            var result = string.Join('_', parameterStringsCSharp);
+            return result;
+        }
+    }
+
+    private string GetTypeNameCSharpPointerOrArray(string typeName, CType? innerType)
+    {
+        var pointerTypeName = typeName;
+
+        // Replace [] with *
+        while (true)
+        {
+            var x = pointerTypeName.IndexOf('[', StringComparison.InvariantCulture);
+
+            if (x == -1)
+            {
+                break;
+            }
+
+            var y = pointerTypeName.IndexOf(']', x);
+
+            pointerTypeName = pointerTypeName[..x] + "*" + pointerTypeName[(y + 1)..];
+        }
+
+        var elementTypeName = pointerTypeName.TrimEnd('*').TrimEnd();
+        var pointersTypeName = pointerTypeName[elementTypeName.Length..]
+            .Replace(" ", string.Empty, StringComparison.InvariantCulture);
+        if (elementTypeName.Length == 0)
+        {
+            return "void" + pointersTypeName;
+        }
+
+        if (innerType == null)
+        {
+            return "void*";
+        }
+
+        var mappedElementTypeName = GetTypeNameCSharp(innerType);
+        var result = mappedElementTypeName + pointersTypeName;
+        return result;
+    }
+
+    private string GetTypeNameCSharpRaw(
+        string typeName,
+        int? sizeOf = null,
+        bool forceUnsignedInteger = false)
+    {
+        // if (_userTypeNameAliases.TryGetValue(typeName, out var aliasName))
+        // {
+        //     return aliasName;
+        // }
+        //
+        // if (_options.SystemTypeAliases.TryGetValue(typeName, out var mappedSystemTypeName))
+        // {
+        //     return mappedSystemTypeName;
+        // }
+
+        switch (typeName)
+        {
+            case "unsigned char":
+            case "unsigned short":
+            case "unsigned short int":
+            case "unsigned":
+            case "unsigned int":
+            case "unsigned long":
+            case "unsigned long int":
+            case "unsigned long long":
+            case "unsigned long long int":
+            case "size_t":
+                return TypeNameMapUnsignedInteger(sizeOf!.Value);
+
+            case "signed char":
+            case "short":
+            case "short int":
+            case "signed short":
+            case "signed short int":
+            case "int":
+            case "signed":
+            case "signed int":
+            case "long":
+            case "long int":
+            case "signed long":
+            case "signed long int":
+            case "long long":
+            case "long long int":
+            case "signed long long int":
+            case "ssize_t":
+                if (forceUnsignedInteger)
+                {
+                    return TypeNameMapUnsignedInteger(sizeOf!.Value);
+                }
+
+                return TypeNameMapSignedInteger(sizeOf!.Value);
+
+            case "float":
+            case "double":
+            case "long double":
+                return TypeNameMapFloatingPoint(sizeOf!.Value);
+
+            default:
+                return typeName;
+        }
+    }
+
+    private static string TypeNameMapUnsignedInteger(int sizeOf)
+    {
+        return sizeOf switch
+        {
+            1 => "byte",
+            2 => "ushort",
+            4 => "uint",
+            8 => "ulong",
+            _ => throw new InvalidOperationException()
+        };
+    }
+
+    private static string TypeNameMapSignedInteger(int sizeOf)
+    {
+        return sizeOf switch
+        {
+            1 => "sbyte",
+            2 => "short",
+            4 => "int",
+            8 => "long",
+            _ => throw new InvalidOperationException()
+        };
+    }
+
+    private string TypeNameMapFloatingPoint(int sizeOf)
+    {
+        return sizeOf switch
+        {
+            4 => "float",
+            8 => "double",
+            16 => "decimal",
+            _ => throw new InvalidOperationException()
+        };
+    }
+
+    private static string SanitizeNameC(string nameC)
+    {
+        var result = nameC;
+
+        if (result.Contains("const ", StringComparison.InvariantCultureIgnoreCase))
+        {
+            result = result.Replace("const ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        if (result.Contains("enum ", StringComparison.InvariantCultureIgnoreCase))
+        {
+            result = result.Replace("enum ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        if (result.Contains("struct ", StringComparison.InvariantCultureIgnoreCase))
+        {
+            result = result.Replace("struct ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        if (result.Contains("union ", StringComparison.InvariantCultureIgnoreCase))
+        {
+            result = result.Replace("union ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        result = result.Replace(" ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
+
+        return result;
+    }
+}

@@ -5,7 +5,7 @@ using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace bottlenoselabs.c2cs.Interop.Runtime;
+namespace Interop.Runtime;
 
 /// <summary>
 ///     A value type with the same memory layout as a <see cref="byte" /> in a managed context and <c>char</c> in
