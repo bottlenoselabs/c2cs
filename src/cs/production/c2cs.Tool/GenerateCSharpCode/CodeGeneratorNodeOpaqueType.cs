@@ -10,15 +10,10 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeOpaqueType : CodeGeneratorNodeBase<COpaqueType>
+public class CodeGeneratorNodeOpaqueType(
+    ILogger<CodeGeneratorNodeOpaqueType> logger,
+    NameMapper nameMapper) : CodeGeneratorNodeBase<COpaqueType>(logger, nameMapper)
 {
-    public CodeGeneratorNodeOpaqueType(
-        ILogger<CodeGeneratorNodeOpaqueType> logger,
-        NameMapper nameMapper)
-        : base(logger, nameMapper)
-    {
-    }
-
     protected override SyntaxNode GenerateCode(
         string nameCSharp, CodeGeneratorDocumentPInvokeContext context, COpaqueType node)
     {

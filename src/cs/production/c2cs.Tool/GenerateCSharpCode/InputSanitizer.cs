@@ -9,15 +9,8 @@ using NuGet.Frameworks;
 
 namespace C2CS.GenerateCSharpCode;
 
-public sealed class InputSanitizer : ToolInputSanitizer<InputUnsanitized, InputSanitized>
+public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<InputUnsanitized, InputSanitized>
 {
-    private readonly IFileSystem _fileSystem;
-
-    public InputSanitizer(IFileSystem fileSystem)
-    {
-        _fileSystem = fileSystem;
-    }
-
     public override InputSanitized Sanitize(InputUnsanitized unsanitizedInput)
     {
         var inputFilePath = InputFilePath(unsanitizedInput.InputCrossPlatformFfiFilePath);
@@ -53,9 +46,9 @@ public sealed class InputSanitizer : ToolInputSanitizer<InputUnsanitized, InputS
                 "The FFI input file path can not be an empty or a null string.");
         }
 
-        var fullFilePath = _fileSystem.Path.GetFullPath(filePath);
+        var fullFilePath = fileSystem.Path.GetFullPath(filePath);
 
-        if (!_fileSystem.File.Exists(fullFilePath))
+        if (!fileSystem.File.Exists(fullFilePath))
         {
             throw new ToolInputSanitizationException(
                 $"The cross-platform abstract syntax tree input file path '{fullFilePath}' does not exist.");
@@ -71,11 +64,11 @@ public sealed class InputSanitizer : ToolInputSanitizer<InputUnsanitized, InputS
             outputFileDirectory = Environment.CurrentDirectory;
         }
 
-        var fullDirectoryPath = _fileSystem.Path.GetFullPath(outputFileDirectory);
+        var fullDirectoryPath = fileSystem.Path.GetFullPath(outputFileDirectory);
 
         if (!string.IsNullOrEmpty(fullDirectoryPath))
         {
-            _fileSystem.Directory.CreateDirectory(fullDirectoryPath);
+            _ = fileSystem.Directory.CreateDirectory(fullDirectoryPath);
         }
 
         return fullDirectoryPath;

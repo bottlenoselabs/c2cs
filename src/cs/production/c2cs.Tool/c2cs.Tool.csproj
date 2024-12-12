@@ -2,13 +2,12 @@
 
 	<!-- MSBuild project settings -->
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<OutputType>Exe</OutputType>
 		<Nullable>enable</Nullable>
 		<RootNamespace>C2CS</RootNamespace>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-		<NoWarn>$(NoWarn);CA1724;CA1806;CA1812;CA1308</NoWarn>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
@@ -28,14 +27,14 @@
 	<!-- NuGet package references -->
 	<ItemGroup>
 		<PackageReference Include="bottlenoselabs.Common" Version="2024.4.11" />
-		<PackageReference Include="bottlenoselabs.c2ffi.data" Version="2024.4.10" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-		<PackageReference Include="NuGet.Frameworks" Version="6.9.1" />
+		<PackageReference Include="bottlenoselabs.c2ffi.data" Version="2024.12.12" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+		<PackageReference Include="NuGet.Frameworks" Version="6.12.1" />
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
 	</ItemGroup>
 

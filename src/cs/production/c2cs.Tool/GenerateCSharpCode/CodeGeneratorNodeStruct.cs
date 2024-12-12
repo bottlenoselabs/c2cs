@@ -11,17 +11,10 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeStruct : CodeGeneratorNodeBase<CRecord>
+public class CodeGeneratorNodeStruct(
+    ILogger<CodeGeneratorNodeStruct> logger,
+    NameMapper nameMapper) : CodeGeneratorNodeBase<CRecord>(logger, nameMapper)
 {
-    // private readonly Version _spanNetCoreRequiredVersion = new("2.1");
-
-    public CodeGeneratorNodeStruct(
-        ILogger<CodeGeneratorNodeStruct> logger,
-        NameMapper nameMapper)
-        : base(logger, nameMapper)
-    {
-    }
-
     protected override SyntaxNode GenerateCode(string nameCSharp, CodeGeneratorDocumentPInvokeContext context, CRecord node)
     {
         return Struct(context, node, false);

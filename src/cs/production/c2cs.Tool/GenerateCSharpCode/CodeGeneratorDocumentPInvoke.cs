@@ -81,7 +81,7 @@ public sealed class CodeGeneratorDocumentPInvoke
         var rootClassDeclarationWithMembers = rootClassDeclaration;
 
         var members = GenerateClassMembers(context, ffi);
-        rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.AddMembers(members.ToArray());
+        rootClassDeclarationWithMembers = rootClassDeclarationWithMembers.AddMembers([.. members]);
 
         var newCompilationUnit = compilationUnit.ReplaceNode(
             rootClassDeclaration,

@@ -11,21 +11,13 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
-public sealed class Tool : Tool<InputUnsanitized, InputSanitized, Output>
+public sealed class Tool(
+    ILogger<Tool> logger,
+    InputSanitizer inputSanitizer,
+    IServiceProvider services,
+    IFileSystem fileSystem) : Tool<InputUnsanitized, InputSanitized, Output>(logger, inputSanitizer, fileSystem)
 {
-    private readonly IServiceProvider _services;
-    private readonly IFileSystem _fileSystem;
-
-    public Tool(
-        ILogger<Tool> logger,
-        InputSanitizer inputSanitizer,
-        IServiceProvider services,
-        IFileSystem fileSystem)
-        : base(logger, inputSanitizer, fileSystem)
-    {
-        _services = services;
-        _fileSystem = fileSystem;
-    }
+    private readonly IFileSystem _fileSystem = fileSystem;
 
     public new Output Run(string configurationFilePath)
     {
@@ -56,7 +48,7 @@ public sealed class Tool : Tool<InputUnsanitized, InputSanitized, Output>
     {
         BeginStep("Generate C# code");
 
-        var codeGenerator = new CodeGenerator(_services, input);
+        var codeGenerator = new CodeGenerator(services, input);
         var project = codeGenerator.GenerateCodeProject(ffi, Diagnostics);
 
         EndStep();

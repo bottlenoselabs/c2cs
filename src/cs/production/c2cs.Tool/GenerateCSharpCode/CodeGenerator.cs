@@ -9,31 +9,21 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace C2CS.GenerateCSharpCode;
 
-public sealed class CodeGenerator
+public sealed class CodeGenerator(
+    IServiceProvider services,
+    InputSanitized input)
 {
-    private readonly InputSanitized _input;
-
-    private readonly CodeGeneratorDocumentPInvoke _codeGeneratorDocumentPInvoke;
-    private readonly CodeGeneratorDocumentAssemblyAttributes _codeGeneratorDocumentAssemblyAttributes;
-    private readonly CodeGeneratorDocumentInteropRuntime _codeGeneratorDocumentInteropRuntime;
-
-    public CodeGenerator(
-        IServiceProvider services,
-        InputSanitized input)
-    {
-        _input = input;
-
-        _codeGeneratorDocumentPInvoke = services.GetRequiredService<CodeGeneratorDocumentPInvoke>();
-        _codeGeneratorDocumentAssemblyAttributes =
+    private readonly CodeGeneratorDocumentPInvoke _codeGeneratorDocumentPInvoke = services.GetRequiredService<CodeGeneratorDocumentPInvoke>();
+    private readonly CodeGeneratorDocumentAssemblyAttributes _codeGeneratorDocumentAssemblyAttributes =
             services.GetRequiredService<CodeGeneratorDocumentAssemblyAttributes>();
-        _codeGeneratorDocumentInteropRuntime = services.GetRequiredService<CodeGeneratorDocumentInteropRuntime>();
-    }
+
+    private readonly CodeGeneratorDocumentInteropRuntime _codeGeneratorDocumentInteropRuntime = services.GetRequiredService<CodeGeneratorDocumentInteropRuntime>();
 
     public CodeProject GenerateCodeProject(CFfiCrossPlatform ffi, DiagnosticsSink diagnostics)
     {
         try
         {
-            var options = new CodeGeneratorDocumentOptions(_input);
+            var options = new CodeGeneratorDocumentOptions(input);
             var documents = ImmutableArray.CreateBuilder<CodeProjectDocument>();
 
             AddDocumentPInvoke(options, documents, ffi);
@@ -59,7 +49,7 @@ public sealed class CodeGenerator
         ImmutableArray<CodeProjectDocument>.Builder documents,
         CFfiCrossPlatform ffi)
     {
-        var context = new CodeGeneratorDocumentPInvokeContext(_input);
+        var context = new CodeGeneratorDocumentPInvokeContext(input);
         var documentPInvoke = _codeGeneratorDocumentPInvoke.Generate(options, context, ffi);
         documents.Add(documentPInvoke);
     }
@@ -68,7 +58,7 @@ public sealed class CodeGenerator
         CodeGeneratorDocumentOptions options,
         ImmutableArray<CodeProjectDocument>.Builder documents)
     {
-        if (!_input.IsEnabledGenerateCSharpRuntimeCode)
+        if (!input.IsEnabledGenerateCSharpRuntimeCode)
         {
             return;
         }

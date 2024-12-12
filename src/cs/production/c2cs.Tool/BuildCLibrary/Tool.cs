@@ -9,21 +9,13 @@ using CMakeLibraryBuilder = C2CS.BuildCLibrary.CMakeLibraryBuilder;
 
 namespace C2CS.BuildCLibrary;
 
-public class Tool : Tool<InputUnsanitized, InputSanitized, Output>
+public class Tool(
+    ILogger<Tool> logger,
+    InputSanitizer inputSanitizer,
+    IFileSystem fileSystem,
+    CMakeLibraryBuilder cMakeLibraryBuilder) : Tool<InputUnsanitized, InputSanitized, Output>(logger, inputSanitizer, fileSystem)
 {
-    private readonly CMakeLibraryBuilder _cMakeLibraryBuilder;
-
     public ImmutableArray<string> AdditionalCMakeArguments { get; set; } = ImmutableArray<string>.Empty;
-
-    public Tool(
-        ILogger<Tool> logger,
-        InputSanitizer inputSanitizer,
-        IFileSystem fileSystem,
-        CMakeLibraryBuilder cMakeLibraryBuilder)
-        : base(logger, inputSanitizer, fileSystem)
-    {
-        _cMakeLibraryBuilder = cMakeLibraryBuilder;
-    }
 
     public new Output Run(string configurationFilePath)
     {
@@ -36,7 +28,7 @@ public class Tool : Tool<InputUnsanitized, InputSanitized, Output>
     {
         BeginStep("Building C library");
 
-        _cMakeLibraryBuilder.BuildLibrary(input, AdditionalCMakeArguments);
+        _ = cMakeLibraryBuilder.BuildLibrary(input, AdditionalCMakeArguments);
 
         EndStep();
     }

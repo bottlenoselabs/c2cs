@@ -9,17 +9,11 @@ using bottlenoselabs.Common.Tools;
 
 namespace C2CS.BuildCLibrary;
 
-public class InputSanitizer : ToolInputSanitizer<InputUnsanitized, InputSanitized>
+public class InputSanitizer(
+    IFileSystem fileSystem) : ToolInputSanitizer<InputUnsanitized, InputSanitized>
 {
-    private readonly IPath _path;
-    private readonly IDirectory _directory;
-
-    public InputSanitizer(
-        IFileSystem fileSystem)
-    {
-        _path = fileSystem.Path;
-        _directory = fileSystem.Directory;
-    }
+    private readonly IPath _path = fileSystem.Path;
+    private readonly IDirectory _directory = fileSystem.Directory;
 
     public override InputSanitized Sanitize(InputUnsanitized unsanitizedInput)
     {
@@ -57,7 +51,7 @@ public class InputSanitizer : ToolInputSanitizer<InputUnsanitized, InputSanitize
         var outputDirectoryPath = _path.GetFullPath(unsanitizedInput.OutputDirectoryPath ?? Environment.CurrentDirectory);
         if (!_directory.Exists(outputDirectoryPath))
         {
-            _directory.CreateDirectory(outputDirectoryPath);
+            _ = _directory.CreateDirectory(outputDirectoryPath);
         }
 
         return outputDirectoryPath;

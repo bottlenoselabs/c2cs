@@ -9,25 +9,16 @@ using Microsoft.Extensions.Hosting;
 
 namespace C2CS;
 
-internal sealed class CommandLineHost : IHostedService
+internal sealed class CommandLineHost(
+    IHostApplicationLifetime applicationLifetime,
+    CommandLineArgumentsProvider commandLineArgumentsProvider,
+    System.CommandLine.RootCommand command) : IHostedService
 {
-    private readonly IHostApplicationLifetime _applicationLifetime;
-    private readonly string[] _commandLineArguments;
-    private readonly System.CommandLine.RootCommand _rootCommand;
-
-    public CommandLineHost(
-        IHostApplicationLifetime applicationLifetime,
-        CommandLineArgumentsProvider commandLineArgumentsProvider,
-        System.CommandLine.RootCommand command)
-    {
-        _applicationLifetime = applicationLifetime;
-        _commandLineArguments = commandLineArgumentsProvider.CommandLineArguments;
-        _rootCommand = command;
-    }
+    private readonly string[] _commandLineArguments = commandLineArgumentsProvider.CommandLineArguments;
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _applicationLifetime.ApplicationStarted.Register(() => Task.Run(Main, cancellationToken));
+        _ = applicationLifetime.ApplicationStarted.Register(() => Task.Run(Main, cancellationToken));
         return Task.CompletedTask;
     }
 
@@ -38,7 +29,7 @@ internal sealed class CommandLineHost : IHostedService
 
     private void Main()
     {
-        Environment.ExitCode = _rootCommand.Invoke(_commandLineArguments);
-        _applicationLifetime.StopApplication();
+        Environment.ExitCode = command.Invoke(_commandLineArguments);
+        applicationLifetime.StopApplication();
     }
 }

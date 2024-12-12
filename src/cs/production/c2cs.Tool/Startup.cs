@@ -3,11 +3,9 @@
 
 using System;
 using System.Collections.Immutable;
-using System.CommandLine;
 using System.IO;
 using System.IO.Abstractions;
 using System.Reflection;
-using C2CS.Foundation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,33 +45,33 @@ public static class Startup
         var filePath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
         if (File.Exists(filePath))
         {
-            builder.AddJsonFile(filePath);
+            _ = builder.AddJsonFile(filePath);
         }
         else
         {
             var jsonStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("C2CS.appsettings.json")!;
-            builder.AddJsonStream(jsonStream);
+            _ = builder.AddJsonStream(jsonStream);
         }
 
         foreach (var originalSource in sources)
         {
-            builder.Add(originalSource);
+            _ = builder.Add(originalSource);
         }
     }
 
     private static void ConfigureLogging(HostBuilderContext context, ILoggingBuilder builder)
     {
-        builder.ClearProviders();
-        builder.AddSimpleConsole();
-        builder.AddConfiguration(context.Configuration.GetSection("Logging"));
+        _ = builder.ClearProviders();
+        _ = builder.AddSimpleConsole();
+        _ = builder.AddConfiguration(context.Configuration.GetSection("Logging"));
     }
 
     private static void ConfigureServices(IServiceCollection services, string[]? args)
     {
-        services.AddSingleton(new CommandLineArgumentsProvider(args ?? Environment.GetCommandLineArgs()));
-        services.AddSingleton<IFileSystem, FileSystem>();
-        services.AddHostedService<CommandLineHost>();
-        services.AddSingleton<System.CommandLine.RootCommand, RootCommand>();
+        _ = services.AddSingleton(new CommandLineArgumentsProvider(args ?? Environment.GetCommandLineArgs()));
+        _ = services.AddSingleton<IFileSystem, FileSystem>();
+        _ = services.AddHostedService<CommandLineHost>();
+        _ = services.AddSingleton<System.CommandLine.RootCommand, RootCommand>();
 
         GenerateCSharpCode.Startup.ConfigureServices(services);
         BuildCLibrary.Startup.ConfigureServices(services);

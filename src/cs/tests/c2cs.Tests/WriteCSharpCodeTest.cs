@@ -162,6 +162,9 @@ public abstract class WriteCSharpCodeTest
                 macroObjectsByNameBuilder.Add(fieldName, value);
                 break;
             }
+
+            default:
+                throw new NotImplementedException();
         }
     }
 
@@ -289,16 +292,7 @@ public abstract class WriteCSharpCodeTest
         var name = variableSyntaxNode.Variables[0].Identifier.Text;
         var typeName = variableSyntaxNode.Type.ToString();
 
-        int? offsetOf;
-        if (structLayout.LayoutKind == "LayoutKind.Explicit")
-        {
-            offsetOf = FieldOffsetOf(name, syntaxNode);
-        }
-        else
-        {
-            offsetOf = null;
-        }
-
+        var offsetOf = structLayout.LayoutKind == "LayoutKind.Explicit" ? FieldOffsetOf(name, syntaxNode) : null;
         var result = new CSharpTestStructField
         {
             Name = name,

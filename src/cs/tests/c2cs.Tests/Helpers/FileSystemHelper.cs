@@ -9,36 +9,17 @@ using SearchOption = System.IO.SearchOption;
 namespace C2CS.Tests.Helpers;
 
 [ExcludeFromCodeCoverage]
-public class FileSystemHelper
+public class FileSystemHelper(IFileSystem fileSystem)
 {
-    private readonly IFileSystem _fileSystem;
     private string? _gitRepositoryRootDirectoryPath;
 
     public string GitRepositoryRootDirectoryPath => _gitRepositoryRootDirectoryPath ??= FindGitRepositoryRootDirectoryPath();
 
-    public FileSystemHelper(IFileSystem fileSystem)
-    {
-        _fileSystem = fileSystem;
-    }
-
-    public string GetFullFilePath(string relativeFilePath)
-    {
-        var rootDirectoryPath = GitRepositoryRootDirectoryPath;
-        var filePath = _fileSystem.Path.Combine(rootDirectoryPath, relativeFilePath);
-
-        if (!_fileSystem.File.Exists(filePath))
-        {
-            throw new InvalidOperationException($"Could not find file path: {filePath}");
-        }
-
-        return filePath;
-    }
-
     public string GetFullDirectoryPath(string relativeDirectoryPath)
     {
         var rootDirectoryPath = GitRepositoryRootDirectoryPath;
-        var directoryPath = _fileSystem.Path.Combine(rootDirectoryPath, relativeDirectoryPath);
-        if (!_fileSystem.Directory.Exists(directoryPath))
+        var directoryPath = fileSystem.Path.Combine(rootDirectoryPath, relativeDirectoryPath);
+        if (!fileSystem.Directory.Exists(directoryPath))
         {
             throw new InvalidOperationException($"Could not find directory path: {relativeDirectoryPath}");
         }
@@ -49,7 +30,7 @@ public class FileSystemHelper
     private string FindGitRepositoryRootDirectoryPath()
     {
         var baseDirectory = AppContext.BaseDirectory;
-        var directoryInfo = _fileSystem.DirectoryInfo.New(baseDirectory);
+        var directoryInfo = fileSystem.DirectoryInfo.New(baseDirectory);
         while (true)
         {
             var files = directoryInfo.GetFiles(".gitignore", SearchOption.TopDirectoryOnly);

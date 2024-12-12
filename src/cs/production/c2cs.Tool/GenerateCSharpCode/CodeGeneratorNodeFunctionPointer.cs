@@ -12,36 +12,19 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public sealed class CodeGeneratorNodeFunctionPointer : CodeGeneratorNodeBase<CFunctionPointer>
+public sealed class CodeGeneratorNodeFunctionPointer(
+    ILogger<CodeGeneratorNodeFunctionPointer> logger,
+    NameMapper nameMapper) : CodeGeneratorNodeBase<CFunctionPointer>(logger, nameMapper)
 {
-    public CodeGeneratorNodeFunctionPointer(
-        ILogger<CodeGeneratorNodeFunctionPointer> logger,
-        NameMapper nameMapper)
-        : base(logger, nameMapper)
-    {
-    }
-
     protected override SyntaxNode GenerateCode(
         string nameCSharp, CodeGeneratorDocumentPInvokeContext context, CFunctionPointer node)
     {
-        string code;
-
-        if (context.IsEnabledFunctionPointers)
-        {
-            code = GenerateCodeFunctionPointer(nameCSharp, context, node);
-        }
-        else
-        {
-            code = GenerateCodeDelegate(nameCSharp, context, node);
-        }
-
+        var code = context.IsEnabledFunctionPointers ?
+            GenerateCodeFunctionPointer(nameCSharp, node) : GenerateCodeDelegate(nameCSharp, node);
         return ParseMemberCode<StructDeclarationSyntax>(code);
     }
 
-    private string GenerateCodeFunctionPointer(
-        string name,
-        CodeGeneratorDocumentPInvokeContext context,
-        CFunctionPointer node)
+    private string GenerateCodeFunctionPointer(string name, CFunctionPointer node)
     {
         var parameterTypesString = GenerateCodeParameters(node.Parameters, false);
         var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString) ? node.ReturnType.Name : $"{parameterTypesString}, {node.ReturnType.Name}";
@@ -63,10 +46,7 @@ public sealed class CodeGeneratorNodeFunctionPointer : CodeGeneratorNodeBase<CFu
         return code;
     }
 
-    private string GenerateCodeDelegate(
-        string name,
-        CodeGeneratorDocumentPInvokeContext context,
-        CFunctionPointer node)
+    private string GenerateCodeDelegate(string name, CFunctionPointer node)
     {
         var parameterTypesString = GenerateCodeParameters(node.Parameters);
 
@@ -99,18 +79,18 @@ public sealed class CodeGeneratorNodeFunctionPointer : CodeGeneratorNodeBase<CFu
             var parameter = parameters[i];
 
             var parameterTypeNameCSharp = NameMapper.GetTypeNameCSharp(parameter.Type);
-            stringBuilder.Append(parameterTypeNameCSharp);
+            _ = stringBuilder.Append(parameterTypeNameCSharp);
 
             if (includeNames)
             {
-                stringBuilder.Append(' ');
-                stringBuilder.Append(parameter.Name);
+                _ = stringBuilder.Append(' ');
+                _ = stringBuilder.Append(parameter.Name);
             }
 
             var isJoinedWithComma = parameters.Length > 1 && i != parameters.Length - 1;
             if (isJoinedWithComma)
             {
-                stringBuilder.Append(',');
+                _ = stringBuilder.Append(',');
             }
         }
 

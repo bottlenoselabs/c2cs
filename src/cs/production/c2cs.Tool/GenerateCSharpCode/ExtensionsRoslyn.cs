@@ -33,7 +33,9 @@ public static partial class ExtensionsRoslyn
             .Insert(index++, CarriageReturnLineFeed)
             .Insert(index++, GetRegionLeadingTrivia(regionName));
 
+#pragma warning disable IDE0045
         if (addDoubleTrailingNewLine)
+#pragma warning restore IDE0045
         {
             trivia = trivia
                 .Insert(index++, CarriageReturnLineFeed)

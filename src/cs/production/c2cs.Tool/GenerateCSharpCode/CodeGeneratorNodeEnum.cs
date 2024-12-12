@@ -13,15 +13,10 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeEnum : CodeGeneratorNodeBase<CEnum>
+public class CodeGeneratorNodeEnum(
+    ILogger<CodeGeneratorNodeEnum> logger,
+    NameMapper nameMapper) : CodeGeneratorNodeBase<CEnum>(logger, nameMapper)
 {
-    public CodeGeneratorNodeEnum(
-        ILogger<CodeGeneratorNodeEnum> logger,
-        NameMapper nameMapper)
-        : base(logger, nameMapper)
-    {
-    }
-
     protected override SyntaxNode GenerateCode(
         string nameCSharp,
         CodeGeneratorDocumentPInvokeContext context,

@@ -8,15 +8,10 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
-public class CodeGeneratorNodeTypeAlias : CodeGeneratorNodeBase<CTypeAlias>
+public class CodeGeneratorNodeTypeAlias(
+    ILogger<CodeGeneratorNodeTypeAlias> logger,
+    NameMapper nameMapper) : CodeGeneratorNodeBase<CTypeAlias>(logger, nameMapper)
 {
-    public CodeGeneratorNodeTypeAlias(
-        ILogger<CodeGeneratorNodeTypeAlias> logger,
-        NameMapper nameMapper)
-        : base(logger, nameMapper)
-    {
-    }
-
     protected override SyntaxNode GenerateCode(
         string nameCSharp, CodeGeneratorDocumentPInvokeContext context, CTypeAlias node)
     {

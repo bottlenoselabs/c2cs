@@ -42,16 +42,11 @@ public abstract class CodeGeneratorNodeBase
     }
 }
 
-public abstract class CodeGeneratorNodeBase<TNode> : CodeGeneratorNodeBase
+public abstract class CodeGeneratorNodeBase<TNode>(
+    ILogger<CodeGeneratorNodeBase<TNode>> logger,
+    NameMapper nameMapper) : CodeGeneratorNodeBase(logger, nameMapper)
     where TNode : CNode
 {
-    protected CodeGeneratorNodeBase(
-        ILogger<CodeGeneratorNodeBase<TNode>> logger,
-        NameMapper nameMapper)
-        : base(logger, nameMapper)
-    {
-    }
-
     protected internal override SyntaxNode? GenerateCode(
         CodeGeneratorDocumentPInvokeContext context,
         object obj)

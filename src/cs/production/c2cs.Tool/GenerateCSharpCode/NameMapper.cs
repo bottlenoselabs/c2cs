@@ -55,7 +55,9 @@ public sealed class NameMapper
         {
             nameCSharp = nameC;
         }
+#pragma warning disable IDE0045
         else if (nodeC is CFunctionPointer functionPointerC)
+#pragma warning restore IDE0045
         {
             nameCSharp = GetFunctionPointerNameCSharp(functionPointerC);
         }
@@ -68,7 +70,7 @@ public sealed class NameMapper
         return nameCSharp;
     }
 
-    public string GetTypeNameCSharp(CType type, int? sizeOf = null)
+    public string GetTypeNameCSharp(CType type)
     {
         var nameC = SanitizeNameC(type.Name);
         if (_cSharpNamesByCNames.TryGetValue(nameC, out var typeNameCSharp))

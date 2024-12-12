@@ -12,14 +12,14 @@ public static class Startup
 {
     public static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<Command>();
-        services.AddSingleton<Tool>();
-        services.AddSingleton<InputSanitizer>();
+        _ = services.AddSingleton<Command>();
+        _ = services.AddSingleton<Tool>();
+        _ = services.AddSingleton<InputSanitizer>();
 
-        services.AddSingleton<CodeGeneratorDocumentPInvoke>();
-        services.AddSingleton<CodeGeneratorDocumentAssemblyAttributes>();
-        services.AddSingleton<CodeGeneratorDocumentInteropRuntime>();
-        services.AddSingleton<NameMapper>();
+        _ = services.AddSingleton<CodeGeneratorDocumentPInvoke>();
+        _ = services.AddSingleton<CodeGeneratorDocumentAssemblyAttributes>();
+        _ = services.AddSingleton<CodeGeneratorDocumentInteropRuntime>();
+        _ = services.AddSingleton<NameMapper>();
         AddNodeCodeGenerators(services);
     }
 
@@ -30,7 +30,7 @@ public static class Startup
             .ToImmutableArray();
         foreach (var type in types)
         {
-            services.AddSingleton(type, type);
+            _ = services.AddSingleton(type, type);
         }
     }
 }

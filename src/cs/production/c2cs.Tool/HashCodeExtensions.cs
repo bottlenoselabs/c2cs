@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace C2CS.Foundation;
+namespace C2CS;
 
 public static class HashCodeExtensions
 {

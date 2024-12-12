@@ -26,7 +26,7 @@ public static class TestHost
 
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<FileSystemHelper>();
-        services.AddSingleton<CMakeLibraryBuilder>();
+        _ = services.AddSingleton<FileSystemHelper>();
+        _ = services.AddSingleton<CMakeLibraryBuilder>();
     }
 }

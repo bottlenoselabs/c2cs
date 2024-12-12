@@ -24,7 +24,7 @@ public class Test : WriteCSharpCodeTest
     private void FunctionExists(CSharpTestAbstractSyntaxTree ast)
     {
         var function = ast.GetFunction(FunctionName);
-        function.ReturnTypeName.Should().Be("void");
-        function.Parameters.Should().BeEmpty();
+        _ = function.ReturnTypeName.Should().Be("void");
+        _ = function.Parameters.Should().BeEmpty();
     }
 }

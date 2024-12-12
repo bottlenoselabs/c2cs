@@ -10,15 +10,10 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeMacroObject : CodeGeneratorNodeBase<CMacroObject>
+public class CodeGeneratorNodeMacroObject(
+    ILogger<CodeGeneratorNodeMacroObject> logger,
+    NameMapper nameMapper) : CodeGeneratorNodeBase<CMacroObject>(logger, nameMapper)
 {
-    public CodeGeneratorNodeMacroObject(
-        ILogger<CodeGeneratorNodeMacroObject> logger,
-        NameMapper nameMapper)
-        : base(logger, nameMapper)
-    {
-    }
-
     protected override SyntaxNode GenerateCode(
         string nameCSharp, CodeGeneratorDocumentPInvokeContext context, CMacroObject node)
     {

@@ -13,20 +13,11 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.BuildCLibrary;
 
-public partial class CMakeLibraryBuilder
+public partial class CMakeLibraryBuilder(ILogger<CMakeLibraryBuilder> logger, IFileSystem fileSystem)
 {
-    private readonly ILogger<CMakeLibraryBuilder> _logger;
-    private readonly IDirectory _directory;
-    private readonly IPath _path;
-    private readonly IFile _file;
-
-    public CMakeLibraryBuilder(ILogger<CMakeLibraryBuilder> logger, IFileSystem fileSystem)
-    {
-        _logger = logger;
-        _directory = fileSystem.Directory;
-        _path = fileSystem.Path;
-        _file = fileSystem.File;
-    }
+    private readonly IDirectory _directory = fileSystem.Directory;
+    private readonly IPath _path = fileSystem.Path;
+    private readonly IFile _file = fileSystem.File;
 
     public bool BuildLibrary(
         InputSanitized input,
@@ -38,7 +29,7 @@ public partial class CMakeLibraryBuilder
             _directory.Delete(cMakeOutputDirectoryPath, true);
         }
 
-        _directory.CreateDirectory(cMakeOutputDirectoryPath);
+        _ = _directory.CreateDirectory(cMakeOutputDirectoryPath);
 
         var cMakeBuildDirectoryPath = _path.Combine(input.CMakeDirectoryPath, "cmake-build-release");
         if (_directory.Exists(cMakeBuildDirectoryPath))
@@ -83,12 +74,14 @@ public partial class CMakeLibraryBuilder
             return false;
         }
 
+#pragma warning disable IDE0072
         var dynamicLinkLibraryFileSearchPattern = Native.OperatingSystem switch
+#pragma warning restore IDE0072
         {
             NativeOperatingSystem.Windows => "*.dll",
             NativeOperatingSystem.macOS => "*.dylib",
             NativeOperatingSystem.Linux => "*.so",
-            _ => "*.*"
+            _ => throw new NotImplementedException()
         };
 
         var copiedOutputFilePaths = new List<string>();
@@ -103,12 +96,12 @@ public partial class CMakeLibraryBuilder
             {
                 var installNameToolCommandDeleteRPath =
                     $"install_name_tool -delete_rpath {cMakeOutputDirectoryPath} {outputFilePath}";
-                installNameToolCommandDeleteRPath
+                _ = installNameToolCommandDeleteRPath
                     .ExecuteShellCommand(cMakeDirectoryPath, windowsUsePowerShell: false);
 
                 var installNameToolCommandAddRPath =
                     $"install_name_tool -add_rpath @loader_path/. {outputFilePath}";
-                installNameToolCommandAddRPath
+                _ = installNameToolCommandAddRPath
                     .ExecuteShellCommand(cMakeDirectoryPath, windowsUsePowerShell: false);
             }
         }

@@ -3,12 +3,7 @@
 
 namespace C2CS;
 
-internal sealed class CommandLineArgumentsProvider
+internal sealed class CommandLineArgumentsProvider(string[] commandLineArguments)
 {
-    public readonly string[] CommandLineArguments;
-
-    public CommandLineArgumentsProvider(string[] commandLineArguments)
-    {
-        CommandLineArguments = commandLineArguments;
-    }
+    public readonly string[] CommandLineArguments = commandLineArguments;
 }

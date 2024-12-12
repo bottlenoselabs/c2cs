@@ -14,15 +14,10 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeFunction : CodeGeneratorNodeBase<CFunction>
+public class CodeGeneratorNodeFunction(
+    ILogger<CodeGeneratorNodeFunction> logger,
+    NameMapper nameMapper) : CodeGeneratorNodeBase<CFunction>(logger, nameMapper)
 {
-    public CodeGeneratorNodeFunction(
-        ILogger<CodeGeneratorNodeFunction> logger,
-        NameMapper nameMapper)
-        : base(logger, nameMapper)
-    {
-    }
-
     protected override SyntaxNode GenerateCode(
         string nameCSharp,
         CodeGeneratorDocumentPInvokeContext context,
@@ -77,6 +72,7 @@ public class CodeGeneratorNodeFunction : CodeGeneratorNodeBase<CFunction>
             CFunctionCallingConvention.Cdecl => "CallingConvention = CallingConvention.Cdecl",
             CFunctionCallingConvention.StdCall => "CallingConvention = CallingConvention.StdCall",
             CFunctionCallingConvention.FastCall => "CallingConvention = CallingConvention.FastCall",
+            CFunctionCallingConvention.Unknown => throw new NotImplementedException(),
             _ => string.Empty
         };
         return result;
@@ -89,6 +85,7 @@ public class CodeGeneratorNodeFunction : CodeGeneratorNodeBase<CFunction>
             CFunctionCallingConvention.Cdecl => "CallConvCdecl",
             CFunctionCallingConvention.StdCall => "CallConvStdcall",
             CFunctionCallingConvention.FastCall => "CallConvFastcall",
+            CFunctionCallingConvention.Unknown => throw new NotImplementedException(),
             _ => string.Empty
         };
         return result;
