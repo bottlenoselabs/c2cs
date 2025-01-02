@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.IO.Abstractions;
 using bottlenoselabs.Common.Tools;
@@ -15,7 +17,6 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
     {
         var inputFilePath = InputFilePath(unsanitizedInput.InputCrossPlatformFfiFilePath);
         var outputFileDirectory = OutputFileDirectory(unsanitizedInput.OutputCSharpCodeFileDirectory);
-
         var className = ClassName(unsanitizedInput.ClassName);
         var libraryName = LibraryName(unsanitizedInput.LibraryName, className);
         var targetFramework = TargetFramework(unsanitizedInput.TargetFrameworkMoniker);
@@ -30,6 +31,7 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
             NamespaceName = NamespaceName(unsanitizedInput.NamespaceName),
             CodeRegionHeader = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath),
             CodeRegionFooter = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath),
+            MappedNames = MappedNames(unsanitizedInput.MappedNames),
             IsEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true,
             IsEnabledFunctionPointers = IsEnabledFunctionPointers(unsanitizedInput, targetFramework),
             IsEnabledRuntimeMarshalling = IsEnabledRuntimeMarshalling(unsanitizedInput, targetFramework),
@@ -162,6 +164,28 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
         }
 
         return nuGetFramework;
+    }
+
+    private ImmutableDictionary<string, string> MappedNames(ImmutableArray<InputUnsanitizedMappedName>? mappedNames)
+    {
+        if (mappedNames == null)
+        {
+            return ImmutableDictionary<string, string>.Empty;
+        }
+
+        var dictionary = new Dictionary<string, string>();
+
+        foreach (var mappedName in mappedNames)
+        {
+            if (string.IsNullOrEmpty(mappedName.Source) || string.IsNullOrEmpty(mappedName.Target))
+            {
+                continue;
+            }
+
+            dictionary.Add(mappedName.Source, mappedName.Target);
+        }
+
+        return dictionary.ToImmutableDictionary();
     }
 
     private static bool IsEnabledFunctionPointers(InputUnsanitized unsanitizedInput, NuGetFramework nuGetFramework)

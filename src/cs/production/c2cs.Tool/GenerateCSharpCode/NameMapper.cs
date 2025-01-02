@@ -45,6 +45,12 @@ public sealed class NameMapper
         _cSharpNamesByCNames.Add("FILE*", "IntPtr");
         _cSharpNamesByCNames.Add("DIR*", "IntPtr");
         _cSharpNamesByCNames.Add("va_list", "IntPtr");
+
+        // config specified
+        foreach (var (source, target) in context.Input.MappedNames)
+        {
+            _cSharpNamesByCNames.Add(source, target);
+        }
     }
 
     public string GetIdentifierCSharp(string nameC)
