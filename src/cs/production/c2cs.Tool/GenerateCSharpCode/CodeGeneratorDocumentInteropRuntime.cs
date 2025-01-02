@@ -45,7 +45,7 @@ public sealed class CodeGeneratorDocumentInteropRuntime
 
         var document = new CodeProjectDocument
         {
-            FileName = "Interop.Runtime.g.cs",
+            FileName = "Runtime.g.cs",
             Code = code
         };
 
