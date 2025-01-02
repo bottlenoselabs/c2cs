@@ -46,9 +46,9 @@ jobs:
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: "Setup .NET"
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '9.x'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.x'
 
       - name: ".NET pack"
         run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="${{ steps.set-version.outputs.VERSION }}" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
