@@ -4,7 +4,7 @@
 using System.Globalization;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace C2CS.Tests;
+namespace C2CS.Tests.Common.Model;
 
 public class CSharpTestStructField
 {

@@ -1,15 +1,13 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System.Collections.Immutable;
-using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace C2CS.Tests;
+namespace C2CS.Tests.Common.Model;
+
 #pragma warning disable CA1036
 
-[PublicAPI]
 public class CSharpTestEnum
 {
     public string Name { get; }

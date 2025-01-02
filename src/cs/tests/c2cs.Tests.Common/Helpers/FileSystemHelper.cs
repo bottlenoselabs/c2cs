@@ -3,10 +3,10 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.IO.Abstractions;
-using SearchOption = System.IO.SearchOption;
 
-namespace C2CS.Tests;
+namespace C2CS.Tests.Common.Helpers;
 
 [ExcludeFromCodeCoverage]
 public class FileSystemHelper(IFileSystem fileSystem)

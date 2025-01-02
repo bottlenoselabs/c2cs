@@ -12,6 +12,9 @@ namespace Interop.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct CString : IEquatable<CString>, IDisposable
 {
+    /// <summary>
+    ///     The pointer.
+    /// </summary>
     public readonly IntPtr Pointer;
 
     /// <summary>

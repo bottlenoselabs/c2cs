@@ -14,6 +14,9 @@ namespace Interop.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct CBool : IEquatable<CBool>
 {
+    /// <summary>
+    ///     The value.
+    /// </summary>
     public readonly byte Value;
 
     private CBool(bool value)

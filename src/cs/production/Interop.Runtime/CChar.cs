@@ -14,6 +14,9 @@ namespace Interop.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct CChar : IEquatable<byte>, IEquatable<CChar>
 {
+    /// <summary>
+    ///     The value.
+    /// </summary>
     public readonly byte Value;
 
     private CChar(byte value)

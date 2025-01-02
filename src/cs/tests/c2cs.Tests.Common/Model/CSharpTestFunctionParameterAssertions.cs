@@ -5,7 +5,7 @@ using System;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
-namespace C2CS.Tests;
+namespace C2CS.Tests.Common.Model;
 
 #pragma warning disable SA1649
 public static class CSharpTestFunctionParameterExtensions

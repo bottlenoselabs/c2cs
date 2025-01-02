@@ -14,9 +14,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-bindgen", "examp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c2cs.Tool", "production\c2cs.Tool\c2cs.Tool.csproj", "{1B67F4A2-24E6-43A6-A031-918DD44CD991}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c2cs.Interop.Runtime", "production\c2cs.Interop.Runtime\c2cs.Interop.Runtime.csproj", "{DB492E65-25D9-44A0-86F4-ABB07283BEE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interop.Runtime", "production\Interop.Runtime\Interop.Runtime.csproj", "{DB492E65-25D9-44A0-86F4-ABB07283BEE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "helloworld-app", "examples\helloworld\helloworld-app\helloworld-app.csproj", "{EA3E3362-32A5-4395-BF56-39BDBE2B7CC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "c2cs.Tests.Common", "tests\c2cs.Tests.Common\c2cs.Tests.Common.csproj", "{1AC16D87-0DB7-42AD-8CB9-4738D1B2D8D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{EA3E3362-32A5-4395-BF56-39BDBE2B7CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA3E3362-32A5-4395-BF56-39BDBE2B7CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA3E3362-32A5-4395-BF56-39BDBE2B7CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC16D87-0DB7-42AD-8CB9-4738D1B2D8D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC16D87-0DB7-42AD-8CB9-4738D1B2D8D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC16D87-0DB7-42AD-8CB9-4738D1B2D8D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC16D87-0DB7-42AD-8CB9-4738D1B2D8D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1BE51A85-A187-46CC-A307-04A66316CD55} = {65B41709-3C9F-4556-83C8-A4380AC14E56}
@@ -52,5 +58,6 @@ Global
 		{1B67F4A2-24E6-43A6-A031-918DD44CD991} = {D5FE4F37-21B4-498E-B6B7-CB9DDBE5937A}
 		{DB492E65-25D9-44A0-86F4-ABB07283BEE7} = {D5FE4F37-21B4-498E-B6B7-CB9DDBE5937A}
 		{EA3E3362-32A5-4395-BF56-39BDBE2B7CC9} = {24028D61-CCE1-4893-9BD6-1D7C28563DC8}
+		{1AC16D87-0DB7-42AD-8CB9-4738D1B2D8D4} = {65B41709-3C9F-4556-83C8-A4380AC14E56}
 	EndGlobalSection
 EndGlobal

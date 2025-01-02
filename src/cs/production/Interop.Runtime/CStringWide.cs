@@ -12,6 +12,9 @@ namespace Interop.Runtime;
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct CStringWide : IEquatable<CStringWide>
 {
+    /// <summary>
+    ///     The pointer.
+    /// </summary>
     public readonly IntPtr Pointer;
 
     /// <summary>

@@ -1,11 +1,11 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
+using C2CS.Tests.Common.Model;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
-namespace C2CS.Tests;
+namespace C2CS.Tests.Common.Assertions;
 
 #pragma warning disable SA1649
 public static class CSharpTestTypeExtensions
