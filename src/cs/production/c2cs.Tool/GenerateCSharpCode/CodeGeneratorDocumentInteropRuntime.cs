@@ -31,6 +31,7 @@ public sealed class CodeGeneratorDocumentInteropRuntime
                    using System.Runtime.InteropServices;
 
                    namespace Interop.Runtime{(options.IsEnabledFileScopedNamespace ? ";" : "{}")}
+
                    """;
 
         var compilationUnitRoot = SyntaxFactory.ParseSyntaxTree(codeTemplate).GetCompilationUnitRoot();
