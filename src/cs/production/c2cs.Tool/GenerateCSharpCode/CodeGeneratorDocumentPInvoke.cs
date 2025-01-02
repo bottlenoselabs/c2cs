@@ -30,7 +30,7 @@ public sealed class CodeGeneratorDocumentPInvoke
                     // ReSharper disable All
 
                     #region Template
-                    {{(options.IsEnabledNullables ? "\n" : "\n#nullable enable\n")}}
+                    {{(options.IsEnabledNullables ? string.Empty : "\n#nullable enable")}}
                     #pragma warning disable CS1591
                     #pragma warning disable CS8981
                     using Interop.Runtime;
