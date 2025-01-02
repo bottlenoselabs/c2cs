@@ -24,7 +24,7 @@ public class CodeGeneratorNodeFunction(ILogger<CodeGeneratorNodeFunction> logger
         var parametersStringCSharp = string.Join(',', function.Parameters.Select(
             x => ParameterStringCSharp(context.NameMapper, x)));
 
-        var code = context.IsEnabledLibraryImportAttribute ?
+        var code = context.Input.IsEnabledLibraryImportAttribute ?
             GenerateCodeLibraryImport(nameCSharp, function, parametersStringCSharp, returnTypeNameCSharp) :
             GenerateCodeDllImport(nameCSharp, function, returnTypeNameCSharp, parametersStringCSharp);
 

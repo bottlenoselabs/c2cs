@@ -18,7 +18,7 @@ public sealed class CodeGeneratorNodeFunctionPointer(ILogger<CodeGeneratorNodeFu
         string nameCSharp, CodeGeneratorContext context, CFunctionPointer node)
     {
         var nameMapper = context.NameMapper;
-        var code = context.IsEnabledFunctionPointers ?
+        var code = context.Input.IsEnabledFunctionPointers ?
             GenerateCodeFunctionPointer(nameMapper, nameCSharp, node) : GenerateCodeDelegate(nameMapper, nameCSharp, node);
         return code;
     }

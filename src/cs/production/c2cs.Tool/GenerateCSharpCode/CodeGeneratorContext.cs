@@ -20,13 +20,7 @@ public sealed class CodeGeneratorContext
     private readonly ImmutableDictionary<Type, CodeGeneratorNode> _nodeCodeGenerators;
     private readonly HashSet<string> _existingNamesCSharp = [];
 
-    public bool IsEnabledFunctionPointers { get; }
-
-    public bool IsEnabledLibraryImportAttribute { get; }
-
-    public bool IsEnabledSpans { get; }
-
-    public bool IsEnabledRuntimeMarshalling { get; }
+    public InputSanitized Input { get; }
 
     public NameMapper NameMapper => _nameMapper;
 
@@ -34,13 +28,9 @@ public sealed class CodeGeneratorContext
         InputSanitized input,
         ImmutableDictionary<Type, CodeGeneratorNode> nodeCodeGenerators)
     {
+        Input = input;
         _nameMapper = new NameMapper(this);
         _nodeCodeGenerators = nodeCodeGenerators;
-
-        IsEnabledFunctionPointers = input.IsEnabledFunctionPointers;
-        IsEnabledLibraryImportAttribute = input.IsEnabledLibraryImportAttribute;
-        IsEnabledSpans = input.IsEnabledSpans;
-        IsEnabledRuntimeMarshalling = input.IsEnabledRuntimeMarshalling;
     }
 
     internal TMemberDeclarationSyntax? ProcessCNode<TNode, TMemberDeclarationSyntax>(TNode node)
