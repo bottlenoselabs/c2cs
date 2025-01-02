@@ -46,11 +46,3 @@ jobs:
     - name: "Test .NET solution"
       run: |
         dotnet test '${{ github.workspace }}/src/cs' --nologo --verbosity minimal --configuration Release
-
-    - name: "Collect generated test files"
-      uses: actions/upload-artifact@v3
-      if: github.event_name == 'pull_request'
-      with:
-        name: "Test Data ${{ matrix.platform.name }}"
-        path: |
-          ${{ github.workspace }}/src/cs/tests/*.Tests/Data/Values/**/*.json
