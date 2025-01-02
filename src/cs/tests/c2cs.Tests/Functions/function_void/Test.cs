@@ -1,12 +1,6 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using C2CS.Tests.Models;
-using FluentAssertions;
-using Xunit;
-
-#pragma warning disable CA1707
-
 namespace C2CS.Tests.Functions.function_void;
 
 public class Test : WriteCSharpCodeTest
@@ -24,7 +18,8 @@ public class Test : WriteCSharpCodeTest
     private void FunctionExists(CSharpTestAbstractSyntaxTree ast)
     {
         var function = ast.GetFunction(FunctionName);
-        _ = function.ReturnTypeName.Should().Be("void");
+        _ = function.CallingConvention.Should().Be(CSharpTestCallingConvention.C);
+        _ = function.ReturnType.Should().BeTypeVoid();
         _ = function.Parameters.Should().BeEmpty();
     }
 }

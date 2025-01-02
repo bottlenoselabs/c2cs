@@ -5,37 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using bottlenoselabs.Common.Tools;
 using c2ffi.Data;
 using c2ffi.Data.Nodes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace C2CS.GenerateCSharpCode;
 
 public sealed class CodeGeneratorDocumentPInvoke
 {
-    private readonly ImmutableDictionary<Type, CodeGeneratorNodeBase> _nodeCodeGenerators;
-
-    public CodeGeneratorDocumentPInvoke(IServiceProvider services)
-    {
-        _nodeCodeGenerators = new Dictionary<Type, CodeGeneratorNodeBase>
-        {
-            { typeof(CEnum), services.GetRequiredService<CodeGeneratorNodeEnum>() },
-            { typeof(CFunction), services.GetRequiredService<CodeGeneratorNodeFunction>() },
-            { typeof(CFunctionPointer), services.GetRequiredService<CodeGeneratorNodeFunctionPointer>() },
-            { typeof(CMacroObject), services.GetRequiredService<CodeGeneratorNodeMacroObject>() },
-            { typeof(COpaqueType), services.GetRequiredService<CodeGeneratorNodeOpaqueType>() },
-            { typeof(CRecord), services.GetRequiredService<CodeGeneratorNodeStruct>() },
-            { typeof(CTypeAlias), services.GetRequiredService<CodeGeneratorNodeTypeAlias>() },
-        }.ToImmutableDictionary();
-    }
-
     public CodeProjectDocument Generate(
         CodeGeneratorDocumentOptions options,
-        CodeGeneratorDocumentPInvokeContext context,
+        CodeGeneratorContext context,
         CFfiCrossPlatform ffi)
     {
         var codeTemplate = $$"""
@@ -59,9 +41,7 @@ public sealed class CodeGeneratorDocumentPInvoke
                     using System.Runtime.CompilerServices;
 
                     #endregion
-
                     {{options.CodeRegionHeader}}
-
                     namespace {{options.NamespaceName}}{{(options.IsEnabledFileScopedNamespace ? ";" : " {")}}
 
                     public static unsafe partial class {{options.ClassName}}
@@ -69,7 +49,7 @@ public sealed class CodeGeneratorDocumentPInvoke
                         private const string LibraryName = "{{options.LibraryName}}";
                     }
 
-                    {{(options.IsEnabledFileScopedNamespace ? string.Empty : "}\n")}}
+                    {{(options.IsEnabledFileScopedNamespace ? string.Empty : "}")}}
                     {{options.CodeRegionFooter}}
                     """;
 
@@ -98,77 +78,60 @@ public sealed class CodeGeneratorDocumentPInvoke
     }
 
     private ImmutableArray<MemberDeclarationSyntax> GenerateClassMembers(
-        CodeGeneratorDocumentPInvokeContext context, CFfiCrossPlatform ffi)
+        CodeGeneratorContext context, CFfiCrossPlatform ffi)
     {
         var members = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
 
         // NOTE: Function pointers need to be processed first because their types are used in a function, function parameter, struct, type alias, or otherwise recursive.
-        var functionPointers = GenerateCodeNodes(context, ffi.FunctionPointers.Values);
-        var records = GenerateCodeNodes(context, ffi.Records.Values);
-        var functions = GenerateCodeNodes(context, ffi.Functions.Values);
-        var variables = GenerateCodeNodes(context, ffi.Variables.Values);
-        var enums = GenerateCodeNodes(context, ffi.Enums.Values);
-        var opaqueTypes = GenerateCodeNodes(context, ffi.OpaqueTypes.Values);
-        var macroObjects = GenerateCodeNodes(context, ffi.MacroObjects.Values);
+        var functionPointers = ProcessCNodes<CFunctionPointer, MemberDeclarationSyntax>(
+            context, ffi.FunctionPointers.Values);
+        var structs = ProcessCNodes<CRecord, StructDeclarationSyntax>(
+            context, ffi.Records.Values);
+        var functions = ProcessCNodes<CFunction, MethodDeclarationSyntax>(
+            context, ffi.Functions.Values);
+        // ProcessCNodes(context, ffi.Variables.Values);
+        var enums = ProcessCNodes<CEnum, EnumDeclarationSyntax>(
+            context, ffi.Enums.Values);
+        var opaqueTypes = ProcessCNodes<COpaqueType, StructDeclarationSyntax>(
+            context, ffi.OpaqueTypes.Values);
+        var macroObjects = ProcessCNodes<CMacroObject, FieldDeclarationSyntax>(
+            context, ffi.MacroObjects.Values);
         // NOTE: Type aliases need to be processed last because they often will have the same name (collision) with another type, usually an enum or a record.
         //  This happens because, e.g., the enum type will be `enum MY_ENUM` and the type alias name would be `MY_ENUM` but we want both to have the name `MY_ENUM`.
         //  When this happens, the type alias is skipped (not generated) because the aliased type already exists when mapped to C#.
-        var typeAliases = GenerateCodeNodes(context, ffi.TypeAliases.Values);
+        var aliasTypes = ProcessCNodes<CTypeAlias, StructDeclarationSyntax>(
+            context, ffi.TypeAliases.Values);
 
         // NOTE: The order they are added effects the order they appear in the generated C# file.
         members.AddRange(functions);
-        members.AddRange(variables);
         members.AddRange(macroObjects);
-        members.AddRange(records);
+        members.AddRange(structs);
         members.AddRange(enums);
         members.AddRange(opaqueTypes);
-        members.AddRange(typeAliases);
+        members.AddRange(aliasTypes);
         members.AddRange(functionPointers);
 
         return members.ToImmutable();
     }
 
-    private ImmutableArray<MemberDeclarationSyntax> GenerateCodeNodes<TCNode>(
-        CodeGeneratorDocumentPInvokeContext context, IEnumerable<TCNode> nodes)
+    private ImmutableArray<TMemberDeclarationSyntax> ProcessCNodes<TCNode, TMemberDeclarationSyntax>(
+        CodeGeneratorContext context, IEnumerable<TCNode> cNodes)
         where TCNode : CNode
+        where TMemberDeclarationSyntax : MemberDeclarationSyntax
     {
-        var members = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+        var builder = ImmutableArray.CreateBuilder<TMemberDeclarationSyntax>();
 
-        foreach (var node in nodes)
+        foreach (var cNode in cNodes)
         {
-            var member = GenerateCodeNode(context, node);
-            if (member == null)
+            var memberSyntax = context.ProcessCNode<TCNode, TMemberDeclarationSyntax>(cNode);
+            if (memberSyntax == null)
             {
                 continue;
             }
 
-            members.Add(member);
+            builder.Add(memberSyntax);
         }
 
-        return members.ToImmutable();
-    }
-
-    private MemberDeclarationSyntax? GenerateCodeNode<T>(
-        CodeGeneratorDocumentPInvokeContext context, T node)
-        where T : CNode
-    {
-        var type = typeof(T);
-        if (!_nodeCodeGenerators.TryGetValue(type, out var codeGenerator))
-        {
-            throw new ToolException($"A code generator '{nameof(CodeGeneratorNodeBase)}' does not exist for the type '{type.FullName ?? type.Name}'.");
-        }
-
-        var syntax = codeGenerator.GenerateCode(context, node);
-        if (syntax == null)
-        {
-            return null;
-        }
-
-        if (syntax is not MemberDeclarationSyntax memberSyntax)
-        {
-            throw new ToolException($"The code generator '{nameof(CodeGeneratorNodeBase)}' did not return a '{nameof(MemberDeclarationSyntax)}' for the type '{type.FullName ?? type.Name}'.");
-        }
-
-        return memberSyntax;
+        return builder.ToImmutable();
     }
 }

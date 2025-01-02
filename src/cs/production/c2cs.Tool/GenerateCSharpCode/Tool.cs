@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
-public sealed class Tool(
+public sealed partial class Tool(
     ILogger<Tool> logger,
     InputSanitizer inputSanitizer,
     IServiceProvider services,
@@ -28,7 +28,7 @@ public sealed class Tool(
     {
         var ffi = LoadCFfi(input.InputFilePath);
         var project = output.Project = GenerateCSharpProjectLibrary(ffi, input);
-        WriteFiles(input.OutputFileDirectory, project);
+        WriteProjectFiles(input.OutputFileDirectory, project);
     }
 
     private CFfiCrossPlatform LoadCFfi(string filePath)
@@ -56,7 +56,7 @@ public sealed class Tool(
         return project;
     }
 
-    private void WriteFiles(
+    private void WriteProjectFiles(
         string outputFileDirectory,
         CodeProject project)
     {
@@ -71,8 +71,12 @@ public sealed class Tool(
         {
             var fullFilePath = Path.GetFullPath(Path.Combine(outputFileDirectory, document.FileName));
             File.WriteAllText(fullFilePath, document.Code);
+            LogGeneratedFilePath(fullFilePath);
         }
 
         EndStep();
     }
+
+    [LoggerMessage(5, LogLevel.Information, "- '{FilePath}'")]
+    private partial void LogGeneratedFilePath(string filePath);
 }

@@ -3,27 +3,22 @@
 
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeMacroObject(
-    ILogger<CodeGeneratorNodeMacroObject> logger,
-    NameMapper nameMapper) : CodeGeneratorNodeBase<CMacroObject>(logger, nameMapper)
+public class CodeGeneratorNodeMacroObject(ILogger<CodeGeneratorNodeMacroObject> logger)
+    : CodeGeneratorNode<CMacroObject>(logger)
 {
-    protected override SyntaxNode GenerateCode(
-        string nameCSharp, CodeGeneratorDocumentPInvokeContext context, CMacroObject node)
+    protected override string GenerateCode(
+        string nameCSharp, CodeGeneratorContext context, CMacroObject node)
     {
+        var cSharpTypeName = context.NameMapper.GetTypeNameCSharp(node.Type);
         var code = $"""
-
-                    public static {node.Type} {nameCSharp} = ({node.Type}){node.Value};
-
+                    public static {cSharpTypeName} {nameCSharp} = ({cSharpTypeName}){node.Value};
                     """;
 
-        var member = ParseMemberCode<FieldDeclarationSyntax>(code);
-        return member;
+        return code;
     }
 }

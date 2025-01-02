@@ -47,7 +47,7 @@
 		<None Remove="ast\**\*.*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Functions\" />
+	  <Folder Include="Enums\" />
 	</ItemGroup>
 
 </Project>

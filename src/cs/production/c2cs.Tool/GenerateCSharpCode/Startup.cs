@@ -26,7 +26,7 @@ public static class Startup
     private static void AddNodeCodeGenerators(IServiceCollection services)
     {
         var assembly = Assembly.GetExecutingAssembly();
-        var types = assembly.GetTypes().Where(p => !p.IsAbstract && typeof(CodeGeneratorNodeBase).IsAssignableFrom(p))
+        var types = assembly.GetTypes().Where(p => !p.IsAbstract && typeof(CodeGeneratorNode).IsAssignableFrom(p))
             .ToImmutableArray();
         foreach (var type in types)
         {

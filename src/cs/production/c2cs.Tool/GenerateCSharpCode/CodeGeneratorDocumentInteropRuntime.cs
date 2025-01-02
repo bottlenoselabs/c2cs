@@ -30,45 +30,14 @@ public sealed class CodeGeneratorDocumentInteropRuntime
                    using System.Globalization;
                    using System.Runtime.InteropServices;
 
-                   namespace Interop.Runtime{(options.IsEnabledFileScopedNamespace ? ";" : "\n{\n}")}
-
+                   namespace Interop.Runtime{(options.IsEnabledFileScopedNamespace ? ";" : "{}")}
                    """;
 
         var compilationUnitRoot = SyntaxFactory.ParseSyntaxTree(codeTemplate).GetCompilationUnitRoot();
         var rootNamespaceOriginal = (BaseNamespaceDeclarationSyntax)compilationUnitRoot.Members[0];
-
-        var assembly = Assembly.GetExecutingAssembly();
-        var resourcesNames = assembly.GetManifestResourceNames();
-        var builderMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
-
-        foreach (var resourceName in resourcesNames)
-        {
-            if (!resourceName.EndsWith(".cs", StringComparison.InvariantCulture))
-            {
-                continue;
-            }
-
-            using var stream = assembly.GetManifestResourceStream(resourceName);
-            using var streamReader = new StreamReader(stream!);
-            var fileContents = streamReader
-                .ReadToEnd()
-                .Replace("namespace Interop.Runtime;", string.Empty, StringComparison.InvariantCulture);
-
-            var syntaxTree = SyntaxFactory.ParseSyntaxTree(fileContents);
-            if (syntaxTree.GetRoot() is not CompilationUnitSyntax compilationUnit)
-            {
-                continue;
-            }
-
-            foreach (var member in compilationUnit.Members)
-            {
-                builderMembers.Add(member);
-            }
-        }
-
-        var members = builderMembers.ToImmutable();
-        var rootNamespaceWithMembers = rootNamespaceOriginal.WithMembers(rootNamespaceOriginal.Members.AddRange(members));
-
+        var members = CreateMembers();
+        var rootNamespaceWithMembers = rootNamespaceOriginal
+            .WithMembers(rootNamespaceOriginal.Members.AddRange(members));
         var code = compilationUnitRoot
             .ReplaceNode(rootNamespaceOriginal, rootNamespaceWithMembers)
             .GetCode();
@@ -80,5 +49,47 @@ public sealed class CodeGeneratorDocumentInteropRuntime
         };
 
         return document;
+    }
+
+    private static ImmutableArray<MemberDeclarationSyntax> CreateMembers()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var resourcesNames = assembly.GetManifestResourceNames();
+        var builderMembers = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
+
+        foreach (var resourceName in resourcesNames)
+        {
+            CreateMember(resourceName, assembly, builderMembers);
+        }
+
+        return builderMembers.ToImmutable();
+    }
+
+    private static void CreateMember(
+        string resourceName,
+        Assembly assembly,
+        ImmutableArray<MemberDeclarationSyntax>.Builder builderMembers)
+    {
+        if (!resourceName.EndsWith(".cs", StringComparison.InvariantCulture))
+        {
+            return;
+        }
+
+        using var stream = assembly.GetManifestResourceStream(resourceName);
+        using var streamReader = new StreamReader(stream!);
+        var fileContents = streamReader
+            .ReadToEnd()
+            .Replace("\nnamespace Interop.Runtime;\n", string.Empty, StringComparison.InvariantCulture);
+
+        var syntaxTree = SyntaxFactory.ParseSyntaxTree(fileContents);
+        if (syntaxTree.GetRoot() is not CompilationUnitSyntax compilationUnit)
+        {
+            return;
+        }
+
+        foreach (var member in compilationUnit.Members)
+        {
+            builderMembers.Add(member);
+        }
     }
 }

@@ -34,7 +34,8 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
             IsEnabledFunctionPointers = IsEnabledFunctionPointers(unsanitizedInput, targetFramework),
             IsEnabledRuntimeMarshalling = IsEnabledRuntimeMarshalling(unsanitizedInput, targetFramework),
             IsEnabledFileScopedNamespace = IsEnabledFileScopedNamespace(unsanitizedInput, targetFramework),
-            IsEnabledLibraryImportAttribute = IsEnabledLibraryImport(unsanitizedInput, targetFramework)
+            IsEnabledLibraryImportAttribute = IsEnabledLibraryImport(unsanitizedInput, targetFramework),
+            IsEnabledSpans = IsEnabledSpans(targetFramework)
         };
     }
 
@@ -109,6 +110,11 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
         }
 
         var code = File.ReadAllText(headerCodeRegionFilePath);
+        if (!string.IsNullOrEmpty(code))
+        {
+            code = $"\n{code}\n";
+        }
+
         return code;
     }
 
@@ -120,6 +126,11 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
         }
 
         var code = File.ReadAllText(footerCodeRegionFilePath);
+        if (!string.IsNullOrEmpty(code))
+        {
+            code = $"\n{code}\n";
+        }
+
         return code;
     }
 
@@ -199,5 +210,17 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
         }
 
         return unsanitizedInput.IsEnabledLibraryImport ?? true;
+    }
+
+    private bool IsEnabledSpans(NuGetFramework nuGetFramework)
+    {
+        // Spans are only supported in .NET Core 2.1+
+        var isAtLeastNetCoreV7 = nuGetFramework is { Framework: ".NETCoreApp" };
+        if (!isAtLeastNetCoreV7)
+        {
+            return false;
+        }
+
+        return nuGetFramework.Version.Major > 2 || nuGetFramework.Version is { Major: 2, Minor: >= 1 };
     }
 }

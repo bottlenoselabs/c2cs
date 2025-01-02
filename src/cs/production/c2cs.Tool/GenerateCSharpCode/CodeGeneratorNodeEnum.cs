@@ -1,84 +1,58 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.Collections.Immutable;
+using bottlenoselabs.Common.Tools;
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeEnum(
-    ILogger<CodeGeneratorNodeEnum> logger,
-    NameMapper nameMapper) : CodeGeneratorNodeBase<CEnum>(logger, nameMapper)
+public class CodeGeneratorNodeEnum(ILogger<CodeGeneratorNodeEnum> logger)
+    : CodeGeneratorNode<CEnum>(logger)
 {
-    protected override SyntaxNode GenerateCode(
+    protected override string GenerateCode(
         string nameCSharp,
-        CodeGeneratorDocumentPInvokeContext context,
+        CodeGeneratorContext context,
         CEnum node)
     {
-        var size = node.SizeOf;
-        var integerTypeNameCSharp = size switch
+        var integerTypeNameCSharp = node.SizeOf switch
         {
             1 => "sbyte",
             2 => "short",
             4 => "int",
             8 => "long",
-            _ => throw new NotImplementedException(
+            _ => throw new ToolException(
                 $"The enum size is not supported: '{nameCSharp}' of size {node.SizeOf}.")
         };
 
-        var valuesString = EnumValuesCode(integerTypeNameCSharp, node.Values);
-        var enumMembers = string.Join(",\n", valuesString);
+        var enumValueCodes = GenerateCodeEnumValues(node.Values);
+        var enumValuesCode = string.Join(",\n", enumValueCodes);
 
         var code = $$"""
 
                      public enum {{nameCSharp}} : {{integerTypeNameCSharp}}
                          {
-                             {{enumMembers}}
+                             {{enumValuesCode}}
                          }
 
                      """;
 
-        return ParseMemberCode<EnumDeclarationSyntax>(code);
+        return code;
     }
 
-    private static string[] EnumValuesCode(
-        string enumIntegerTypeName, ImmutableArray<CEnumValue> values)
+    private static string[] GenerateCodeEnumValues(ImmutableArray<CEnumValue> enumValues)
     {
-        var builder = ImmutableArray.CreateBuilder<string>(values.Length);
+        var builder = ImmutableArray.CreateBuilder<string>(enumValues.Length);
 
-        foreach (var value in values)
+        foreach (var enumValue in enumValues)
         {
-            var enumEqualsValue = EnumEqualsValue(value.Value, enumIntegerTypeName);
-            var memberString = SyntaxFactory.EnumMemberDeclaration(value.Name)
-                .WithEqualsValue(enumEqualsValue).ToFullString();
-
-            builder.Add(memberString);
+            var code = $"{enumValue.Name} = {enumValue.Value}";
+            builder.Add(code);
         }
 
         return builder.ToArray();
-    }
-
-    private static EqualsValueClauseSyntax EnumEqualsValue(long value, string enumIntegerTypeName)
-    {
-        var literalToken = enumIntegerTypeName switch
-        {
-            "sbyte" => SyntaxFactory.Literal((sbyte)value),
-            "short" => SyntaxFactory.Literal((short)value),
-            "int" => SyntaxFactory.Literal((int)value),
-            "long" => SyntaxFactory.Literal(value),
-            _ => throw new NotImplementedException(
-                $"The enum integer type name is not supported: {enumIntegerTypeName}.")
-        };
-
-        return SyntaxFactory.EqualsValueClause(
-            SyntaxFactory.LiteralExpression(
-                SyntaxKind.NumericLiteralExpression, literalToken));
     }
 }

@@ -16,12 +16,22 @@ public sealed class NameMapper
 
     private static readonly char[] IdentifierSeparatorCharacters = ['_', '.', '@'];
 
-    public NameMapper()
+    public NameMapper(CodeGeneratorContext context)
     {
         // C types -> C# Interop.Runtime types
         _cSharpNamesByCNames.Add("char", "CChar");
-        _cSharpNamesByCNames.Add("bool", "CBool");
-        _cSharpNamesByCNames.Add("_Bool", "CBool");
+
+        if (context.IsEnabledRuntimeMarshalling)
+        {
+            _cSharpNamesByCNames.Add("bool", "CBool");
+            _cSharpNamesByCNames.Add("_Bool", "CBool");
+        }
+        else
+        {
+            _cSharpNamesByCNames.Add("bool", "bool");
+            _cSharpNamesByCNames.Add("_Bool", "bool");
+        }
+
         _cSharpNamesByCNames.Add("char*", "CString");
         _cSharpNamesByCNames.Add("wchar_t*", "CWideString");
 
@@ -43,6 +53,92 @@ public sealed class NameMapper
         _cSharpNamesByCNames.Add("va_list", "IntPtr");
     }
 
+    public string GetIdentifierCSharp(string nameC)
+    {
+        return nameC switch
+        {
+            "abstract"
+                or "as"
+                or "base"
+                or "bool"
+                or "break"
+                or "byte"
+                or "case"
+                or "catch"
+                or "char"
+                or "checked"
+                or "class"
+                or "const"
+                or "continue"
+                or "decimal"
+                or "default"
+                or "delegate"
+                or "do"
+                or "double"
+                or "else"
+                or "enum"
+                or "event"
+                or "explicit"
+                or "extern"
+                or "false"
+                or "finally"
+                or "fixed"
+                or "float"
+                or "for"
+                or "foreach"
+                or "goto"
+                or "if"
+                or "implicit"
+                or "in"
+                or "int"
+                or "interface"
+                or "internal"
+                or "is"
+                or "lock"
+                or "long"
+                or "namespace"
+                or "new"
+                or "null"
+                or "object"
+                or "operator"
+                or "out"
+                or "override"
+                or "params"
+                or "private"
+                or "protected"
+                or "public"
+                or "readonly"
+                or "record"
+                or "ref"
+                or "return"
+                or "sbyte"
+                or "sealed"
+                or "short"
+                or "sizeof"
+                or "stackalloc"
+                or "static"
+                or "string"
+                or "struct"
+                or "switch"
+                or "this"
+                or "throw"
+                or "true"
+                or "try"
+                or "typeof"
+                or "uint"
+                or "ulong"
+                or "unchecked"
+                or "unsafe"
+                or "ushort"
+                or "using"
+                or "virtual"
+                or "void"
+                or "volatile"
+                or "while" => $"@{nameC}",
+            _ => nameC
+        };
+    }
+
     public string GetNodeNameCSharp(CNode nodeC)
     {
         var nameC = SanitizeNameC(nodeC.Name);
@@ -51,19 +147,15 @@ public sealed class NameMapper
             return nameCSharp;
         }
 
-        if (nodeC is CFunction or CEnum or CTypeAlias)
-        {
-            nameCSharp = nameC;
-        }
 #pragma warning disable IDE0045
-        else if (nodeC is CFunctionPointer functionPointerC)
+        if (nodeC is CFunctionPointer functionPointerC)
 #pragma warning restore IDE0045
         {
             nameCSharp = GetFunctionPointerNameCSharp(functionPointerC);
         }
         else
         {
-            throw new NotImplementedException();
+            nameCSharp = nameC;
         }
 
         _cSharpNamesByCNames.Add(nameC, nameCSharp);
@@ -89,10 +181,11 @@ public sealed class NameMapper
         else
         {
             var forceUnsigned = type.NodeKind == CNodeKind.EnumValue;
-            typeNameCSharp = GetTypeNameCSharpRaw(nameC, type.SizeOf ?? 0, forceUnsigned);
+            typeNameCSharp = GetTypeNameCSharp(nameC, type.SizeOf ?? 0, forceUnsigned);
         }
 
         _cSharpNamesByCNames.Add(nameC, typeNameCSharp);
+
         return typeNameCSharp;
     }
 
@@ -154,9 +247,8 @@ public sealed class NameMapper
             pointerTypeName = pointerTypeName[..x] + "*" + pointerTypeName[(y + 1)..];
         }
 
-        var elementTypeName = pointerTypeName.TrimEnd('*').TrimEnd();
-        var pointersTypeName = pointerTypeName[elementTypeName.Length..]
-            .Replace(" ", string.Empty, StringComparison.InvariantCulture);
+        var elementTypeName = pointerTypeName[..^1];
+        var pointersTypeName = pointerTypeName[elementTypeName.Length..];
         if (elementTypeName.Length == 0)
         {
             return "void" + pointersTypeName;
@@ -167,13 +259,13 @@ public sealed class NameMapper
             return "void*";
         }
 
-        var mappedElementTypeName = GetTypeNameCSharp(innerType);
-        var result = mappedElementTypeName + pointersTypeName;
+        var elementTypeNameCSharp = GetTypeNameCSharp(innerType);
+        var result = elementTypeNameCSharp + pointersTypeName;
         return result;
     }
 
-    private string GetTypeNameCSharpRaw(
-        string typeName,
+    private string GetTypeNameCSharp(
+        string typeNameC,
         int? sizeOf = null,
         bool forceUnsignedInteger = false)
     {
@@ -187,7 +279,7 @@ public sealed class NameMapper
         //     return mappedSystemTypeName;
         // }
 
-        switch (typeName)
+        switch (typeNameC)
         {
             case "unsigned char":
             case "unsigned short":
@@ -230,7 +322,7 @@ public sealed class NameMapper
                 return TypeNameMapFloatingPoint(sizeOf!.Value);
 
             default:
-                return typeName;
+                return typeNameC;
         }
     }
 
@@ -278,6 +370,11 @@ public sealed class NameMapper
             result = result.Replace("const ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
         }
 
+        if (result.Contains("const", StringComparison.InvariantCultureIgnoreCase))
+        {
+            result = result.Replace("const", string.Empty, StringComparison.InvariantCultureIgnoreCase);
+        }
+
         if (result.Contains("enum ", StringComparison.InvariantCultureIgnoreCase))
         {
             result = result.Replace("enum ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
@@ -293,7 +390,15 @@ public sealed class NameMapper
             result = result.Replace("union ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        result = result.Replace(" ", string.Empty, StringComparison.InvariantCultureIgnoreCase);
+        if (result.Contains("* ", StringComparison.InvariantCultureIgnoreCase))
+        {
+            result = result.Replace("* ", "*", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        if (result.Contains(" *", StringComparison.InvariantCultureIgnoreCase))
+        {
+            result = result.Replace(" *", "*", StringComparison.InvariantCultureIgnoreCase);
+        }
 
         return result;
     }

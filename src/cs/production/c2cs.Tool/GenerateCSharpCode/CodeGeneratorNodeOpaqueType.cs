@@ -3,29 +3,24 @@
 
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeOpaqueType(
-    ILogger<CodeGeneratorNodeOpaqueType> logger,
-    NameMapper nameMapper) : CodeGeneratorNodeBase<COpaqueType>(logger, nameMapper)
+public class CodeGeneratorNodeOpaqueType(ILogger<CodeGeneratorNodeOpaqueType> logger)
+    : CodeGeneratorNode<COpaqueType>(logger)
 {
-    protected override SyntaxNode GenerateCode(
-        string nameCSharp, CodeGeneratorDocumentPInvokeContext context, COpaqueType node)
+    protected override string GenerateCode(
+        string nameCSharp, CodeGeneratorContext context, COpaqueType node)
     {
         var code = $$"""
-
                      [StructLayout(LayoutKind.Sequential)]
                      public struct {{nameCSharp}}
                      {
                      }
-
                      """;
 
-        return ParseMemberCode<StructDeclarationSyntax>(code);
+        return code;
     }
 }

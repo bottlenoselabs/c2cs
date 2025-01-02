@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO.Abstractions;
 using SearchOption = System.IO.SearchOption;
 
-namespace C2CS.Tests.Helpers;
+namespace C2CS.Tests;
 
 [ExcludeFromCodeCoverage]
 public class FileSystemHelper(IFileSystem fileSystem)

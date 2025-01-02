@@ -1,0 +1,8 @@
+{
+  "inputFilePath": "./ffi-x/cross-platform.json",
+  "outputFileDirectory": "./cs",
+  "namespaceName": "test_namespace",
+  "className": "test_class",
+  "isEnabledFileScopedNamespace": false,
+  "isEnabledLibraryImport": true
+}

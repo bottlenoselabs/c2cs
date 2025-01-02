@@ -1,289 +1,137 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
+using System.Collections.Immutable;
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeStruct(
-    ILogger<CodeGeneratorNodeStruct> logger,
-    NameMapper nameMapper) : CodeGeneratorNodeBase<CRecord>(logger, nameMapper)
+public class CodeGeneratorNodeStruct(ILogger<CodeGeneratorNodeStruct> logger)
+    : CodeGeneratorNode<CRecord>(logger)
 {
-    protected override SyntaxNode GenerateCode(string nameCSharp, CodeGeneratorDocumentPInvokeContext context, CRecord node)
+    protected override string GenerateCode(string nameCSharp, CodeGeneratorContext context, CRecord record)
     {
-        return Struct(context, node, false);
+        var codeStructMembers = GenerateCodeStructMembers(context.NameMapper, record.Fields);
+        var membersCode = string.Join("\n\n", codeStructMembers);
+
+        var code = $$"""
+                     [StructLayout(LayoutKind.Explicit, Size = {{record.SizeOf}}, Pack = {{record.AlignOf}})]
+                     public struct {{nameCSharp}}
+                     {
+                         {{membersCode}}
+                     }
+                     """;
+
+        return code;
     }
 
-    private StructDeclarationSyntax Struct(CodeGeneratorDocumentPInvokeContext context, CRecord record, bool isNested)
+    private string[] GenerateCodeStructMembers(NameMapper nameMapper, ImmutableArray<CRecordField> fields)
     {
-        throw new NotImplementedException();
+        var builder = ImmutableArray.CreateBuilder<string>();
 
-        // var memberSyntaxes = StructMembers(context, record.Name, record.Fields, record);
-        // var memberStrings = memberSyntaxes.Select(x => x.ToFullString());
-        // var members = string.Join("\n\n", memberStrings);
-        //
-        // var code = $$"""
-        //
-        //              [StructLayout(LayoutKind.Explicit, Size = {{record.SizeOf}}, Pack = {{record.AlignOf}})]
-        //              public struct {{record.Name}}
-        //              {
-        //                  {{members}}
-        //              }
-        //
-        //              """;
-        //
-        // if (isNested)
-        // {
-        //     code = code.Trim();
-        // }
-        //
-        // var member = context.ParseMemberCode<StructDeclarationSyntax>(code);
-        // return member;
+        foreach (var field in fields)
+        {
+            var code = GenerateCodeStructField(nameMapper, field);
+            builder.Add(code);
+        }
+
+        var structMembers = builder.ToArray();
+        return structMembers;
     }
 
-// private MemberDeclarationSyntax[] StructMembers(
-//         CSharpCodeGeneratorContext context,
-//         string structName,
-//         ImmutableArray<CRecordField> fields,
-//         ImmutableArray<CRecord> nestedStructs)
-//     {
-//         var builder = ImmutableArray.CreateBuilder<MemberDeclarationSyntax>();
-//
-//         StructFields(context, structName, fields, builder);
-//
-//         foreach (var nestedStruct in nestedStructs)
-//         {
-//             var syntax = Struct(context, nestedStruct, true);
-//             builder.Add(syntax);
-//         }
-//
-//         var structMembers = builder.ToArray();
-//         return structMembers;
-//     }
-//
-//     private void StructFields(
-//         CSharpCodeGeneratorContext context,
-//         string structName,
-//         ImmutableArray<CRecordField> fields,
-//         ImmutableArray<MemberDeclarationSyntax>.Builder builder)
-//     {
-//         foreach (var field in fields)
-//         {
-//             StructField(context, structName, builder, field);
-//         }
-//     }
-//
-//     private void StructField(
-//         CSharpCodeGeneratorContext context,
-//         string structName,
-//         ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-//         CRecordField field)
-//     {
-//         var isArray = false;
-//         if (isArray)
-//         {
-//             StructFieldFixedBuffer(context, structName, builder, field);
-//         }
-//         else
-//         {
-//             var fieldMember = StructField(context, field);
-//             builder.Add(fieldMember);
-//         }
-//     }
-//
-//     private void StructFieldFixedBuffer(
-//         CSharpCodeGeneratorContext context,
-//         string structName,
-//         ImmutableArray<MemberDeclarationSyntax>.Builder builder,
-//         CRecordField field)
-//     {
-//         var elementTypeName = field.Type.Name[..^1];
-//         if (elementTypeName.EndsWith('*'))
-//         {
-//             elementTypeName = "IntPtr";
-//         }
-//
-//         var elementType = field.Type.InnerType;
-//         var elementTypeIsEnum = elementType != null && (elementType.NodeKind == CNodeKind.Enum || (elementType.NodeKind == CNodeKind.TypeAlias && elementType.InnerType!.NodeKind == CNodeKind.Enum));
-//         var typeNameIsFixedBufferCompatible = elementTypeIsEnum ||
-//             elementTypeName is "byte" or "char" or "short" or "int" or "long" or "sbyte" or "ushort" or "uint"
-//                 or "ulong" or "float" or "double";
-//
-//         if (typeNameIsFixedBufferCompatible)
-//         {
-//             var fixedBufferTypeName = elementTypeIsEnum ? "int" : elementTypeName;
-//             var code = $"""
-//
-//                         [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
-//                         public fixed {fixedBufferTypeName} {field.Name}[{field.Type.ArraySizeOf}];
-//
-//                         """.Trim();
-//             var fieldMember = context.ParseMemberCode<FieldDeclarationSyntax>(code);
-//             builder.Add(fieldMember);
-//         }
-//         else
-//         {
-//             var code = $"""
-//
-//                         [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
-//                         public fixed byte {field.Name}[{field.Type.SizeOf}]; // {field.Type.Name}
-//
-//                         """.Trim();
-//             var fieldMember = context.ParseMemberCode<FieldDeclarationSyntax>(code);
-//             builder.Add(fieldMember);
-//
-//             var methodMember = StructFieldFixedBufferProperty(context, structName, field);
-//             builder.Add(methodMember);
-//         }
-//     }
-//
-//     private FieldDeclarationSyntax StructField(
-//         CSharpCodeGeneratorContext context,
-//         CRecordField field)
-//     {
-//         string code;
-//         if (field.Type.Name == "CString")
-//         {
-//             code = $$"""
-//
-//                      [FieldOffset({{field.OffsetOf}})] // size = {{field.Type.SizeOf}}
-//                      public {{field.Type.Name}} _{{field.Name}};
-//
-//                      public string {{field.Name}}
-//                      {
-//                          get
-//                          {
-//                              return CString.ToString(_{{field.Name}});
-//                          }
-//                          set
-//                          {
-//                              _{{field.Name}} = CString.FromString(value);
-//                          }
-//                      }
-//
-//                      """.Trim();
-//         }
-//         else
-//         {
-//             code = $"""
-//
-//                     [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
-//                     public {field.Type.Name} {field.Name};
-//
-//                     """.Trim();
-//         }
-//
-//         var member = context.ParseMemberCode<FieldDeclarationSyntax>(code);
-//         return member;
-//     }
-//
-//     private PropertyDeclarationSyntax StructFieldFixedBufferProperty(
-//         CSharpCodeGeneratorContext context,
-//         string structName,
-//         CRecordField field)
-//     {
-//         string code;
-//
-//         if (field.Type.Name == "CString")
-//         {
-//             code = $$"""
-//
-//                      public string {{field.Name}}
-//                      {
-//                          get
-//                          {
-//                              fixed ({{structName}}*@this = &this)
-//                              {
-//                                  var pointer = &@this->{{field.Name}}[0];
-//                                 var cString = new CString(pointer);
-//                                 return CString.ToString(cString);
-//                              }
-//                          }
-//                      }
-//
-//                      """.Trim();
-//         }
-//         else if (field.Type.Name == "CStringWide")
-//         {
-//             code = $$"""
-//
-//                      public string {{field.Name}}
-//                      {
-//                          get
-//                          {
-//                              fixed ({{structName}}*@this = &this)
-//                              {
-//                                  var pointer = &@this->{{field.Name}}[0];
-//                                  var cString = new CStringWide(pointer);
-//                                  return StringWide.ToString(cString);
-//                              }
-//                          }
-//                      }
-//
-//                      """.Trim();
-//         }
-//         else
-//         {
-//             var fieldTypeName = field.Type.Name;
-//             var elementType = fieldTypeName[..^1];
-//             if (elementType.EndsWith('*'))
-//             {
-//                 elementType = "IntPtr";
-//             }
-//
-//             var isAtLeastNetCoreV21 = context.Options.TargetFramework.Framework == ".NETCoreApp" &&
-//                                   context.Options.TargetFramework.Version >= _spanNetCoreRequiredVersion;
-//
-//             if (isAtLeastNetCoreV21)
-//             {
-//                 code = $$"""
-//
-//                          public readonly Span<{{elementType}}> {{field.Name}}
-//                          {
-//                              get
-//                              {
-//                                  fixed ({{structName}}*@this = &this)
-//                                  {
-//                                      var pointer = &@this->{{field.Name}}[0];
-//                                      var span = new Span<{{elementType}}>(pointer, {{field.Type.ArraySizeOf}});
-//                                      return span;
-//                                  }
-//                              }
-//                          }
-//
-//                          """.Trim();
-//             }
-//             else
-//             {
-//                 code = $$"""
-//
-//                          public {{elementType}}[] {{field.Name}}
-//                          {
-//                              get
-//                              {
-//                                  fixed ({{structName}}*@this = &this)
-//                                  {
-//                                      var pointer = ({{elementType}}*)&@this->{{field.Name}}[0];
-//                                      var array = new {{elementType}}[{{field.Type.ArraySizeOf}}];
-//                                     for (var i = 0; i < {{field.Type.ArraySizeOf}}; i++, pointer++)
-//                                     {
-//                                         array[i] = *pointer;
-//                                     }
-//                                     return array;
-//                                 }
-//                             }
-//                          }
-//
-//                          """.Trim();
-//             }
-//         }
-//
-//         return context.ParseMemberCode<PropertyDeclarationSyntax>(code);
-//     }
+    private string GenerateCodeStructField(NameMapper nameMapper, CRecordField field)
+    {
+        var fieldNameCSharp = nameMapper.GetIdentifierCSharp(field.Name);
+        var isArray = field.Type.ArraySizeOf != null;
+        var code = isArray
+            ? GenerateCodeStructFieldFixedBuffer(fieldNameCSharp, nameMapper, field)
+            : GenerateCodeStructFieldNormal(fieldNameCSharp, nameMapper, field);
+        return code;
+    }
+
+    private string GenerateCodeStructFieldFixedBuffer(
+        string fieldNameCSharp,
+        NameMapper nameMapper,
+        CRecordField field)
+    {
+        var elementTypeName = nameMapper.GetTypeNameCSharp(field.Type.InnerType!);
+        if (elementTypeName.EndsWith('*'))
+        {
+            elementTypeName = "IntPtr";
+        }
+
+        var typeNameIsFixedBufferCompatible = elementTypeName is "byte"
+            or "char"
+            or "short"
+            or "int"
+            or "long"
+            or "sbyte"
+            or "ushort"
+            or "uint"
+            or "ulong"
+            or "float"
+            or "double";
+
+        string code;
+        if (typeNameIsFixedBufferCompatible)
+        {
+            var fixedBufferTypeName = nameMapper.GetTypeNameCSharp(field.Type.InnerType!);
+            code = $"""
+                        [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
+                        public fixed {fixedBufferTypeName} {fieldNameCSharp}[{field.Type.ArraySizeOf}];
+                        """;
+        }
+        else
+        {
+            code = $$"""
+                        [FieldOffset({{field.OffsetOf}})] // size = {{field.Type.SizeOf}}
+                        public fixed byte _{{fieldNameCSharp}}[{{field.Type.SizeOf}}]; // {{field.Type.Name}}
+                        """;
+        }
+
+        return code;
+    }
+
+    private string GenerateCodeStructFieldNormal(
+        string fieldNameCSharp,
+        NameMapper nameMapper,
+        CRecordField field)
+    {
+        var fieldTypeNameCSharp = nameMapper.GetTypeNameCSharp(field.Type);
+
+        string code;
+#pragma warning disable IDE0045
+        if (fieldTypeNameCSharp == "CString")
+#pragma warning restore IDE0045
+        {
+            code = $$"""
+                     [FieldOffset({{field.OffsetOf}})] // size = {{field.Type.SizeOf}}
+                     public {{fieldTypeNameCSharp}} _{{fieldNameCSharp}};
+
+                     public string {{fieldNameCSharp}}
+                     {
+                         get
+                         {
+                             return CString.ToString(_{{fieldNameCSharp}});
+                         }
+                         set
+                         {
+                             _{{fieldNameCSharp}} = CString.FromString(value);
+                         }
+                     }
+                     """;
+        }
+        else
+        {
+            code = $$"""
+                     [FieldOffset({{field.OffsetOf}})]
+                     public {{fieldTypeNameCSharp}} {{fieldNameCSharp}}; // size = {{field.Type.SizeOf}}
+                     """;
+        }
+
+        return code;
+    }
 }

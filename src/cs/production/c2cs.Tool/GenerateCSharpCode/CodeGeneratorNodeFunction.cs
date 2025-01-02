@@ -7,62 +7,68 @@ using System.Linq;
 using c2ffi.Data;
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeFunction(
-    ILogger<CodeGeneratorNodeFunction> logger,
-    NameMapper nameMapper) : CodeGeneratorNodeBase<CFunction>(logger, nameMapper)
+public class CodeGeneratorNodeFunction(ILogger<CodeGeneratorNodeFunction> logger)
+    : CodeGeneratorNode<CFunction>(logger)
 {
-    protected override SyntaxNode GenerateCode(
+    protected override string GenerateCode(
         string nameCSharp,
-        CodeGeneratorDocumentPInvokeContext context,
-        CFunction node)
+        CodeGeneratorContext context,
+        CFunction function)
     {
-        string code;
+        var returnTypeNameCSharp = context.NameMapper.GetTypeNameCSharp(function.ReturnType);
+        var parametersStringCSharp = string.Join(',', function.Parameters.Select(
+            x => ParameterStringCSharp(context.NameMapper, x)));
 
-        var returnTypeNameCSharp = NameMapper.GetTypeNameCSharp(node.ReturnType);
-        var parametersStringCSharp = string.Join(',', node.Parameters.Select(ParameterStringCSharp));
+        var code = context.IsEnabledLibraryImportAttribute ?
+            GenerateCodeLibraryImport(nameCSharp, function, parametersStringCSharp, returnTypeNameCSharp) :
+            GenerateCodeDllImport(nameCSharp, function, returnTypeNameCSharp, parametersStringCSharp);
 
-        if (!context.IsEnabledLibraryImportAttribute)
+        return code;
+    }
+
+    private static string GenerateCodeLibraryImport(
+        string nameCSharp,
+        CFunction node,
+        string parametersStringCSharp,
+        string returnTypeNameCSharp)
+    {
+        var callingConvention = FunctionCallingConventionLibraryImport(node.CallingConvention);
+        var libraryImportParameters = new List<string> { "LibraryName", $"EntryPoint = \"{nameCSharp}\"" };
+        if (node.ReturnType.Name == "string" ||
+            parametersStringCSharp.Contains("string", StringComparison.InvariantCulture))
         {
-            var callingConvention = FunctionCallingConventionDllImport(node.CallingConvention);
-            var dllImportParametersString = string.Join(',', "LibraryName", $"EntryPoint = \"{nameCSharp}\"", callingConvention);
-
-            code = $"""
-
-                    [DllImport({dllImportParametersString})]
-                    public static extern {returnTypeNameCSharp} {nameCSharp}({parametersStringCSharp});
-
-                    """;
+            libraryImportParameters.Add("StringMarshalling = StringMarshalling.Utf8");
         }
-        else
-        {
-            var callingConvention = FunctionCallingConventionLibraryImport(node.CallingConvention);
 
-            var libraryImportParameters = new List<string> { "LibraryName", $"EntryPoint = \"{nameCSharp}\"" };
-            if (node.ReturnType.Name == "string" ||
-                parametersStringCSharp.Contains("string", StringComparison.InvariantCulture))
-            {
-                libraryImportParameters.Add("StringMarshalling = StringMarshalling.Utf8");
-            }
+        var libraryImportParametersString = string.Join(",", libraryImportParameters);
 
-            var libraryImportParametersString = string.Join(",", libraryImportParameters);
-
-            code = $$"""
-
+        var code = $$"""
                      [LibraryImport({{libraryImportParametersString}})]
                      [UnmanagedCallConv(CallConvs = new[] { typeof({{callingConvention}}) })]
                      public static partial {{returnTypeNameCSharp}} {{nameCSharp}}({{parametersStringCSharp}});
-
                      """;
-        }
+        return code;
+    }
 
-        return ParseMemberCode<MethodDeclarationSyntax>(code);
+    private static string GenerateCodeDllImport(
+        string nameCSharp,
+        CFunction node,
+        string returnTypeNameCSharp,
+        string parametersStringCSharp)
+    {
+        var callingConvention = FunctionCallingConventionDllImport(node.CallingConvention);
+        var dllImportParametersString = string.Join(',', "LibraryName", $"EntryPoint = \"{nameCSharp}\"", callingConvention);
+
+        var code = $"""
+                    [DllImport({dllImportParametersString})]
+                    public static extern {returnTypeNameCSharp} {nameCSharp}({parametersStringCSharp});
+                    """;
+        return code;
     }
 
     private static string FunctionCallingConventionDllImport(CFunctionCallingConvention callingConvention)
@@ -91,10 +97,11 @@ public class CodeGeneratorNodeFunction(
         return result;
     }
 
-    private string ParameterStringCSharp(CFunctionParameter parameter)
+    private string ParameterStringCSharp(NameMapper nameMapper, CFunctionParameter parameter)
     {
+        var parameterName = nameMapper.GetIdentifierCSharp(parameter.Name);
         var parameterTypeC = parameter.Type;
-        var parameterTypeNameCSharp = NameMapper.GetTypeNameCSharp(parameterTypeC);
-        return $"{parameterTypeNameCSharp} {parameter.Name}";
+        var parameterTypeNameCSharp = nameMapper.GetTypeNameCSharp(parameterTypeC);
+        return $"{parameterTypeNameCSharp} {parameterName}";
     }
 }

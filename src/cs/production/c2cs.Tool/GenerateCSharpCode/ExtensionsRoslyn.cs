@@ -11,7 +11,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 namespace C2CS.GenerateCSharpCode;
 
 [PublicAPI]
-public static partial class ExtensionsRoslyn
+public static class ExtensionsRoslyn
 {
     public static string GetCode<T>(this T syntaxNode)
         where T : SyntaxNode
@@ -19,8 +19,7 @@ public static partial class ExtensionsRoslyn
         using var workspace = new AdhocWorkspace();
         var compilationUnitFormatted = (T)Formatter.Format(syntaxNode, workspace);
         var code = compilationUnitFormatted.ToFullString();
-        var finalCode = MultipleNewLinesRegex().Replace(code, "\n\n");
-        return finalCode;
+        return code;
     }
 
     public static T AddRegionStart<T>(this T node, string regionName, bool addDoubleTrailingNewLine)
@@ -80,7 +79,4 @@ public static partial class ExtensionsRoslyn
     {
         return Trivia(EndRegionDirectiveTrivia(isActive));
     }
-
-    [GeneratedRegex("(\\n){2,}")]
-    private static partial Regex MultipleNewLinesRegex();
 }

@@ -2,26 +2,39 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
-using Xunit;
 
-namespace C2CS.Tests.Models;
+namespace C2CS.Tests;
 
 public sealed class CSharpTestAbstractSyntaxTree(
 #pragma warning disable CS9113 // Parameter is unread.
     ImmutableDictionary<string, CSharpTestEnum> enums,
-#pragma warning restore CS9113 // Parameter is unread.
     ImmutableDictionary<string, CSharpTestFunction> functions,
-#pragma warning disable CS9113 // Parameter is unread.
     ImmutableDictionary<string, CSharpTestMacroObject> macroObjects,
-#pragma warning restore CS9113 // Parameter is unread.
-#pragma warning disable CS9113 // Parameter is unread.
     ImmutableDictionary<string, CSharpTestStruct> structs)
-#pragma warning restore CS9113 // Parameter is unread.
 {
+    public CSharpTestFunction? TryGetFunction(string name)
+    {
+        _ = functions.TryGetValue(name, out var value);
+        return value;
+    }
+
     public CSharpTestFunction GetFunction(string name)
     {
         var exists = functions.TryGetValue(name, out var value);
-        Assert.True(exists, $"The C# method '{name}' does not exist");
+        Assert.True(exists, $"The C# method '{name}' does not exist.");
+        return value!;
+    }
+
+    public CSharpTestEnum? TryGetEnum(string name)
+    {
+        _ = enums.TryGetValue(name, out var value);
+        return value;
+    }
+
+    public CSharpTestEnum GetEnum(string name)
+    {
+        var exists = enums.TryGetValue(name, out var value);
+        Assert.True(exists, $"The C# enum '{name}' does not exist.");
         return value!;
     }
 }

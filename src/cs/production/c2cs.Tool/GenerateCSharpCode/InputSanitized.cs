@@ -32,4 +32,6 @@ public class InputSanitized
     public bool IsEnabledLibraryImportAttribute { get; init; }
 
     public bool IsEnabledFileScopedNamespace { get; init; }
+
+    public bool IsEnabledSpans { get; init; }
 }

@@ -1,36 +1,36 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using System;
 using System.Collections.Immutable;
 using System.Text;
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode;
 
 [UsedImplicitly]
-public sealed class CodeGeneratorNodeFunctionPointer(
-    ILogger<CodeGeneratorNodeFunctionPointer> logger,
-    NameMapper nameMapper) : CodeGeneratorNodeBase<CFunctionPointer>(logger, nameMapper)
+public sealed class CodeGeneratorNodeFunctionPointer(ILogger<CodeGeneratorNodeFunctionPointer> logger)
+    : CodeGeneratorNode<CFunctionPointer>(logger)
 {
-    protected override SyntaxNode GenerateCode(
-        string nameCSharp, CodeGeneratorDocumentPInvokeContext context, CFunctionPointer node)
+    protected override string GenerateCode(
+        string nameCSharp, CodeGeneratorContext context, CFunctionPointer node)
     {
+        var nameMapper = context.NameMapper;
         var code = context.IsEnabledFunctionPointers ?
-            GenerateCodeFunctionPointer(nameCSharp, node) : GenerateCodeDelegate(nameCSharp, node);
-        return ParseMemberCode<StructDeclarationSyntax>(code);
+            GenerateCodeFunctionPointer(nameMapper, nameCSharp, node) : GenerateCodeDelegate(nameMapper, nameCSharp, node);
+        return code;
     }
 
-    private string GenerateCodeFunctionPointer(string name, CFunctionPointer node)
+    private string GenerateCodeFunctionPointer(
+        NameMapper nameMapper, string name, CFunctionPointer node)
     {
-        var parameterTypesString = GenerateCodeParameters(node.Parameters, false);
-        var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString) ? node.ReturnType.Name : $"{parameterTypesString}, {node.ReturnType.Name}";
+        var parameterTypesString = GenerateCodeParameters(nameMapper, node.Parameters, false);
+        var returnTypeString = nameMapper.GetTypeNameCSharp(node.ReturnType);
+        var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString) ? returnTypeString : $"{parameterTypesString}, {returnTypeString}";
 
         var code = $$"""
-
                      [StructLayout(LayoutKind.Sequential)]
                      public struct {{name}}
                      {
@@ -41,17 +41,16 @@ public sealed class CodeGeneratorNodeFunctionPointer(
                             Pointer = pointer;
                         }
                      }
-
                      """;
         return code;
     }
 
-    private string GenerateCodeDelegate(string name, CFunctionPointer node)
+    private string GenerateCodeDelegate(
+        NameMapper nameMapper, string name, CFunctionPointer node)
     {
-        var parameterTypesString = GenerateCodeParameters(node.Parameters);
+        var parameterTypesString = GenerateCodeParameters(nameMapper, node.Parameters);
 
         var code = $$"""
-
                      [StructLayout(LayoutKind.Sequential)]
                      public struct {{name}}
                      {
@@ -65,12 +64,12 @@ public sealed class CodeGeneratorNodeFunctionPointer(
                              Pointer = Marshal.GetFunctionPointerForDelegate(d);
                          }
                      }
-
                      """;
         return code;
     }
 
-    private string GenerateCodeParameters(ImmutableArray<CFunctionPointerParameter> parameters, bool includeNames = true)
+    private string GenerateCodeParameters(
+        NameMapper nameMapper, ImmutableArray<CFunctionPointerParameter> parameters, bool includeNames = true)
     {
         var stringBuilder = new StringBuilder();
 
@@ -78,7 +77,7 @@ public sealed class CodeGeneratorNodeFunctionPointer(
         {
             var parameter = parameters[i];
 
-            var parameterTypeNameCSharp = NameMapper.GetTypeNameCSharp(parameter.Type);
+            var parameterTypeNameCSharp = nameMapper.GetTypeNameCSharp(parameter.Type);
             _ = stringBuilder.Append(parameterTypeNameCSharp);
 
             if (includeNames)
