@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       pre-release:
-        description: 'Is pre-release? (NOTE: Pre-releases are uploaded to MyGet.org instead of NuGet.org.)'     
+        description: 'Is pre-release? (NOTE: Pre-releases are uploaded to MyGet.org instead of NuGet.org.)'
         required: true
         default: 'true'
       version:
-        description: 'Version (NOTE: If left blank, the current date is used as the version.)'     
+        description: 'Version (NOTE: If left blank, the current date is used as the version.)'
         required: false
         default: ''
 
@@ -43,7 +43,12 @@ jobs:
           fi
 
           echo "VERSION=$VERSION"
-          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT" 
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: "Setup .NET"
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.x'
 
       - name: ".NET pack"
         run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="${{ steps.set-version.outputs.VERSION }}" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
@@ -60,11 +65,10 @@ jobs:
           NUGET_ACCESS_TOKEN: ${{ secrets.NUGET_ACCESS_TOKEN }}
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
 
-      - name: "Create tag and GitHub release" 
+      - name: "Create tag and GitHub release"
         uses: softprops/action-gh-release@v1
         if: github.event_name == 'schedule' || github.event.inputs.pre-release == 'false'
         with:
           generate_release_notes: true
           prerelease: "{{ github.event.inputs.pre-release == 'true' }}"
           tag_name: "v${{ steps.set-version.outputs.VERSION }}"
-          

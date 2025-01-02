@@ -1,10 +1,25 @@
-# NOTE: Requires .NET 5 SDK (VS2019 16.8 or later)
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig
 is_global = true
+global_level = 100
 
-# StyleCop Rules
-## Description: StyleCop code analysis rules for C# projects.
+# Microsoft
+dotnet_diagnostic.IDE0005.severity = none
+dotnet_diagnostic.IDE0008.severity = none
+dotnet_diagnostic.IDE0041.severity = none
+dotnet_diagnostic.IDE0046.severity = none
+dotnet_diagnostic.IDE0055.severity = none
+dotnet_diagnostic.IDE0160.severity = none
+dotnet_diagnostic.IDE0161.severity = error
+dotnet_diagnostic.IDE0210.severity = none
+dotnet_diagnostic.IDE0301.severity = none
+dotnet_diagnostic.CA1308.severity = none
+dotnet_diagnostic.CA1515.severity = none
+dotnet_diagnostic.CA1707.severity = error
+dotnet_diagnostic.CA1812.severity = none
+
+# StyleCop
 dotnet_diagnostic.SA1300.severity = none
 dotnet_diagnostic.SA1401.severity = none
 dotnet_diagnostic.SA1402.severity = none
 dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1602.severity = none

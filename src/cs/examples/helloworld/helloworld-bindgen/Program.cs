@@ -55,7 +55,7 @@ internal static class Program
 
         var configGenerateCSharpCodeFilePath = Path.GetFullPath(Path.Combine(sourceDirectoryPath, "config-generate-cs.json"));
         var parametersGenerateCSharpCode = new[] { "generate", "--config", configGenerateCSharpCodeFilePath };
-        C2CS.Program.Main(parametersGenerateCSharpCode);
+        _ = C2CS.Program.Main(parametersGenerateCSharpCode);
 
         return true;
     }

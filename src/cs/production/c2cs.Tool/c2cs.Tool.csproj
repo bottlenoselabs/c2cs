@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- MSBuild project settings -->
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<Nullable>enable</Nullable>
+		<RootNamespace>C2CS</RootNamespace>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<!-- NuGet -->
+	<PropertyGroup>
+		<PackAsTool>true</PackAsTool>
+		<IsPackable>true</IsPackable>
+		<PackageOutputPath>$(GitRepositoryPath)/nupkg</PackageOutputPath>
+		<RepositoryUrl>https://github.com/bottlenoselabs/c2cs</RepositoryUrl>
+		<PackageId>bottlenoselabs.C2CS.Tool</PackageId>
+		<PackageDescription>C to C# library bindings code generator. In go .h file, out come .cs file.</PackageDescription>
+		<ToolCommandName>c2cs</ToolCommandName>
+		<NoWarn>$(NoWarn);NU5104</NoWarn>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<!-- NuGet package references -->
+	<ItemGroup>
+		<PackageReference Include="bottlenoselabs.Common" Version="2024.4.11" />
+		<PackageReference Include="bottlenoselabs.c2ffi.data" Version="2024.12.12" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0" />
+		<PackageReference Include="NuGet.Frameworks" Version="6.12.1" />
+		<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+	</ItemGroup>
+
+	<!-- Project references -->
+	<ItemGroup>
+		<ProjectReference Include="..\c2cs.Interop.Runtime\c2cs.Interop.Runtime.csproj" />
+	</ItemGroup>
+
+	<!-- Configuration settings -->
+	<ItemGroup>
+		<EmbeddedResource Include="appsettings.json" />
+	</ItemGroup>
+
+	<!-- Interop.Runtime -->
+	<ItemGroup>
+		<EmbeddedResource Include="..\c2cs.Interop.Runtime\**\*.cs">
+				<Visible>false</Visible>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>
