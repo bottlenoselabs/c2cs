@@ -16,24 +16,18 @@ public sealed class NameMapper
 
     private static readonly char[] IdentifierSeparatorCharacters = ['_', '.', '@'];
 
+#pragma warning disable IDE0060
     public NameMapper(CodeGeneratorContext context)
+#pragma warning restore IDE0060
     {
         // C types -> C# Interop.Runtime types
         _cSharpNamesByCNames.Add("char", "CChar");
 
-        if (context.IsEnabledRuntimeMarshalling)
-        {
-            _cSharpNamesByCNames.Add("bool", "CBool");
-            _cSharpNamesByCNames.Add("_Bool", "CBool");
-        }
-        else
-        {
-            _cSharpNamesByCNames.Add("bool", "bool");
-            _cSharpNamesByCNames.Add("_Bool", "bool");
-        }
+        _cSharpNamesByCNames.Add("bool", "CBool");
+        _cSharpNamesByCNames.Add("_Bool", "CBool");
 
         _cSharpNamesByCNames.Add("char*", "CString");
-        _cSharpNamesByCNames.Add("wchar_t*", "CWideString");
+        _cSharpNamesByCNames.Add("wchar_t*", "CStringWide");
 
         // C types -> C# native CLR types
         _cSharpNamesByCNames.Add("int8_t", "sbyte");
