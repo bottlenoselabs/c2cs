@@ -9,10 +9,10 @@
   - [How to use `C2CS`](#how-to-use-c2cs)
     - [Installing and using `c2ffi`](#installing-and-using-c2ffi)
     - [Execute `c2cs`](#execute-c2cs)
-  - [How to use `C2CS.Runtime`](#how-to-use-c2csruntime)
+  - [How to use the `Interop.Runtime`](#how-to-use-the-interopruntime)
   - [Building `C2CS` from source](#building-c2cs-from-source)
     - [Prerequisites](#prerequisites)
-    - [Visual Studio / Rider / MonoDevelop](#visual-studio--rider--monodevelop)
+    - [Visual Studio / Rider](#visual-studio--rider)
     - [Command Line Interface (CLI)](#command-line-interface-cli)
   - [Debugging `C2CS` from source](#debugging-c2cs-from-source)
     - [Debugging using logging](#debugging-using-logging)
@@ -29,7 +29,7 @@ See [LESSONS-LEARNED.md](./LESSONS-LEARNED.md).
 
 ## Installing `C2CS`
 
-`C2CS` is distributed as a NuGet tool. To get started, the .NET 8 software development kit (SDK) is required.
+`C2CS` is distributed as a NuGet tool. To get started, the .NET 9 software development kit (SDK) is required.
 
 ### Latest release of `C2CS`
 
@@ -51,31 +51,35 @@ dotnet nuget locals all --clear
 
 ## How to use `C2CS`
 
-To generate C# bindings for a C library you need to install and use the `c2ffi` tool and setup a couple configuration files. See the [`helloworld`](../src/cs/examples/helloworld/) example projects for an example.
+To generate C# bindings for a C library you need to first install and use the `c2ffi` tool. Then setup a couple configuration files. See the [`helloworld-bindgen`](../src/cs/examples/helloworld/helloworld-bindgen) example projects for an example of these configuration files.
 
 ### Installing and using `c2ffi`
 
 See the auxiliary project `Getting Started` section: https://github.com/bottlenoselabs/c2ffi#getting-started. 
 
-You should extract all the platform specific FFIs you wish to have as target platforms. See the [`helloworld-compile-c-library-and-generate-bindings`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/) for example configuration files for Windows, macOS, and Linux platforms.
+You should extract all the platform specific FFIs you wish to have as target platforms using `c2ffi extract --config ...`. See the [`helloworld-bindgen/config-extract.json`](../src/cs/examples/helloworld/helloworld-bindgen/config-extract.json) for example configuration file for Windows, macOS, and Linux platforms.
 
-Once all the platform FFIs are extracted to a directory, merge them together into a cross-platform FFI using `c2ffi merge` option.
+Once all the platform FFIs are extracted to a directory, merge them together into a cross-platform FFI using `c2ffi merge --inputDirectoryPath ... --outputFilePath ...` option.
+
+See the [`helloworld-bindgen`]([`helloworld-bindgen`](../src/cs/examples/helloworld/helloworld-bindgen/Program.cs).) C# program for example of using `c2ffi` from command line.
 
 Once you have a cross-platform FFI `.json` file, you are ready to use `c2cs`.
 
 ### Execute `c2cs`
 
-Run `c2cs --config` from terminal specifying a configuration file. See the [`config-generate-cs.json`](/src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/config-generate-cs.json) for an example in the `helloworld-compile-c-library-and-generate-bindings` example.
+Run `c2cs --config ...` from terminal specifying a configuration file. See the [`config-generate-cs.json`](../src/cs/examples/helloworld/helloworld-bindgen/config-generate-cs.json) for an example configuration `.json` file.
 
-## How to use `C2CS.Runtime`
+## How to use the `Interop.Runtime`
 
-The `C2CS.Runtime` C# code is directly added to the bottom of the generated bindings in a class named `Runtime` with a C# region named `C2CS.Runtime`. The `Runtime` static class contains helper structs, methods, and other kind of "glue" that make interoperability with C in C# easier and more idiomatic.
+The [`Interop.Runtime`](../src/cs/examples/helloworld/helloworld-app/Generated/Runtime.g.cs) C# code is by default generated to a new file as `Runtime.g.cs`. The `Interop.Runtime` namespace contains helper structs, methods, and other kind of "glue" that make interoperability with C in C# easier and more idiomatic.
+
+See the [HelloWorld example](src/cs/examples/helloworld/helloworld-app/Program.cs) for C# code that uses and explains how to use `Interop.Runtime`.
 
 ## Building `C2CS` from source
 
 ### Prerequisites
 
-1. Install [.NET 8 SDK](https://dotnet.microsoft.com/download).
+1. Install [.NET 9 SDK](https://dotnet.microsoft.com/download).
 2. Install build tools for C/C++.
     - Windows:
       1. Install Git Bash. (Usually installed with Git for Windows: https://git-scm.com/downloads.)
@@ -87,9 +91,9 @@ The `C2CS.Runtime` C# code is directly added to the bottom of the generated bind
       4. Install CMake: ```brew install cmake```
     - Linux:
       1. Install the software build tools for your distro including GCC, Clang, and CMake.
-3. Clone the repository with submodules: `git clone --recurse-submodules https://github.com/lithiumtoast/c2cs.git`.
+3. Clone the repository with submodules: `git clone --recurse-submodules https://github.com/bottlenoselabs/c2cs.git`.
 
-### Visual Studio / Rider / MonoDevelop
+### Visual Studio / Rider
 
 Open `./C2CS.sln`
 
@@ -131,5 +135,5 @@ Here you will find examples of C libraries being demonstrated with `C2CS` as smo
 
 Hello world example of callings C functions from C#. This is meant to be minimalistic to demonstrate the minimum required things to get this working.
 
-1. Run the C# project [`helloworld-compile-c-library-and-generate-bindings`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/Program.cs). This builds the example shared library and generate the bindings for the [`my_c_library`](../src/cs/examples/helloworld/helloworld-compile-c-library-and-generate-bindings/my_c_library/) C project. The C# bindings will be written to [`my_c_library.cs`](../src/cs/examples/helloworld/helloworld-app/Generated/my_c_library.gen.cs).
-2. Run the C# project [`helloworld-cs`](../src/cs/examples/helloworld/helloworld-app/Program.cs). You should see output to the console of C functions being called from C#.
+1. Run the C# project [`helloworld-bindgen`](../src/cs/examples/helloworld/helloworld-bindgen/Program.cs). This builds the example shared C library and generate the bindings for the [`my_c_library`](../src/cs/examples/helloworld/helloworld-bindgen/my_c_library) C project. The C# bindings will be written to [`my_c_library.g.cs`](../src/cs/examples/helloworld/helloworld-app/Generated/my_c_library.g.cs).
+2. Run the C# project [`helloworld-app`](../src/cs/examples/helloworld/helloworld-app/Program.cs). You should see output to the console of C functions being called from C#.

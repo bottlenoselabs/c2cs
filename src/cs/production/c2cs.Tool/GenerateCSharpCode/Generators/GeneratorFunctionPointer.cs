@@ -1,18 +1,17 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.Collections.Immutable;
 using System.Text;
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.GenerateCSharpCode;
+namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public sealed class CodeGeneratorNodeFunctionPointer(ILogger<CodeGeneratorNodeFunctionPointer> logger)
-    : CodeGeneratorNode<CFunctionPointer>(logger)
+public sealed class GeneratorNodeFunctionPointer(ILogger<GeneratorNodeFunctionPointer> logger)
+    : BaseGenerator<CFunctionPointer>(logger)
 {
     protected override string GenerateCode(
         string nameCSharp, CodeGeneratorContext context, CFunctionPointer node)

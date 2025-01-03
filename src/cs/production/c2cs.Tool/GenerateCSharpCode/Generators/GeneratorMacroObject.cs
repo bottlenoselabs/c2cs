@@ -5,11 +5,11 @@ using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.GenerateCSharpCode;
+namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeMacroObject(ILogger<CodeGeneratorNodeMacroObject> logger)
-    : CodeGeneratorNode<CMacroObject>(logger)
+public class GeneratorNodeMacroObject(ILogger<GeneratorNodeMacroObject> logger)
+    : BaseGenerator<CMacroObject>(logger)
 {
     protected override string GenerateCode(
         string nameCSharp, CodeGeneratorContext context, CMacroObject node)

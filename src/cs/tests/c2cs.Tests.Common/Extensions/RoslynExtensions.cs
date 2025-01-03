@@ -1,13 +1,12 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace C2CS.Tests.Common;
 
-public static class Extensions
+public static class RoslynExtensions
 {
     public static AttributeSyntax? TryGetAttribute(this MemberDeclarationSyntax syntaxNode, string name)
     {

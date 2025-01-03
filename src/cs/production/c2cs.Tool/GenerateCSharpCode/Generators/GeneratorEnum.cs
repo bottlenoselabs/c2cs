@@ -7,11 +7,11 @@ using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.GenerateCSharpCode;
+namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeEnum(ILogger<CodeGeneratorNodeEnum> logger)
-    : CodeGeneratorNode<CEnum>(logger)
+public class GeneratorNodeEnum(ILogger<GeneratorNodeEnum> logger)
+    : BaseGenerator<CEnum>(logger)
 {
     protected override string GenerateCode(
         string nameCSharp,

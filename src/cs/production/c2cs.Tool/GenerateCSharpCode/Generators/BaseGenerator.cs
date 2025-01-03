@@ -4,7 +4,7 @@
 using c2ffi.Data.Nodes;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.GenerateCSharpCode;
+namespace C2CS.GenerateCSharpCode.Generators;
 
 public abstract class CodeGeneratorNode(ILogger<CodeGeneratorNode> logger)
 {

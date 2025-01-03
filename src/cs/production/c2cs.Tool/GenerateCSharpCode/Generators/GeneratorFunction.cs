@@ -9,11 +9,11 @@ using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
-namespace C2CS.GenerateCSharpCode;
+namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public class CodeGeneratorNodeFunction(ILogger<CodeGeneratorNodeFunction> logger)
-    : CodeGeneratorNode<CFunction>(logger)
+public class GeneratorNodeFunction(ILogger<GeneratorNodeFunction> logger)
+    : BaseGenerator<CFunction>(logger)
 {
     protected override string GenerateCode(
         string nameCSharp,
