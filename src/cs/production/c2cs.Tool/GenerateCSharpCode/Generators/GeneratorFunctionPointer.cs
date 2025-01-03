@@ -31,7 +31,7 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
 
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]
-                     public struct {{name}}
+                     public partial struct {{name}}
                      {
                      	public delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> Pointer;
 
@@ -51,7 +51,7 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
 
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]
-                     public struct {{name}}
+                     public partial struct {{name}}
                      {
                          [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
                          public unsafe delegate {{node.ReturnType.Name}} @delegate({{parameterTypesString}});
