@@ -20,37 +20,35 @@ public sealed class NameMapper
     public NameMapper(CodeGeneratorContext context)
 #pragma warning restore IDE0060
     {
-        // C types -> C# Interop.Runtime types
-        _cSharpNamesByCNames.Add("char", "CChar");
-
-        _cSharpNamesByCNames.Add("bool", "CBool");
-        _cSharpNamesByCNames.Add("_Bool", "CBool");
-
-        _cSharpNamesByCNames.Add("char*", "CString");
-        _cSharpNamesByCNames.Add("wchar_t*", "CStringWide");
-
-        // C types -> C# native CLR types
-        _cSharpNamesByCNames.Add("int8_t", "sbyte");
-        _cSharpNamesByCNames.Add("uint8_t", "byte");
-        _cSharpNamesByCNames.Add("int16_t", "short");
-        _cSharpNamesByCNames.Add("uint16_t", "ushort");
-        _cSharpNamesByCNames.Add("int32_t", "int");
-        _cSharpNamesByCNames.Add("uint32_t", "uint");
-        _cSharpNamesByCNames.Add("int64_t", "long");
-        _cSharpNamesByCNames.Add("uint64_t", "ulong");
-        _cSharpNamesByCNames.Add("intptr_t", "IntPtr");
-        _cSharpNamesByCNames.Add("uintptr_t", "UIntPtr");
-
-        // C types -> C# opaque pointers
-        _cSharpNamesByCNames.Add("FILE*", "IntPtr");
-        _cSharpNamesByCNames.Add("DIR*", "IntPtr");
-        _cSharpNamesByCNames.Add("va_list", "IntPtr");
-
         // config specified
         foreach (var (source, target) in context.Input.MappedNames)
         {
-            _cSharpNamesByCNames.Add(source, target);
+            _cSharpNamesByCNames[source] = target;
         }
+
+        // C types -> C# Interop.Runtime types
+        _ = _cSharpNamesByCNames.TryAdd("char*", "CString");
+        _ = _cSharpNamesByCNames.TryAdd("wchar_t*", "CStringWide");
+        _ = _cSharpNamesByCNames.TryAdd("char", "CChar");
+        _ = _cSharpNamesByCNames.TryAdd("bool", "CBool");
+        _ = _cSharpNamesByCNames.TryAdd("_Bool", "CBool");
+
+        // C types -> C# native CLR types
+        _ = _cSharpNamesByCNames.TryAdd("int8_t", "sbyte");
+        _ = _cSharpNamesByCNames.TryAdd("uint8_t", "byte");
+        _ = _cSharpNamesByCNames.TryAdd("int16_t", "short");
+        _ = _cSharpNamesByCNames.TryAdd("uint16_t", "ushort");
+        _ = _cSharpNamesByCNames.TryAdd("int32_t", "int");
+        _ = _cSharpNamesByCNames.TryAdd("uint32_t", "uint");
+        _ = _cSharpNamesByCNames.TryAdd("int64_t", "long");
+        _ = _cSharpNamesByCNames.TryAdd("uint64_t", "ulong");
+        _ = _cSharpNamesByCNames.TryAdd("intptr_t", "IntPtr");
+        _ = _cSharpNamesByCNames.TryAdd("uintptr_t", "UIntPtr");
+
+        // C types -> C# opaque pointers
+        _ = _cSharpNamesByCNames.TryAdd("FILE*", "IntPtr");
+        _ = _cSharpNamesByCNames.TryAdd("DIR*", "IntPtr");
+        _ = _cSharpNamesByCNames.TryAdd("va_list", "IntPtr");
     }
 
     public string GetIdentifierCSharp(string nameC)
@@ -164,8 +162,16 @@ public sealed class NameMapper
 
     public string GetTypeNameCSharp(CType type)
     {
-        var nameC = SanitizeNameC(type.Name);
+        var nameC = type.Name;
+
+        // Try to map the name without sanitizing first in the case of config specified
         if (_cSharpNamesByCNames.TryGetValue(nameC, out var typeNameCSharp))
+        {
+            return typeNameCSharp;
+        }
+
+        nameC = SanitizeNameC(type.Name);
+        if (_cSharpNamesByCNames.TryGetValue(nameC, out typeNameCSharp))
         {
             return typeNameCSharp;
         }
