@@ -4,7 +4,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace C2CS.Tests.Common;
+namespace C2CS.Tests.Common.Extensions;
 
 public static class RoslynExtensions
 {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Globalization;
+using C2CS.Tests.Common.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace C2CS.Tests.Common.Model;

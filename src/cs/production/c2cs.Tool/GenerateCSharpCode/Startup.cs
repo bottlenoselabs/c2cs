@@ -4,6 +4,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
+using C2CS.GenerateCSharpCode.Generators;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace C2CS.GenerateCSharpCode;
@@ -26,7 +27,7 @@ public static class Startup
     private static void AddNodeCodeGenerators(IServiceCollection services)
     {
         var assembly = Assembly.GetExecutingAssembly();
-        var types = assembly.GetTypes().Where(p => !p.IsAbstract && typeof(CodeGeneratorNode).IsAssignableFrom(p))
+        var types = assembly.GetTypes().Where(p => !p.IsAbstract && typeof(BaseGenerator).IsAssignableFrom(p))
             .ToImmutableArray();
         foreach (var type in types)
         {

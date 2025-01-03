@@ -1,6 +1,8 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
+using C2CS.Tests.Common.Extensions;
+
 #pragma warning disable CA1707
 
 namespace C2CS.Tests.Functions.function_uint64_params_uint8_uint16_uint32;

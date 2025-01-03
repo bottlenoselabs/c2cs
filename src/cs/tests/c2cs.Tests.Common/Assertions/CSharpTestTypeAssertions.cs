@@ -8,14 +8,6 @@ using FluentAssertions.Primitives;
 namespace C2CS.Tests.Common.Assertions;
 
 #pragma warning disable SA1649
-public static class CSharpTestTypeExtensions
-#pragma warning restore SA1649
-{
-    public static CSharpTestTypeAssertions Should(this CSharpTestType? instance)
-    {
-        return new(instance);
-    }
-}
 
 public class CSharpTestTypeAssertions(CSharpTestType? instance) : ReferenceTypeAssertions<CSharpTestType?, CSharpTestTypeAssertions>(instance)
 {

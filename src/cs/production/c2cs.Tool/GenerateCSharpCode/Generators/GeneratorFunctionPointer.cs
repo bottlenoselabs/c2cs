@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public sealed class GeneratorNodeFunctionPointer(ILogger<GeneratorNodeFunctionPointer> logger)
+public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> logger)
     : BaseGenerator<CFunctionPointer>(logger)
 {
     protected override string GenerateCode(

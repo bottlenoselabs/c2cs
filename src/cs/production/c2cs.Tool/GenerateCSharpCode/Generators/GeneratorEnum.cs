@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public class GeneratorNodeEnum(ILogger<GeneratorNodeEnum> logger)
+public class GeneratorEnum(ILogger<GeneratorEnum> logger)
     : BaseGenerator<CEnum>(logger)
 {
     protected override string GenerateCode(

@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public class GeneratorNodeFunction(ILogger<GeneratorNodeFunction> logger)
+public class GeneratorFunction(ILogger<GeneratorFunction> logger)
     : BaseGenerator<CFunction>(logger)
 {
     protected override string GenerateCode(

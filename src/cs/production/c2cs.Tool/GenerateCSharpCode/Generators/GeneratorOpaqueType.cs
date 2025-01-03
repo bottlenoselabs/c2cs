@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public class GeneratorNodeOpaqueType(ILogger<GeneratorNodeOpaqueType> logger)
+public class GeneratorOpaqueType(ILogger<GeneratorOpaqueType> logger)
     : BaseGenerator<COpaqueType>(logger)
 {
     protected override string GenerateCode(

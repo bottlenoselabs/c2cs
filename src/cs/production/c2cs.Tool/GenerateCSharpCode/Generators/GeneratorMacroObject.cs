@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public class GeneratorNodeMacroObject(ILogger<GeneratorNodeMacroObject> logger)
+public class GeneratorMacroObject(ILogger<GeneratorMacroObject> logger)
     : BaseGenerator<CMacroObject>(logger)
 {
     protected override string GenerateCode(
@@ -16,7 +16,7 @@ public class GeneratorNodeMacroObject(ILogger<GeneratorNodeMacroObject> logger)
     {
         var cSharpTypeName = context.NameMapper.GetTypeNameCSharp(node.Type);
         var code = $"""
-                    public static {cSharpTypeName} {nameCSharp} = ({cSharpTypeName}){node.Value};
+                    public static readonly {cSharpTypeName} {nameCSharp} = ({cSharpTypeName}){node.Value};
                     """;
 
         return code;

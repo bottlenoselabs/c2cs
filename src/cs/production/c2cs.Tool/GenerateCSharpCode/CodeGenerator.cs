@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using bottlenoselabs.Common.Diagnostics;
+using C2CS.GenerateCSharpCode.Generators;
 using c2ffi.Data;
 using c2ffi.Data.Nodes;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,7 @@ public sealed partial class CodeGenerator
     private readonly CodeGeneratorDocumentInteropRuntime _codeGeneratorDocumentInteropRuntime;
 
     private readonly InputSanitized _input;
-    private readonly ImmutableDictionary<Type, CodeGeneratorNode> _nodeCodeGenerators;
+    private readonly ImmutableDictionary<Type, BaseGenerator> _nodeCodeGenerators;
 
     public CodeGenerator(
         IServiceProvider services,
@@ -34,15 +35,15 @@ public sealed partial class CodeGenerator
         _codeGeneratorDocumentAssemblyAttributes = services.GetRequiredService<CodeGeneratorDocumentAssemblyAttributes>();
         _codeGeneratorDocumentInteropRuntime = services.GetRequiredService<CodeGeneratorDocumentInteropRuntime>();
 
-        _nodeCodeGenerators = new Dictionary<Type, CodeGeneratorNode>
+        _nodeCodeGenerators = new Dictionary<Type, BaseGenerator>
         {
-            { typeof(CEnum), services.GetRequiredService<CodeGeneratorNodeEnum>() },
-            { typeof(CFunction), services.GetRequiredService<CodeGeneratorNodeFunction>() },
-            { typeof(CFunctionPointer), services.GetRequiredService<CodeGeneratorNodeFunctionPointer>() },
-            { typeof(CMacroObject), services.GetRequiredService<CodeGeneratorNodeMacroObject>() },
-            { typeof(COpaqueType), services.GetRequiredService<CodeGeneratorNodeOpaqueType>() },
-            { typeof(CRecord), services.GetRequiredService<CodeGeneratorNodeStruct>() },
-            { typeof(CTypeAlias), services.GetRequiredService<CodeGeneratorNodeAliasType>() },
+            { typeof(CEnum), services.GetRequiredService<GeneratorEnum>() },
+            { typeof(CFunction), services.GetRequiredService<GeneratorFunction>() },
+            { typeof(CFunctionPointer), services.GetRequiredService<GeneratorFunctionPointer>() },
+            { typeof(CMacroObject), services.GetRequiredService<GeneratorMacroObject>() },
+            { typeof(COpaqueType), services.GetRequiredService<GeneratorOpaqueType>() },
+            { typeof(CRecord), services.GetRequiredService<GeneratorStruct>() },
+            { typeof(CTypeAlias), services.GetRequiredService<GeneratorAliasType>() },
         }.ToImmutableDictionary();
     }
 

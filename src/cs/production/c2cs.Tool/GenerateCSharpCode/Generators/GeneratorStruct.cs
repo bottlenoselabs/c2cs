@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace C2CS.GenerateCSharpCode.Generators;
 
 [UsedImplicitly]
-public class GeneratorNodeStruct(ILogger<GeneratorNodeStruct> logger)
+public class GeneratorStruct(ILogger<GeneratorStruct> logger)
     : BaseGenerator<CRecord>(logger)
 {
     protected override string GenerateCode(string nameCSharp, CodeGeneratorContext context, CRecord record)

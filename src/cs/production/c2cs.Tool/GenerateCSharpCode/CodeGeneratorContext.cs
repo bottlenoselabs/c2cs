@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using bottlenoselabs.Common.Tools;
+using C2CS.GenerateCSharpCode.Generators;
 using c2ffi.Data.Nodes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -17,7 +18,7 @@ public sealed class CodeGeneratorContext
 #pragma warning disable IDE0032
     private readonly NameMapper _nameMapper;
 #pragma warning restore IDE0032
-    private readonly ImmutableDictionary<Type, CodeGeneratorNode> _nodeCodeGenerators;
+    private readonly ImmutableDictionary<Type, BaseGenerator> _nodeCodeGenerators;
     private readonly HashSet<string> _existingNamesCSharp = [];
 
     public InputSanitized Input { get; }
@@ -26,7 +27,7 @@ public sealed class CodeGeneratorContext
 
     public CodeGeneratorContext(
         InputSanitized input,
-        ImmutableDictionary<Type, CodeGeneratorNode> nodeCodeGenerators)
+        ImmutableDictionary<Type, BaseGenerator> nodeCodeGenerators)
     {
         Input = input;
         _nameMapper = new NameMapper(this);
@@ -40,7 +41,7 @@ public sealed class CodeGeneratorContext
         var type = typeof(TNode);
         if (!_nodeCodeGenerators.TryGetValue(type, out var codeGenerator))
         {
-            throw new ToolException($"A code generator '{nameof(CodeGeneratorNode)}' does not exist for the type '{type.FullName ?? type.Name}'.");
+            throw new ToolException($"A code generator '{nameof(BaseGenerator)}' does not exist for the type '{type.FullName ?? type.Name}'.");
         }
 
         var nameCSharp = _nameMapper.GetNodeNameCSharp(node);

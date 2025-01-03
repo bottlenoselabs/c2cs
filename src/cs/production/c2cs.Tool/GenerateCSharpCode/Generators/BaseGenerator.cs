@@ -6,9 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace C2CS.GenerateCSharpCode.Generators;
 
-public abstract class CodeGeneratorNode(ILogger<CodeGeneratorNode> logger)
+public abstract class BaseGenerator(ILogger<BaseGenerator> logger)
 {
-    protected readonly ILogger<CodeGeneratorNode> Logger = logger;
+    protected readonly ILogger<BaseGenerator> Logger = logger;
 
     protected internal abstract string GenerateCode(
         string nameCSharp,
@@ -16,8 +16,8 @@ public abstract class CodeGeneratorNode(ILogger<CodeGeneratorNode> logger)
         object obj);
 }
 
-public abstract class CodeGeneratorNode<TNode>(ILogger<CodeGeneratorNode<TNode>> logger)
-    : CodeGeneratorNode(logger)
+public abstract class BaseGenerator<TNode>(ILogger<BaseGenerator<TNode>> logger)
+    : BaseGenerator(logger)
     where TNode : CNode
 {
     protected internal override string GenerateCode(
