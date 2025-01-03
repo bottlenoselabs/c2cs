@@ -40,11 +40,31 @@
 
 	<!-- Project references -->
 	<ItemGroup>
-		<ProjectReference Include="..\c2cs.Interop.Runtime\c2cs.Interop.Runtime.csproj" />
+		<ProjectReference Include="..\Interop.Runtime\Interop.Runtime.csproj" />
 	</ItemGroup>
 
 	<!-- Configuration settings -->
 	<ItemGroup>
+		<EmbeddedResource Include="..\Interop.Runtime\CBool.cs">
+		  <Visible>false</Visible>
+		  <Link>CBool.cs</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\Interop.Runtime\CChar.cs">
+		  <Visible>false</Visible>
+		  <Link>CChar.cs</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\Interop.Runtime\CString.cs">
+		  <Visible>false</Visible>
+		  <Link>CString.cs</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\Interop.Runtime\CStrings.cs">
+		  <Visible>false</Visible>
+		  <Link>CStrings.cs</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\Interop.Runtime\CStringWide.cs">
+		  <Visible>false</Visible>
+		  <Link>CStringWide.cs</Link>
+		</EmbeddedResource>
 		<EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
 

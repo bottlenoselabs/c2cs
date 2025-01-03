@@ -3,6 +3,7 @@
 
 using System;
 using C2CS.BuildCLibrary;
+using C2CS.Tests.Common.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

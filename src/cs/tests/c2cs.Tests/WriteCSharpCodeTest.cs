@@ -4,10 +4,10 @@
 using System;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.IO.Abstractions;
 using bottlenoselabs.Common;
 using C2CS.GenerateCSharpCode;
+using C2CS.Tests.Common.Helpers;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;

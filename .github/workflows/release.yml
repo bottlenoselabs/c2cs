@@ -51,7 +51,7 @@ jobs:
           dotnet-version: '9.x'
 
       - name: ".NET pack"
-        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release -p:PackageVersion="${{ steps.set-version.outputs.VERSION }}" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
+        run: dotnet pack "./src/cs" --nologo --verbosity minimal --configuration Release /property:Version="${{ steps.set-version.outputs.VERSION }}" -p:PackageVersion="${{ steps.set-version.outputs.VERSION }}" -p:RepositoryBranch="${{ github.head_ref || github.ref_name }}" -p:RepositoryCommit="${{ github.sha }}"
 
       - name: "Upload packages to MyGet"
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.pre-release == 'true'

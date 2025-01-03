@@ -15,10 +15,9 @@
 
 	<!-- NuGet package references -->
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-		<PackageReference Include="xunit" Version="2.9.2" />
+		<PackageReference Include="xunit.extensibility.core" Version="2.9.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
@@ -32,6 +31,7 @@
 	<!-- Project references -->
 	<ItemGroup>
 		<ProjectReference Include="..\..\production\c2cs.Tool\c2cs.Tool.csproj" />
+		<ProjectReference Include="..\c2cs.Tests.Common\c2cs.Tests.Common.csproj" />
 	</ItemGroup>
 
 	<!-- Clang native library -->
@@ -40,14 +40,6 @@
 	    <Link>%(Filename)%(Extension)</Link>
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-
-	<!-- Remove generated AST files -->
-	<ItemGroup>
-		<None Remove="ast\**\*.*" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Enums\" />
 	</ItemGroup>
 
 </Project>

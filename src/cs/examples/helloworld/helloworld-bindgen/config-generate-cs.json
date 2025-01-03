@@ -3,5 +3,5 @@
   "outputFileDirectory": "./../helloworld-app/Generated",
   "className": "my_c_library",
   "namespaceName": "helloworld",
-  "targetFrameworkMoniker": "net8.0"
+  "targetFrameworkMoniker": "net9.0"
 }
