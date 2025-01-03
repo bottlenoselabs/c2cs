@@ -19,7 +19,7 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
 
         var code = $$"""
                      [StructLayout(LayoutKind.Explicit, Size = {{record.SizeOf}}, Pack = {{record.AlignOf}})]
-                     public struct {{nameCSharp}}
+                     public partial struct {{nameCSharp}}
                      {
                          {{membersCode}}
                      }

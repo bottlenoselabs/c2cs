@@ -20,7 +20,7 @@ public class GeneratorAliasType(ILogger<GeneratorAliasType> logger)
 
         var code = $$"""
                      [StructLayout(LayoutKind.Explicit, Size = {{sizeOf}}, Pack = {{alignOf}})]
-                     public struct {{nameCSharp}}
+                     public partial struct {{nameCSharp}}
                      {
                         [FieldOffset(0)]
                         public {{underlyingTypeNameCSharp}} Data;
