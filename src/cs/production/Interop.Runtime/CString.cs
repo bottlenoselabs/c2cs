@@ -22,6 +22,22 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// </summary>
     public bool IsNull => Pointer == IntPtr.Zero;
 
+#if NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="CString" /> struct.
+    /// </summary>
+    /// <param name="value">The span.</param>
+    public CString(ReadOnlySpan<byte> value)
+    {
+#pragma warning disable CS8500
+        fixed (byte* pointer = value)
+        {
+            Pointer = (IntPtr)pointer;
+        }
+#pragma warning restore CS8500
+    }
+#endif
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="CString" /> struct.
     /// </summary>
@@ -70,7 +86,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     }
 
     /// <summary>
-    ///     Performs an explicit conversion from an <see cref="IntPtr" /> to a <see cref="CString" />.
+    ///     Performs a conversion from an <see cref="IntPtr" /> to a <see cref="CString" />.
     /// </summary>
     /// <param name="value">The pointer value.</param>
     /// <returns>
@@ -105,6 +121,32 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
         return new CString((IntPtr)value);
     }
 
+#if NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
+    /// <summary>
+    ///     Performs an explicit conversion from a <see cref="ReadOnlySpan{T}" /> to a <see cref="CString" />.
+    /// </summary>
+    /// <param name="value">The pointer.</param>
+    /// <returns>
+    ///     The resulting <see cref="IntPtr" />.
+    /// </returns>
+    public static explicit operator CString(ReadOnlySpan<byte> value)
+    {
+        return new CString(value);
+    }
+
+    /// <summary>
+    ///     Performs a conversion from a <see cref="ReadOnlySpan{T}" /> to a <see cref="CString" />.
+    /// </summary>
+    /// <param name="value">The pointer value.</param>
+    /// <returns>
+    ///     The resulting <see cref="CString" />.
+    /// </returns>
+    public static CString FromReadOnlySpan(ReadOnlySpan<byte> value)
+    {
+        return new CString(value);
+    }
+#endif
+
     /// <summary>
     ///     Performs an implicit conversion from a <see cref="CString" /> to a <see cref="IntPtr" />.
     /// </summary>
@@ -118,7 +160,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     }
 
     /// <summary>
-    ///     Performs an implicit conversion from a <see cref="CString" /> to a <see cref="IntPtr" />.
+    ///     Performs a conversion from a <see cref="CString" /> to a <see cref="IntPtr" />.
     /// </summary>
     /// <param name="value">The pointer.</param>
     /// <returns>
