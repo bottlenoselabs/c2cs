@@ -15,9 +15,22 @@ public class GeneratorMacroObject(ILogger<GeneratorMacroObject> logger)
         string nameCSharp, CodeGeneratorContext context, CMacroObject node)
     {
         var cSharpTypeName = context.NameMapper.GetTypeNameCSharp(node.Type);
-        var code = $"""
+
+        string code;
+#pragma warning disable IDE0045
+        if (cSharpTypeName == "CString" && node.Value.StartsWith('"') && node.Value.EndsWith('"'))
+#pragma warning restore IDE0045
+        {
+            code = $"""
+                    public static readonly {cSharpTypeName} {nameCSharp} = ({cSharpTypeName}){node.Value}u8;
+                    """;
+        }
+        else
+        {
+            code = $"""
                     public static readonly {cSharpTypeName} {nameCSharp} = ({cSharpTypeName}){node.Value};
                     """;
+        }
 
         return code;
     }

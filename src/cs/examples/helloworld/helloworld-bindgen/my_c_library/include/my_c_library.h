@@ -12,6 +12,8 @@
     #define MY_C_LIBRARY_API_DECL extern __attribute__ ((visibility("default")))
 #endif
 
+#define HW_STRING_POINTER "Hello world using UTF-8 string literal from the C library's data segment!"
+
 typedef enum hw_my_enum_week_day {
     HW_MY_ENUM_WEEK_DAY_UNKNOWN,
     HW_MY_ENUM_WEEK_DAY_MONDAY,

@@ -18,6 +18,9 @@ internal static class Program
         //  Only available in C# 11 (.NET 7+). See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types#utf-8-string-literals
         var cString1 = (CString)"Hello world from C# using UTF-8 string literal! No need to free this string!"u8;
         hw_pass_string(cString1);
+
+        // NOTE: This is particularly useful if you have C defines to strings which are stored in the data segment of the loaded C library.
+        hw_pass_string(HW_STRING_POINTER);
 #endif
 
         // NOTE: If you don't apply the `u8` it's a UTF-16 string which needs to be converted to UTF-8 and allocated.
