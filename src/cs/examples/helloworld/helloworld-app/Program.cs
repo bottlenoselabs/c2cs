@@ -13,10 +13,12 @@ internal static class Program
     {
         hw_hello_world();
 
+#if NET7_0_OR_GREATER
         // NOTE: If you apply the `u8`, it's a UTF-8 string literal and does not allocate the string on the heap!
-        //  See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types#utf-8-string-literals
+        //  Only available in C# 11 (.NET 7+). See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types#utf-8-string-literals
         var cString1 = (CString)"Hello world from C# using UTF-8 string literal! No need to free this string!"u8;
         hw_pass_string(cString1);
+#endif
 
         // NOTE: If you don't apply the `u8` it's a UTF-16 string which needs to be converted to UTF-8 and allocated.
         //  This is done by calling `CString.FromString` or using the explicit CString conversion operator.
@@ -38,15 +40,22 @@ internal static class Program
         hw_pass_integers_by_reference(&a, &b, &c);
 
 #if NET5_0_OR_GREATER
+        // NOTE: Function pointers provide a more efficient way to execute callbacks from C instead of using delegates.
+        //  A struct will be generated to "house" the function pointer regardless, in this case: `FnPtr_CString_Void`.
+        //      - It uses the same naming as `System.Func<>`. The last type on the name is always the return type. In this case 'void`.
+        //  Only available in C# 9 (.NET 5+). See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/unsafe-code#function-pointers
+        //  Additionally function pointers need to use the `address-of` operator (&) to a C# static function marked with the UnmanagedCallersOnly attribute. See https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.unmanagedcallersonlyattribute?view=net-9.0
         var functionPointer = new FnPtr_CString_Void(&Callback);
 #else
         var functionPointer = new FnPtr_CString_Void(Callback);
 #endif
+
         using var cStringCallback = (CString)"Hello from callback!";
         hw_invoke_callback(functionPointer, cStringCallback);
     }
 
 #if NET5_0_OR_GREATER
+    // NOTE: Function pointers need to use the UnmanagedCallersOnly attribute. See https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.unmanagedcallersonlyattribute?view=net-9.0
     [UnmanagedCallersOnly]
 #endif
     private static void Callback(CString param)
