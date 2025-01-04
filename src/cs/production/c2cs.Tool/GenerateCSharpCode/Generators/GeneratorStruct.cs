@@ -12,7 +12,7 @@ namespace C2CS.GenerateCSharpCode.Generators;
 public class GeneratorStruct(ILogger<GeneratorStruct> logger)
     : BaseGenerator<CRecord>(logger)
 {
-    protected override string GenerateCode(string nameCSharp, CodeGeneratorContext context, CRecord record)
+    public override string? GenerateCode(CodeGeneratorContext context, string nameCSharp, CRecord record)
     {
         var codeStructMembers = GenerateCodeStructMembers(context.NameMapper, record.Fields);
         var membersCode = string.Join("\n\n", codeStructMembers);

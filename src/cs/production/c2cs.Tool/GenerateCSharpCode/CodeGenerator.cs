@@ -9,6 +9,10 @@ using bottlenoselabs.Common.Diagnostics;
 using C2CS.GenerateCSharpCode.Generators;
 using c2ffi.Data;
 using c2ffi.Data.Nodes;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -58,9 +62,11 @@ public sealed partial class CodeGenerator
             AddDocumentInteropRuntime(options, documents);
             AddDocumentAssemblyAttributes(options, documents);
 
+            var newDocuments = PostProcessDocuments(documents.ToImmutableArray());
+
             return new CodeProject
             {
-                Documents = documents.ToImmutable()
+                Documents = [..newDocuments]
             };
         }
 #pragma warning disable CA1031
@@ -72,12 +78,78 @@ public sealed partial class CodeGenerator
         }
     }
 
+    private static ImmutableArray<CodeProjectDocument> PostProcessDocuments(
+        ImmutableArray<CodeProjectDocument> documents)
+    {
+        using var workspace = new AdhocWorkspace();
+        var project = workspace.CurrentSolution.AddProject(
+                "TemporaryProject", "TemporaryAssembly", LanguageNames.CSharp)
+            .AddMetadataReferences([
+                MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
+            ]);
+        foreach (var document in documents)
+        {
+            project = project.AddDocument(document.FileName, document.Code).Project;
+        }
+
+        var newDocuments = new List<CodeProjectDocument>();
+        var compilation = project.GetCompilationAsync().Result!;
+        foreach (var syntaxTree in compilation.SyntaxTrees)
+        {
+            var code = PostProcessDocumentSyntaxTree(syntaxTree, compilation, project.Solution);
+            var newDocument = new CodeProjectDocument
+            {
+                Code = code,
+                FileName = syntaxTree.FilePath
+            };
+            newDocuments.Add(newDocument);
+        }
+
+        return [..newDocuments];
+    }
+
+    private static string PostProcessDocumentSyntaxTree(
+        SyntaxTree syntaxTree,
+        Compilation compilation,
+        Solution solution)
+    {
+        var root = syntaxTree.GetRoot();
+        var semanticModel = compilation.GetSemanticModel(syntaxTree);
+
+        var functionPointerStructWrappers = root.DescendantNodes()
+            .OfType<StructDeclarationSyntax>()
+            .Where(x =>
+                x.Identifier.Text.StartsWith("FnPtr_", StringComparison.InvariantCultureIgnoreCase))
+            .ToImmutableArray();
+        if (functionPointerStructWrappers.IsDefaultOrEmpty)
+        {
+            return root.SyntaxTree.ToString();
+        }
+
+        var newRoot = root;
+        foreach (var functionPointerStructWrapper in functionPointerStructWrappers)
+        {
+            var symbol = semanticModel.GetDeclaredSymbol(functionPointerStructWrapper)!;
+            var references = SymbolFinder
+                .FindReferencesAsync(symbol, solution).Result
+                .ToImmutableArray();
+
+            var referencesCount = references.Sum(x => x.Locations.Count());
+            if (referencesCount == 0)
+            {
+                newRoot = newRoot.RemoveNode(functionPointerStructWrapper, SyntaxRemoveOptions.KeepNoTrivia)!;
+            }
+        }
+
+        return newRoot.SyntaxTree.ToString();
+    }
+
     private void AddDocumentPInvoke(
         CodeGeneratorDocumentOptions options,
         ImmutableArray<CodeProjectDocument>.Builder documents,
         CFfiCrossPlatform ffi)
     {
-        var context = new CodeGeneratorContext(_input, _nodeCodeGenerators);
+        var context = new CodeGeneratorContext(_input, ffi, _nodeCodeGenerators);
         var document = _codeGeneratorDocumentPInvoke.Generate(options, context, ffi);
         documents.Add(document);
 

@@ -11,8 +11,7 @@ namespace C2CS.GenerateCSharpCode.Generators;
 public class GeneratorOpaqueType(ILogger<GeneratorOpaqueType> logger)
     : BaseGenerator<COpaqueType>(logger)
 {
-    protected override string GenerateCode(
-        string nameCSharp, CodeGeneratorContext context, COpaqueType node)
+    public override string? GenerateCode(CodeGeneratorContext context, string nameCSharp, COpaqueType node)
     {
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]

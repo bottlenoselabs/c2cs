@@ -11,8 +11,16 @@ namespace helloworld
 {
     public static unsafe partial class my_c_library
     {
-        [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_invoke_callback", ExactSpelling = true)]
-        public static extern partial void hw_invoke_callback(global::helloworld.my_c_library.FnPtr_CString_Void f, global::Interop.Runtime.CString s);
+        [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_invoke_callback1", ExactSpelling = true)]
+        public static extern partial void hw_invoke_callback1(global::helloworld.my_c_library.hw_callback f, global::Interop.Runtime.CString s);
+    }
+}
+namespace helloworld
+{
+    public static unsafe partial class my_c_library
+    {
+        [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_invoke_callback2", ExactSpelling = true)]
+        public static extern partial void hw_invoke_callback2(global::helloworld.my_c_library.FnPtr_CString_Void f, global::Interop.Runtime.CString s);
     }
 }
 namespace helloworld
