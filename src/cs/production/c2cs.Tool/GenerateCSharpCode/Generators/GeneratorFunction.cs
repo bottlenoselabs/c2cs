@@ -15,10 +15,7 @@ namespace C2CS.GenerateCSharpCode.Generators;
 public class GeneratorFunction(ILogger<GeneratorFunction> logger)
     : BaseGenerator<CFunction>(logger)
 {
-    protected override string GenerateCode(
-        string nameCSharp,
-        CodeGeneratorContext context,
-        CFunction function)
+    public override string? GenerateCode(CodeGeneratorContext context, string nameCSharp, CFunction function)
     {
         var returnTypeNameCSharp = context.NameMapper.GetTypeNameCSharp(function.ReturnType);
         var parametersStringCSharp = string.Join(',', function.Parameters.Select(

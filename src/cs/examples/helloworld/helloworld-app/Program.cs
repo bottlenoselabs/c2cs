@@ -48,13 +48,16 @@ internal static class Program
         //      - It uses the same naming as `System.Func<>`. The last type on the name is always the return type. In this case 'void`.
         //  Only available in C# 9 (.NET 5+). See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/unsafe-code#function-pointers
         //  Additionally function pointers need to use the `address-of` operator (&) to a C# static function marked with the UnmanagedCallersOnly attribute. See https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.unmanagedcallersonlyattribute?view=net-9.0
-        var functionPointer = new FnPtr_CString_Void(&Callback);
+        var functionPointer = new hw_callback(&Callback);
 #else
         var functionPointer = new FnPtr_CString_Void(Callback);
 #endif
 
-        using var cStringCallback = (CString)"Hello from callback!";
-        hw_invoke_callback(functionPointer, cStringCallback);
+        using var cStringCallback1 = (CString)"Hello from callback!";
+        hw_invoke_callback1(functionPointer, cStringCallback1);
+
+        // using var cStringCallback2 = (CString)"Hello again from callback!";
+        // hw_invoke_callback2(functionPointer, cStringCallback2);
     }
 
 #if NET5_0_OR_GREATER

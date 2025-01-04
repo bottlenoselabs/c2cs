@@ -13,8 +13,7 @@ namespace C2CS.GenerateCSharpCode.Generators;
 public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> logger)
     : BaseGenerator<CFunctionPointer>(logger)
 {
-    protected override string GenerateCode(
-        string nameCSharp, CodeGeneratorContext context, CFunctionPointer node)
+    public override string? GenerateCode(CodeGeneratorContext context, string nameCSharp, CFunctionPointer node)
     {
         var nameMapper = context.NameMapper;
         var code = context.Input.IsEnabledFunctionPointers ?
@@ -22,20 +21,20 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
         return code;
     }
 
-    private string GenerateCodeFunctionPointer(
+#pragma warning disable SA1202
+    internal static string GenerateCodeFunctionPointer(
         NameMapper nameMapper, string name, CFunctionPointer node)
+#pragma warning restore SA1202
     {
-        var parameterTypesString = GenerateCodeParameters(nameMapper, node.Parameters, false);
-        var returnTypeString = nameMapper.GetTypeNameCSharp(node.ReturnType);
-        var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString) ? returnTypeString : $"{parameterTypesString}, {returnTypeString}";
+        var functionPointerTypeNameCSharp = GetFunctionPointerTypeNameCSharp(nameMapper, node);
 
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]
                      public partial struct {{name}}
                      {
-                     	public delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> Pointer;
+                     	public {{functionPointerTypeNameCSharp}} Pointer;
 
-                     	public {{name}}(delegate* unmanaged<{{parameterTypesAndReturnTypeString}}> pointer)
+                     	public {{name}}({{functionPointerTypeNameCSharp}} pointer)
                         {
                             Pointer = pointer;
                         }
@@ -67,7 +66,19 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
         return code;
     }
 
-    private string GenerateCodeParameters(
+    private static string GetFunctionPointerTypeNameCSharp(
+        NameMapper nameMapper,
+        CFunctionPointer node)
+    {
+        var parameterTypesString = GenerateCodeParameters(nameMapper, node.Parameters, false);
+        var returnTypeString = nameMapper.GetTypeNameCSharp(node.ReturnType);
+        var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString)
+            ? returnTypeString
+            : $"{parameterTypesString}, {returnTypeString}";
+        return $"delegate* unmanaged<{parameterTypesAndReturnTypeString}>";
+    }
+
+    private static string GenerateCodeParameters(
         NameMapper nameMapper, ImmutableArray<CFunctionPointerParameter> parameters, bool includeNames = true)
     {
         var stringBuilder = new StringBuilder();

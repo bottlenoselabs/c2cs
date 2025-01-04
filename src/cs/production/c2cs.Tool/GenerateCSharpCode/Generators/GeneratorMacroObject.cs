@@ -11,8 +11,7 @@ namespace C2CS.GenerateCSharpCode.Generators;
 public class GeneratorMacroObject(ILogger<GeneratorMacroObject> logger)
     : BaseGenerator<CMacroObject>(logger)
 {
-    protected override string GenerateCode(
-        string nameCSharp, CodeGeneratorContext context, CMacroObject node)
+    public override string? GenerateCode(CodeGeneratorContext context, string nameCSharp, CMacroObject node)
     {
         var cSharpTypeName = context.NameMapper.GetTypeNameCSharp(node.Type);
 

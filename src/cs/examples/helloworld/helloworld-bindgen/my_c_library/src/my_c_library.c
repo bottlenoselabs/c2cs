@@ -8,7 +8,17 @@ void hw_hello_world(void)
     printf("Hello world from C!\n");
 }
 
-void hw_invoke_callback(void f(const char*), const char* s)
+void hw_invoke_callback1(hw_callback f, const char* s)
+{
+    if (f == 0)
+    {
+        return;
+    }
+
+    f(s);
+}
+
+void hw_invoke_callback2(void f(const char*), const char* s)
 {
     if (f == 0)
     {
