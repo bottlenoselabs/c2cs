@@ -27,8 +27,16 @@ namespace helloworld
 {
     public static unsafe partial class my_c_library
     {
-        [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_enum", ExactSpelling = true)]
-        public static extern partial void hw_pass_enum(global::helloworld.my_c_library.hw_my_enum_week_day e);
+        [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_enum_by_reference", ExactSpelling = true)]
+        public static extern partial void hw_pass_enum_by_reference(global::helloworld.my_c_library.hw_week_day* e);
+    }
+}
+namespace helloworld
+{
+    public static unsafe partial class my_c_library
+    {
+        [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_enum_by_value", ExactSpelling = true)]
+        public static extern partial void hw_pass_enum_by_value(global::helloworld.my_c_library.hw_week_day e);
     }
 }
 namespace helloworld
@@ -36,7 +44,7 @@ namespace helloworld
     public static unsafe partial class my_c_library
     {
         [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_integers_by_reference", ExactSpelling = true)]
-        public static extern partial void hw_pass_integers_by_reference(ushort* a, int* b, ulong* c);
+        public static extern partial void hw_pass_integers_by_reference(ushort* a, uint* b, ulong* c);
     }
 }
 namespace helloworld
@@ -44,7 +52,7 @@ namespace helloworld
     public static unsafe partial class my_c_library
     {
         [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_integers_by_value", ExactSpelling = true)]
-        public static extern partial void hw_pass_integers_by_value(ushort a, int b, ulong c);
+        public static extern partial void hw_pass_integers_by_value(ushort a, uint b, ulong c);
     }
 }
 namespace helloworld
@@ -53,5 +61,21 @@ namespace helloworld
     {
         [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_string", ExactSpelling = true)]
         public static extern partial void hw_pass_string(global::Interop.Runtime.CString s);
+    }
+}
+namespace helloworld
+{
+    public static unsafe partial class my_c_library
+    {
+        [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_struct_by_reference", ExactSpelling = true)]
+        public static extern partial void hw_pass_struct_by_reference(global::helloworld.my_c_library.hw_event* e);
+    }
+}
+namespace helloworld
+{
+    public static unsafe partial class my_c_library
+    {
+        [global::System.Runtime.InteropServices.DllImportAttribute("my_c_library", EntryPoint = "hw_pass_struct_by_value", ExactSpelling = true)]
+        public static extern partial void hw_pass_struct_by_value(global::helloworld.my_c_library.hw_event e);
     }
 }
