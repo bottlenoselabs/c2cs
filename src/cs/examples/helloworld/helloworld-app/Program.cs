@@ -35,10 +35,10 @@ internal static class Program
         using var cString3 = (CString)"Hello world again from C# using UTF-16 converted UTF-8 and allocated! Don't forgot to free this string!";
         hw_pass_string(cString3);
 
-        hw_pass_integers_by_value(65449, -255, 24242);
+        hw_pass_integers_by_value(65449, 255, 24242);
 
         ushort a = 65449;
-        var b = -255;
+        var b = 255U;
         ulong c = 24242;
         hw_pass_integers_by_reference(&a, &b, &c);
 
@@ -48,16 +48,44 @@ internal static class Program
         //      - It uses the same naming as `System.Func<>`. The last type on the name is always the return type. In this case 'void`.
         //  Only available in C# 9 (.NET 5+). See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/unsafe-code#function-pointers
         //  Additionally function pointers need to use the `address-of` operator (&) to a C# static function marked with the UnmanagedCallersOnly attribute. See https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.unmanagedcallersonlyattribute?view=net-9.0
-        var functionPointer = new hw_callback(&Callback);
+        var functionPointer1 = new hw_callback(&Callback);
+        var functionPointer2 = new FnPtr_CString_Void(&Callback);
 #else
-        var functionPointer = new FnPtr_CString_Void(Callback);
+        var functionPointer1 = new hw_callback(Callback);
+        var functionPointer2 = new FnPtr_CString_Void(Callback);
 #endif
 
         using var cStringCallback1 = (CString)"Hello from callback!";
-        hw_invoke_callback1(functionPointer, cStringCallback1);
+        hw_invoke_callback1(functionPointer1, cStringCallback1);
 
-        // using var cStringCallback2 = (CString)"Hello again from callback!";
-        // hw_invoke_callback2(functionPointer, cStringCallback2);
+        using var cStringCallback2 = (CString)"Hello again from callback!";
+        hw_invoke_callback2(functionPointer2, cStringCallback2);
+
+        var weekday = DateTime.UtcNow.DayOfWeek switch
+        {
+            DayOfWeek.Monday => hw_week_day.HW_WEEK_DAY_MONDAY,
+            DayOfWeek.Tuesday => hw_week_day.HW_WEEK_DAY_TUESDAY,
+            DayOfWeek.Wednesday => hw_week_day.HW_WEEK_DAY_WEDNESDAY,
+            DayOfWeek.Thursday => hw_week_day.HW_WEEK_DAY_THURSDAY,
+            DayOfWeek.Friday => hw_week_day.HW_WEEK_DAY_FRIDAY,
+            DayOfWeek.Sunday => hw_week_day.HW_WEEK_DAY_UNKNOWN,
+            DayOfWeek.Saturday => hw_week_day.HW_WEEK_DAY_UNKNOWN,
+            _ => hw_week_day.HW_WEEK_DAY_UNKNOWN
+        };
+
+        hw_pass_enum_by_value(weekday);
+        hw_pass_enum_by_reference(&weekday);
+
+        var event1 = default(hw_event);
+        event1.kind = hw_event_kind.HW_EVENT_KIND_STRING;
+        event1.string1 = "Anonymous structs and unions have their fields inlined in C# with using the same value for the FieldOffset attribute.";
+        event1.string2 = "If the struct is larger than 16-24 bytes (as is the case here), consider passing it by reference rather than by value.";
+        hw_pass_struct_by_value(event1);
+
+        var event2 = default(hw_event);
+        event2.kind = hw_event_kind.HW_EVENT_KIND_BOOL;
+        event2.boolean = true;
+        hw_pass_struct_by_reference(&event2);
     }
 
 #if NET5_0_OR_GREATER

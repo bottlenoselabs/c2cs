@@ -13,7 +13,7 @@ namespace C2CS.GenerateCSharpCode.Generators;
 public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> logger)
     : BaseGenerator<CFunctionPointer>(logger)
 {
-    public override string? GenerateCode(CodeGeneratorContext context, string nameCSharp, CFunctionPointer node)
+    public override string GenerateCode(CodeGeneratorContext context, string nameCSharp, CFunctionPointer node)
     {
         var nameMapper = context.NameMapper;
         var code = context.Input.IsEnabledFunctionPointers ?

@@ -12,9 +12,10 @@ namespace C2CS.GenerateCSharpCode.Generators;
 public class GeneratorStruct(ILogger<GeneratorStruct> logger)
     : BaseGenerator<CRecord>(logger)
 {
-    public override string? GenerateCode(CodeGeneratorContext context, string nameCSharp, CRecord record)
+    public override string GenerateCode(CodeGeneratorContext context, string nameCSharp, CRecord record)
     {
-        var codeStructMembers = GenerateCodeStructMembers(context.NameMapper, record.Fields);
+        var codeStructMembers = GenerateCodeStructMembers(
+            context, record.Fields, record.NestedRecords, 0);
         var membersCode = string.Join("\n\n", codeStructMembers);
 
         var code = $$"""
@@ -28,42 +29,67 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
         return code;
     }
 
-    private string[] GenerateCodeStructMembers(NameMapper nameMapper, ImmutableArray<CRecordField> fields)
+    private ImmutableArray<string> GenerateCodeStructMembers(
+        CodeGeneratorContext context,
+        ImmutableArray<CRecordField> fields,
+        ImmutableArray<CRecord> nestedStructs,
+        int parentFieldOffsetOf)
     {
-        var builder = ImmutableArray.CreateBuilder<string>();
+        var codeFields = ImmutableArray.CreateBuilder<string>();
 
-        foreach (var field in fields)
+        var nestedStructIndex = 0;
+        for (var i = 0; i < fields.Length; i++)
         {
-            var code = GenerateCodeStructField(nameMapper, field);
-            builder.Add(code);
+            var field = fields[i];
+            var fieldOffsetOf = parentFieldOffsetOf + field.OffsetOf;
+
+            if (field.Type.IsAnonymous ?? false)
+            {
+                var nestedStruct = nestedStructs[nestedStructIndex++];
+                var codeNestedStructMembers = GenerateCodeStructMembers(
+                    context, nestedStruct.Fields, nestedStruct.NestedRecords, fieldOffsetOf);
+                codeFields.AddRange(codeNestedStructMembers);
+            }
+            else
+            {
+                var fieldNameCSharp = context.NameMapper.GetIdentifierCSharp(field.Name);
+                var fieldTypeNameCSharp = context.NameMapper.GetTypeNameCSharp(field.Type);
+                var codeField = GenerateCodeStructField(
+                    context.NameMapper, field, fieldNameCSharp, fieldTypeNameCSharp, fieldOffsetOf);
+                codeFields.Add(codeField);
+            }
         }
 
-        var structMembers = builder.ToArray();
-        return structMembers;
+        return codeFields.ToImmutable();
     }
 
-    private string GenerateCodeStructField(NameMapper nameMapper, CRecordField field)
+    private string GenerateCodeStructField(
+        NameMapper nameMapper,
+        CRecordField field,
+        string fieldNameCSharp,
+        string fieldTypeNameCSharp,
+        int fieldOffsetOf)
     {
-        var fieldNameCSharp = nameMapper.GetIdentifierCSharp(field.Name);
         var isArray = field.Type.ArraySizeOf != null;
         var code = isArray
-            ? GenerateCodeStructFieldFixedBuffer(fieldNameCSharp, nameMapper, field)
-            : GenerateCodeStructFieldNormal(fieldNameCSharp, nameMapper, field);
+            ? GenerateCodeStructFieldFixedBuffer(field, fieldNameCSharp, nameMapper, fieldOffsetOf)
+            : GenerateCodeStructFieldNormal(field, fieldNameCSharp, fieldTypeNameCSharp, fieldOffsetOf);
         return code;
     }
 
     private string GenerateCodeStructFieldFixedBuffer(
+        CRecordField field,
         string fieldNameCSharp,
         NameMapper nameMapper,
-        CRecordField field)
+        int fieldOffsetOf)
     {
-        var elementTypeName = nameMapper.GetTypeNameCSharp(field.Type.InnerType!);
-        if (elementTypeName.EndsWith('*'))
+        var elementTypeNameCSharp = nameMapper.GetTypeNameCSharp(field.Type.InnerType!);
+        if (elementTypeNameCSharp.EndsWith('*'))
         {
-            elementTypeName = "IntPtr";
+            elementTypeNameCSharp = "IntPtr";
         }
 
-        var typeNameIsFixedBufferCompatible = elementTypeName is "byte"
+        var typeNameIsFixedBufferCompatible = elementTypeNameCSharp is "byte"
             or "char"
             or "short"
             or "int"
@@ -78,48 +104,49 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
         string code;
         if (typeNameIsFixedBufferCompatible)
         {
-            var fixedBufferTypeName = nameMapper.GetTypeNameCSharp(field.Type.InnerType!);
             code = $"""
-                        [FieldOffset({field.OffsetOf})] // size = {field.Type.SizeOf}
-                        public fixed {fixedBufferTypeName} {fieldNameCSharp}[{field.Type.ArraySizeOf}];
+                        [FieldOffset({fieldOffsetOf})] // size = {field.Type.SizeOf}
+                        public fixed {elementTypeNameCSharp} {fieldNameCSharp}[{field.Type.ArraySizeOf}];
                         """;
         }
         else
         {
-            code = $$"""
-                        [FieldOffset({{field.OffsetOf}})] // size = {{field.Type.SizeOf}}
-                        public fixed byte _{{fieldNameCSharp}}[{{field.Type.SizeOf}}]; // {{field.Type.Name}}
-                        """;
+            fieldNameCSharp = $"_{fieldNameCSharp.TrimStart('@')}";
+            code = $"""
+                    [FieldOffset({fieldOffsetOf})] // size = {field.Type.SizeOf}
+                    public fixed byte {fieldNameCSharp}[{field.Type.SizeOf}]; // {field.Type.Name}
+                    """;
         }
 
         return code;
     }
 
     private string GenerateCodeStructFieldNormal(
+        CRecordField field,
         string fieldNameCSharp,
-        NameMapper nameMapper,
-        CRecordField field)
+        string fieldTypeNameCSharp,
+        int fieldOffsetOf)
     {
-        var fieldTypeNameCSharp = nameMapper.GetTypeNameCSharp(field.Type);
-
         string code;
 #pragma warning disable IDE0045
         if (fieldTypeNameCSharp == "CString")
 #pragma warning restore IDE0045
         {
+            var backingFieldNameCSharp = $"_{fieldNameCSharp.TrimStart('@')}";
+
             code = $$"""
-                     [FieldOffset({{field.OffsetOf}})] // size = {{field.Type.SizeOf}}
-                     public {{fieldTypeNameCSharp}} _{{fieldNameCSharp}};
+                     [FieldOffset({{fieldOffsetOf}})] // size = {{field.Type.SizeOf}}
+                     public {{fieldTypeNameCSharp}} {{backingFieldNameCSharp}};
 
                      public string {{fieldNameCSharp}}
                      {
                          get
                          {
-                             return CString.ToString(_{{fieldNameCSharp}});
+                             return CString.ToString({{backingFieldNameCSharp}});
                          }
                          set
                          {
-                             _{{fieldNameCSharp}} = CString.FromString(value);
+                             {{backingFieldNameCSharp}} = CString.FromString(value);
                          }
                      }
                      """;
@@ -127,7 +154,7 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
         else
         {
             code = $$"""
-                     [FieldOffset({{field.OffsetOf}})]
+                     [FieldOffset({{fieldOffsetOf}})]
                      public {{fieldTypeNameCSharp}} {{fieldNameCSharp}}; // size = {{field.Type.SizeOf}}
                      """;
         }

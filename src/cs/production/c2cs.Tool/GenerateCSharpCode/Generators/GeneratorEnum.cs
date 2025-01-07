@@ -13,7 +13,7 @@ namespace C2CS.GenerateCSharpCode.Generators;
 public class GeneratorEnum(ILogger<GeneratorEnum> logger)
     : BaseGenerator<CEnum>(logger)
 {
-    public override string? GenerateCode(CodeGeneratorContext context, string nameCSharp, CEnum node)
+    public override string GenerateCode(CodeGeneratorContext context, string nameCSharp, CEnum node)
     {
         var integerTypeNameCSharp = node.SizeOf switch
         {
