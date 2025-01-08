@@ -28,10 +28,9 @@ public class GeneratorAliasType(ILogger<GeneratorAliasType> logger)
         }
 
         var code = $$"""
-                     [StructLayout(LayoutKind.Explicit, Size = {{sizeOf}}, Pack = {{alignOf}})]
-                     public partial struct {{nameCSharp}}
+                     [StructLayout(LayoutKind.Sequential, Size = {{sizeOf}}, Pack = {{alignOf}})]
+                     public {{(context.Input.IsEnabledRefStructs ? "ref" : string.Empty)}} partial struct {{nameCSharp}}
                      {
-                        [FieldOffset(0)]
                         public {{underlyingTypeNameCSharp}} Data;
 
                      	public static implicit operator {{underlyingTypeNameCSharp}}({{nameCSharp}} data) => data.Data;

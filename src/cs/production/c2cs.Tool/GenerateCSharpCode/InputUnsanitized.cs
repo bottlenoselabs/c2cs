@@ -223,6 +223,22 @@ public sealed class InputUnsanitized : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledLibraryImport")]
     public bool? IsEnabledLibraryImport { get; set; } = true;
+
+    /// <summary>
+    ///     Gets or sets whether C# source code generation using ref structs is enabled or disabled.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>true</c> when <see cref="TargetFrameworkMoniker" /> is at least .NET Core 7 or greater
+    ///         and <c>false</c> otherwise.
+    ///     </para>
+    ///     <para>
+    ///         For more information see:
+    ///         https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/ref-struct.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledRefStructs")]
+    public bool? IsEnabledRefStructs { get; set; } = true;
 }
 
 /// <summary>

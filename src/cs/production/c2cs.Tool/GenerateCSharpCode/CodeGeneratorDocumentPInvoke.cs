@@ -93,7 +93,7 @@ public sealed class CodeGeneratorDocumentPInvoke
             context, ffi.Enums.Values);
         var opaqueTypes = ProcessCNodes<COpaqueType, StructDeclarationSyntax>(
             context, ffi.OpaqueTypes.Values);
-        var macroObjects = ProcessCNodes<CMacroObject, FieldDeclarationSyntax>(
+        var macroObjects = ProcessCNodes<CMacroObject, MemberDeclarationSyntax>(
             context, ffi.MacroObjects.Values);
         // NOTE: Type aliases need to be processed last because they often will have the same name (collision) with another type, usually an enum or a record.
         //  This happens because, e.g., the enum type will be `enum MY_ENUM` and the type alias name would be `MY_ENUM` but we want both to have the name `MY_ENUM`.

@@ -15,7 +15,7 @@ public class GeneratorOpaqueType(ILogger<GeneratorOpaqueType> logger)
     {
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]
-                     public partial struct {{nameCSharp}}
+                     public {{(context.Input.IsEnabledRefStructs ? "ref" : string.Empty)}} partial struct {{nameCSharp}}
                      {
                      }
                      """;

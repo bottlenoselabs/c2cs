@@ -17,22 +17,19 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
 {
     public override string GenerateCode(CodeGeneratorContext context, string nameCSharp, CFunctionPointer node)
     {
-        var nameMapper = context.NameMapper;
         var code = context.Input.IsEnabledFunctionPointers ?
-            GenerateCodeFunctionPointer(nameMapper, nameCSharp, node) : GenerateCodeDelegate(nameMapper, nameCSharp, node);
+            GenerateCodeFunctionPointer(context, nameCSharp, node) : GenerateCodeDelegate(context, nameCSharp, node);
         return code;
     }
 
-#pragma warning disable SA1202
-    internal static string GenerateCodeFunctionPointer(
-        NameMapper nameMapper, string nameCSharp, CFunctionPointer node)
-#pragma warning restore SA1202
+    private static string GenerateCodeFunctionPointer(
+        CodeGeneratorContext context, string nameCSharp, CFunctionPointer node)
     {
-        var functionPointerTypeNameCSharp = GetFunctionPointerTypeNameCSharp(nameMapper, node);
+        var functionPointerTypeNameCSharp = GetFunctionPointerTypeNameCSharp(context.NameMapper, node);
 
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]
-                     public partial struct {{nameCSharp}}
+                     public {{(context.Input.IsEnabledRefStructs ? "ref" : string.Empty)}} partial struct {{nameCSharp}}
                      {
                      	public {{functionPointerTypeNameCSharp}} Pointer;
 
@@ -46,13 +43,13 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
     }
 
     private string GenerateCodeDelegate(
-        NameMapper nameMapper, string name, CFunctionPointer node)
+        CodeGeneratorContext context, string name, CFunctionPointer node)
     {
-        var parameterTypesString = GenerateCodeParameters(nameMapper, node.Parameters);
+        var parameterTypesString = GenerateCodeParameters(context.NameMapper, node.Parameters);
 
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]
-                     public partial struct {{name}}
+                     public partial {{(context.Input.IsEnabledRefStructs ? "ref" : string.Empty)}} partial struct {{name}}
                      {
                          [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
                          public unsafe delegate {{node.ReturnType.Name}} @delegate({{parameterTypesString}});

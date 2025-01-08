@@ -26,9 +26,26 @@ public class GeneratorMacroObject(ILogger<GeneratorMacroObject> logger)
         }
         else
         {
-            code = $"""
-                    public static readonly {cSharpTypeName} {nameCSharp} = ({cSharpTypeName}){node.Value};
-                    """;
+            var typeNameC = node.Type.Name;
+            var isProperty = context.Ffi.TypeAliases.ContainsKey(typeNameC) ||
+                             context.Ffi.Records.ContainsKey(typeNameC) ||
+                             context.Ffi.OpaqueTypes.ContainsKey(typeNameC) ||
+                             context.Ffi.FunctionPointers.ContainsKey(typeNameC);
+
+#pragma warning disable IDE0045
+            if (isProperty)
+#pragma warning restore IDE0045
+            {
+                code = $"""
+                        public static {cSharpTypeName} {nameCSharp} => ({cSharpTypeName}){node.Value};
+                        """;
+            }
+            else
+            {
+                code = $"""
+                        public static readonly {cSharpTypeName} {nameCSharp} = ({cSharpTypeName}){node.Value};
+                        """;
+            }
         }
 
         return code;

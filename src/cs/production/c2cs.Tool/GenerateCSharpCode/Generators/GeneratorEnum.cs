@@ -29,12 +29,10 @@ public class GeneratorEnum(ILogger<GeneratorEnum> logger)
         var enumValuesCode = string.Join(",\n", enumValueCodes);
 
         var code = $$"""
-
                      public enum {{nameCSharp}} : {{integerTypeNameCSharp}}
-                         {
-                             {{enumValuesCode}}
-                         }
-
+                     {
+                        {{enumValuesCode}}
+                     }
                      """;
 
         return code;

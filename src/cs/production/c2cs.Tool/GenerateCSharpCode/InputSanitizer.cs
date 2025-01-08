@@ -36,7 +36,8 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
             IsEnabledRuntimeMarshalling = IsEnabledRuntimeMarshalling(unsanitizedInput, targetFramework),
             IsEnabledFileScopedNamespace = IsEnabledFileScopedNamespace(unsanitizedInput, targetFramework),
             IsEnabledLibraryImportAttribute = IsEnabledLibraryImport(unsanitizedInput, targetFramework),
-            IsEnabledSpans = IsEnabledSpans(targetFramework)
+            IsEnabledSpans = IsEnabledSpans(targetFramework),
+            IsEnabledRefStructs = IsEnabledRefStructs(unsanitizedInput, targetFramework)
         };
     }
 
@@ -238,12 +239,24 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
     private bool IsEnabledSpans(NuGetFramework nuGetFramework)
     {
         // Spans are only supported in .NET Core 2.1+
-        var isAtLeastNetCoreV7 = nuGetFramework is { Framework: ".NETCoreApp" };
-        if (!isAtLeastNetCoreV7)
+        var isAtLeastNetCore = nuGetFramework is { Framework: ".NETCoreApp" };
+        if (!isAtLeastNetCore)
         {
             return false;
         }
 
         return nuGetFramework.Version.Major > 2 || nuGetFramework.Version is { Major: 2, Minor: >= 1 };
+    }
+
+    private bool IsEnabledRefStructs(InputUnsanitized unsanitizedInput, NuGetFramework nuGetFramework)
+    {
+        // Ref structs
+        var isAtLeastNetCoreV7 = nuGetFramework is { Framework: ".NETCoreApp", Version.Major: >= 7 };
+        if (!isAtLeastNetCoreV7)
+        {
+            return false;
+        }
+
+        return unsanitizedInput.IsEnabledRefStructs ?? true;
     }
 }
