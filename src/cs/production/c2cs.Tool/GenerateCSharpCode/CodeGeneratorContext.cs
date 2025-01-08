@@ -18,7 +18,7 @@ public sealed class CodeGeneratorContext
 #pragma warning disable IDE0032
     private readonly NameMapper _nameMapper;
 #pragma warning restore IDE0032
-    private readonly ImmutableDictionary<Type, BaseGenerator> _nodeCodeGenerators;
+    private readonly ImmutableDictionary<Type, object> _nodeCodeGenerators;
     private readonly HashSet<string> _existingNamesCSharp = [];
 
     public InputSanitized Input { get; }
@@ -30,7 +30,7 @@ public sealed class CodeGeneratorContext
     public CodeGeneratorContext(
         InputSanitized input,
         CFfiCrossPlatform ffi,
-        ImmutableDictionary<Type, BaseGenerator> nodeCodeGenerators)
+        ImmutableDictionary<Type, object> nodeCodeGenerators)
     {
         Input = input;
         Ffi = ffi;

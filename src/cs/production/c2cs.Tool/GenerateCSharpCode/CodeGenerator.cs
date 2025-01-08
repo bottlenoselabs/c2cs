@@ -26,7 +26,7 @@ public sealed partial class CodeGenerator
     private readonly CodeGeneratorDocumentInteropRuntime _codeGeneratorDocumentInteropRuntime;
 
     private readonly InputSanitized _input;
-    private readonly ImmutableDictionary<Type, BaseGenerator> _nodeCodeGenerators;
+    private readonly ImmutableDictionary<Type, object> _nodeCodeGenerators;
 
     public CodeGenerator(
         IServiceProvider services,
@@ -38,7 +38,7 @@ public sealed partial class CodeGenerator
         _codeGeneratorDocumentAssemblyAttributes = services.GetRequiredService<CodeGeneratorDocumentAssemblyAttributes>();
         _codeGeneratorDocumentInteropRuntime = services.GetRequiredService<CodeGeneratorDocumentInteropRuntime>();
 
-        _nodeCodeGenerators = new Dictionary<Type, BaseGenerator>
+        _nodeCodeGenerators = new Dictionary<Type, object>
         {
             { typeof(CEnum), services.GetRequiredService<GeneratorEnum>() },
             { typeof(CFunction), services.GetRequiredService<GeneratorFunction>() },

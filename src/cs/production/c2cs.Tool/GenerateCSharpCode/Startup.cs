@@ -27,7 +27,8 @@ public static class Startup
     private static void AddNodeCodeGenerators(IServiceCollection services)
     {
         var assembly = Assembly.GetExecutingAssembly();
-        var types = assembly.GetTypes().Where(p => !p.IsAbstract && typeof(BaseGenerator).IsAssignableFrom(p))
+        var types = assembly.GetTypes().Where(t =>
+                t is { IsAbstract: false, IsInterface: false, IsGenericType: false, BaseType.IsGenericType: true } && t.BaseType.GetGenericTypeDefinition() == typeof(BaseGenerator<>))
             .ToImmutableArray();
         foreach (var type in types)
         {
