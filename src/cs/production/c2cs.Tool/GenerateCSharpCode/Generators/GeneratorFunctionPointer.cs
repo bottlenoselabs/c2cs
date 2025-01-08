@@ -23,18 +23,18 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
 
 #pragma warning disable SA1202
     internal static string GenerateCodeFunctionPointer(
-        NameMapper nameMapper, string name, CFunctionPointer node)
+        NameMapper nameMapper, string nameCSharp, CFunctionPointer node)
 #pragma warning restore SA1202
     {
         var functionPointerTypeNameCSharp = GetFunctionPointerTypeNameCSharp(nameMapper, node);
 
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]
-                     public partial struct {{name}}
+                     public partial struct {{nameCSharp}}
                      {
                      	public {{functionPointerTypeNameCSharp}} Pointer;
 
-                     	public {{name}}({{functionPointerTypeNameCSharp}} pointer)
+                     	public {{nameCSharp}}({{functionPointerTypeNameCSharp}} pointer)
                         {
                             Pointer = pointer;
                         }
