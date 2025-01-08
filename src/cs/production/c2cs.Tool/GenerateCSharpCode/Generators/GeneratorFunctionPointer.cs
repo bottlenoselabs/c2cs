@@ -3,6 +3,8 @@
 
 using System.Collections.Immutable;
 using System.Text;
+using bottlenoselabs.Common.Tools;
+using c2ffi.Data;
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
@@ -75,7 +77,19 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
         var parameterTypesAndReturnTypeString = string.IsNullOrEmpty(parameterTypesString)
             ? returnTypeString
             : $"{parameterTypesString}, {returnTypeString}";
-        return $"delegate* unmanaged<{parameterTypesAndReturnTypeString}>";
+
+#pragma warning disable IDE0072
+        // ReSharper disable once SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+        var callingConvention = node.CallingConvention switch
+#pragma warning restore IDE0072
+        {
+            CFunctionCallingConvention.Cdecl => "Cdecl",
+            CFunctionCallingConvention.FastCall => "Fastcall",
+            CFunctionCallingConvention.StdCall => "Stdcall",
+            _ => throw new ToolException($"Unknown calling convention for function pointer '{node.Name}'.")
+        };
+
+        return $"delegate* unmanaged[{callingConvention}] <{parameterTypesAndReturnTypeString}>";
     }
 
     private static string GenerateCodeParameters(
