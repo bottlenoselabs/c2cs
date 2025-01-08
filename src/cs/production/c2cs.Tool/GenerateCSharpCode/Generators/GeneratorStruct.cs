@@ -60,7 +60,7 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
                 {
                     var fieldNameCSharpParts = fieldNameCSharp.Split('_', StringSplitOptions.RemoveEmptyEntries)
                         .Select(x => $"{x[0].ToString().ToUpperInvariant()}{x.AsSpan(1)}");
-                    var nestedStructName = string.Join('_', fieldNameCSharpParts);
+                    var nestedStructName = $"{structNameCSharp}_{string.Join('_', fieldNameCSharpParts)}";
                     var codeNestedStruct = GenerateCode(context, nestedStructName, nestedStruct);
                     codeNestedStructs.Add(codeNestedStruct);
 
