@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using System.Collections.Immutable;
+using System.Linq;
 using c2ffi.Data.Nodes;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,7 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
     public override string GenerateCode(CodeGeneratorContext context, string nameCSharp, CRecord record)
     {
         var codeStructMembers = GenerateCodeStructMembers(
-            context, record.Fields, record.NestedRecords, 0);
+            context, nameCSharp, record.Fields, record.NestedRecords, 0);
         var membersCode = string.Join("\n\n", codeStructMembers);
 
         var code = $$"""
@@ -31,11 +32,13 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
 
     private ImmutableArray<string> GenerateCodeStructMembers(
         CodeGeneratorContext context,
+        string structNameCSharp,
         ImmutableArray<CRecordField> fields,
         ImmutableArray<CRecord> nestedStructs,
         int parentFieldOffsetOf)
     {
         var codeFields = ImmutableArray.CreateBuilder<string>();
+        var codeNestedStructs = ImmutableArray.CreateBuilder<string>();
 
         var nestedStructIndex = 0;
         for (var i = 0; i < fields.Length; i++)
@@ -46,9 +49,25 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
             if (field.Type.IsAnonymous ?? false)
             {
                 var nestedStruct = nestedStructs[nestedStructIndex++];
-                var codeNestedStructMembers = GenerateCodeStructMembers(
-                    context, nestedStruct.Fields, nestedStruct.NestedRecords, fieldOffsetOf);
-                codeFields.AddRange(codeNestedStructMembers);
+                var fieldNameCSharp = context.NameMapper.GetIdentifierCSharp(field.Name);
+                if (string.IsNullOrEmpty(fieldNameCSharp))
+                {
+                    var codeNestedStructMembers = GenerateCodeStructMembers(
+                        context, structNameCSharp, nestedStruct.Fields, nestedStruct.NestedRecords, fieldOffsetOf);
+                    codeFields.AddRange(codeNestedStructMembers);
+                }
+                else
+                {
+                    var fieldNameCSharpParts = fieldNameCSharp.Split('_', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => $"{x[0].ToString().ToUpperInvariant()}{x.AsSpan(1)}");
+                    var nestedStructName = $"{structNameCSharp}_{string.Join('_', fieldNameCSharpParts)}";
+                    var codeNestedStruct = GenerateCode(context, nestedStructName, nestedStruct);
+                    codeNestedStructs.Add(codeNestedStruct);
+
+                    var codeField = GenerateCodeStructField(
+                        context.NameMapper, field, fieldNameCSharp, nestedStructName, fieldOffsetOf);
+                    codeFields.Add(codeField);
+                }
             }
             else
             {
@@ -60,7 +79,8 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
             }
         }
 
-        return codeFields.ToImmutable();
+        var result = codeFields.ToImmutable().AddRange(codeNestedStructs.ToImmutable());
+        return result;
     }
 
     private string GenerateCodeStructField(

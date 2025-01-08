@@ -1,7 +1,6 @@
 // Copyright (c) Bottlenose Labs Inc. (https://github.com/bottlenoselabs). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using bottlenoselabs.Common.Tools;
@@ -19,7 +18,7 @@ public sealed class CodeGeneratorContext
 #pragma warning disable IDE0032
     private readonly NameMapper _nameMapper;
 #pragma warning restore IDE0032
-    private readonly ImmutableDictionary<Type, BaseGenerator> _nodeCodeGenerators;
+    private readonly ImmutableDictionary<Type, object> _nodeCodeGenerators;
     private readonly HashSet<string> _existingNamesCSharp = [];
 
     public InputSanitized Input { get; }
@@ -31,7 +30,7 @@ public sealed class CodeGeneratorContext
     public CodeGeneratorContext(
         InputSanitized input,
         CFfiCrossPlatform ffi,
-        ImmutableDictionary<Type, BaseGenerator> nodeCodeGenerators)
+        ImmutableDictionary<Type, object> nodeCodeGenerators)
     {
         Input = input;
         Ffi = ffi;
@@ -46,6 +45,15 @@ public sealed class CodeGeneratorContext
         var codeGenerator = GetCodeGenerator<TNode>();
 
         var nameCSharp = _nameMapper.GetNodeNameCSharp(node);
+        var nameCSharpCollidesWithBuiltInName = nameCSharp
+            // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types
+            is "bool" or "byte" or "sbyte" or "char" or "decimal" or "double" or "float" or "int" or "uint" or "nint"
+            or "nuint" or "long" or "ulong" or "short" or "ushort" or "object" or "string" or "dynamic";
+        if (nameCSharpCollidesWithBuiltInName)
+        {
+            return null;
+        }
+
         var isAlreadyAdded = !_existingNamesCSharp.Add(nameCSharp);
         if (isAlreadyAdded)
         {
