@@ -45,6 +45,15 @@ public sealed class CodeGeneratorContext
         var codeGenerator = GetCodeGenerator<TNode>();
 
         var nameCSharp = _nameMapper.GetNodeNameCSharp(node);
+        var nameCSharpCollidesWithBuiltInName = nameCSharp
+            // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types
+            is "bool" or "byte" or "sbyte" or "char" or "decimal" or "double" or "float" or "int" or "uint" or "nint"
+            or "nuint" or "long" or "ulong" or "short" or "ushort" or "object" or "string" or "dynamic";
+        if (nameCSharpCollidesWithBuiltInName)
+        {
+            return null;
+        }
+
         var isAlreadyAdded = !_existingNamesCSharp.Add(nameCSharp);
         if (isAlreadyAdded)
         {
