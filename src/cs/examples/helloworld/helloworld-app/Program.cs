@@ -90,7 +90,7 @@ internal static class Program
 
 #if NET5_0_OR_GREATER
     // NOTE: Function pointers need to use the UnmanagedCallersOnly attribute. See https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.unmanagedcallersonlyattribute?view=net-9.0
-    [UnmanagedCallersOnly]
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
 #endif
     private static void Callback(CString param)
     {
