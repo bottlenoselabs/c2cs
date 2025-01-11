@@ -1,4 +1,6 @@
 name: "Test .NET solution"
+permissions:
+  contents: read
 
 on:
   workflow_call:

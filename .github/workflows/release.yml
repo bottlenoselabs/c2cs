@@ -1,4 +1,7 @@
 name: "Release"
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
@@ -66,7 +69,7 @@ jobs:
         run: dotnet nuget push "./nupkg/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
 
       - name: "Create tag and GitHub release"
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@c43d7637b9b9ce3e953168c325d27253a5d48d8e # v2.2.1
         if: github.event_name == 'schedule' || github.event.inputs.pre-release == 'false'
         with:
           generate_release_notes: true
