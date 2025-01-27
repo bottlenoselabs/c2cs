@@ -26,6 +26,8 @@ public class InputSanitized
 
     public ImmutableDictionary<string, string> MappedNames { get; init; } = ImmutableDictionary<string, string>.Empty;
 
+    public ImmutableArray<string> IgnoredNames { get; init; } = ImmutableArray<string>.Empty;
+
     public bool IsEnabledGenerateCSharpRuntimeCode { get; init; }
 
     public bool IsEnabledFunctionPointers { get; init; }

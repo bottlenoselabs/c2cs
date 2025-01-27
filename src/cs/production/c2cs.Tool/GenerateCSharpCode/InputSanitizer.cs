@@ -31,6 +31,7 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
             CodeRegionHeader = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath),
             CodeRegionFooter = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath),
             MappedNames = MappedNames(unsanitizedInput.MappedNames),
+            IgnoredNames = IgnoredNames(unsanitizedInput.IgnoredNames),
             IsEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true,
             IsEnabledFunctionPointers = IsEnabledFunctionPointers(unsanitizedInput, targetFramework),
             IsEnabledRuntimeMarshalling = IsEnabledRuntimeMarshalling(unsanitizedInput, targetFramework),
@@ -185,6 +186,28 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
         }
 
         return dictionary.ToImmutableDictionary();
+    }
+
+    private ImmutableArray<string> IgnoredNames(ImmutableArray<string?>? ignoredNames)
+    {
+        if (ignoredNames == null)
+        {
+            return ImmutableArray<string>.Empty;
+        }
+
+        var builder = ImmutableArray.CreateBuilder<string>();
+
+        foreach (var name in ignoredNames)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                continue;
+            }
+
+            builder.Add(name);
+        }
+
+        return builder.ToImmutable();
     }
 
     private static bool IsEnabledFunctionPointers(InputUnsanitized unsanitizedInput, NuGetFramework nuGetFramework)

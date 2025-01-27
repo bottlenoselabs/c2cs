@@ -61,9 +61,17 @@
 		  <Visible>false</Visible>
 		  <Link>CStrings.cs</Link>
 		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\CStringWide.cs">
+		<EmbeddedResource Include="..\Interop.Runtime\INativeAllocator.cs">
 		  <Visible>false</Visible>
-		  <Link>CStringWide.cs</Link>
+		  <Link>INativeAllocator.cs</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\Interop.Runtime\AllocatorExtensions.cs">
+			<Visible>false</Visible>
+			<Link>AllocatorExtensions.cs</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\Interop.Runtime\ArenaNativeAllocator.cs">
+			<Visible>false</Visible>
+			<Link>ArenaNativeAllocator.cs</Link>
 		</EmbeddedResource>
 		<EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
