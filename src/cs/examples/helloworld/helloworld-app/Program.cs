@@ -11,28 +11,30 @@ internal static class Program
 {
     private static unsafe void Main()
     {
+        // NOTE: Create an `INativeAllocator` for allocating native memory such as CStrings!
+        //  If you don't want to use `ArenaNativeAllocator`, you can create your own `INativeAllocator` implementation!
+        //  The `ArenaNativeAllocator` with the `using` keyword here means that at the end of this scope the `Dispose` method is called for you freeing the native memory.
+        //  Thus purpose of the `ArenaNativeAllocator` is that you can "allocate" (re-use the pre-allocated block of memory) a bunch of times without remembering to free the native memory.
+        using var allocator = new ArenaNativeAllocator((int)Math.Pow(1024, 2)); // 1 KB
+
         hw_hello_world();
 
 #if NET7_0_OR_GREATER
-        // NOTE: If you apply the `u8`, it's a UTF-8 string literal and does not allocate the string on the heap!
+        // NOTE: If you apply the `u8` suffix, it's a UTF-8 string literal and does not allocate the string in managed memory (GC) and can be used directly as a CString!
         //  Only available in C# 11 (.NET 7+). See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types#utf-8-string-literals
-        var cString1 = (CString)"Hello world from C# using UTF-8 string literal! No need to free this string!"u8;
-        hw_pass_string(cString1);
+        hw_pass_string("Hello world from C# using UTF-8 string literal! No need to free this string!"u8);
 
         // NOTE: This is particularly useful if you have C defines to strings which are stored in the data segment of the loaded C library.
         hw_pass_string(HW_STRING_POINTER);
 #endif
 
-        // NOTE: If you don't apply the `u8` it's a UTF-16 string which needs to be converted to UTF-8 and allocated.
-        //  This is done by calling `CString.FromString` or using the explicit CString conversion operator.
-        //  You additionally need to call `Marshal.FreeHGlobal()` when you are done with it or you have a memory leak!
-        var cString2 = CString.FromString("Hello world from C# using UTF-16 converted UTF-8 and allocated! Don't forgot to free this string!");
+        // NOTE: If you don't apply the `u8` suffix it's a UTF-16 string which needs to be converted to UTF-8 and allocated.
+        //  This is done by calling `CString.FromString` or using the IAllocator extensions.
+        var cString2 = CString.FromString(allocator, "Hello world from C# using UTF-16 converted UTF-8 and allocated! Don't forgot to free this string!");
         hw_pass_string(cString2);
-        Marshal.FreeHGlobal(cString2);
 
-        // NOTE: You can also use `using` syntax so you don't forgot to call `Marshal.FreeHGlobal()` at the scope end.
-        //  Just don't use `using` syntax when using UTF-8 string literals or your app will crash!
-        using var cString3 = (CString)"Hello world again from C# using UTF-16 converted UTF-8 and allocated! Don't forgot to free this string!";
+        // NOTE: Same as above, but using the `IAllocator` extensions.
+        var cString3 = allocator.AllocateCString("Hello world again from C# using UTF-16 converted UTF-8 and allocated! Don't forgot to free this string!");
         hw_pass_string(cString3);
 
         hw_pass_integers_by_value(65449, 255, 24242);
@@ -55,11 +57,13 @@ internal static class Program
         var functionPointer2 = new FnPtr_CString_Void(Callback);
 #endif
 
-        using var cStringCallback1 = (CString)"Hello from callback!";
+        var cStringCallback1 = allocator.AllocateCString("Hello from callback!");
         hw_invoke_callback1(functionPointer1, cStringCallback1);
+        allocator.Free(cStringCallback1);
 
-        using var cStringCallback2 = (CString)"Hello again from callback!";
+        var cStringCallback2 = allocator.AllocateCString("Hello again from callback!");
         hw_invoke_callback2(functionPointer2, cStringCallback2);
+        allocator.Free(cStringCallback2);
 
         var weekday = DateTime.UtcNow.DayOfWeek switch
         {
@@ -78,8 +82,8 @@ internal static class Program
 
         var event1 = default(hw_event);
         event1.kind = hw_event_kind.HW_EVENT_KIND_STRING;
-        event1.string1 = "Anonymous structs and unions have their fields inlined in C# with using the same value for the FieldOffset attribute.";
-        event1.string2 = "If the struct is larger than 16-24 bytes (as is the case here), consider passing it by reference rather than by value.";
+        event1.string1 = allocator.AllocateCString("Anonymous structs and unions have their fields inlined in C# with using the same value for the FieldOffset attribute.");
+        event1.string2 = allocator.AllocateCString("If the struct is larger than 16-24 bytes (as is the case here), consider passing it by reference rather than by value.");
         hw_pass_struct_by_value(event1);
 
         var event2 = default(hw_event);
@@ -96,7 +100,7 @@ internal static class Program
     {
         // This C# function is called from C
         // Get the string and print it
-        var str = param.ToString();
+        var str = CString.ToString(param);
         Console.WriteLine(str);
     }
 }

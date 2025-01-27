@@ -147,37 +147,10 @@ public class GeneratorStruct(ILogger<GeneratorStruct> logger)
         string fieldTypeNameCSharp,
         int fieldOffsetOf)
     {
-        string code;
-#pragma warning disable IDE0045
-        if (fieldTypeNameCSharp == "CString")
-#pragma warning restore IDE0045
-        {
-            var backingFieldNameCSharp = $"_{fieldNameCSharp.TrimStart('@')}";
-
-            code = $$"""
-                     [FieldOffset({{fieldOffsetOf}})] // size = {{field.Type.SizeOf}}
-                     public {{fieldTypeNameCSharp}} {{backingFieldNameCSharp}};
-
-                     public string {{fieldNameCSharp}}
-                     {
-                         get
-                         {
-                             return CString.ToString({{backingFieldNameCSharp}});
-                         }
-                         set
-                         {
-                             {{backingFieldNameCSharp}} = CString.FromString(value);
-                         }
-                     }
-                     """;
-        }
-        else
-        {
-            code = $$"""
-                     [FieldOffset({{fieldOffsetOf}})]
-                     public {{fieldTypeNameCSharp}} {{fieldNameCSharp}}; // size = {{field.Type.SizeOf}}
-                     """;
-        }
+        var code = $"""
+                 [FieldOffset({fieldOffsetOf})]
+                 public {fieldTypeNameCSharp} {fieldNameCSharp}; // size = {field.Type.SizeOf}
+                 """;
 
         return code;
     }

@@ -10,7 +10,7 @@ namespace Interop.Runtime;
 ///     A pointer value type of bytes that represent a string; the C type `char*`.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public readonly unsafe struct CString : IEquatable<CString>, IDisposable
+public readonly unsafe struct CString : IEquatable<CString>
 {
     /// <summary>
     ///     The pointer.
@@ -54,23 +54,6 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     public CString(IntPtr value)
     {
         Pointer = value;
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="CString" /> struct.
-    /// </summary>
-    /// <param name="s">The string value.</param>
-    public CString(string s)
-    {
-        Pointer = FromString(s).Pointer;
-    }
-
-    /// <summary>
-    ///     Attempts to free the memory pointed by the <see cref="CString "/>.
-    /// </summary>
-    public void Dispose()
-    {
-        Marshal.FreeHGlobal(Pointer);
     }
 
     /// <summary>
@@ -129,7 +112,7 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     /// <returns>
     ///     The resulting <see cref="IntPtr" />.
     /// </returns>
-    public static explicit operator CString(ReadOnlySpan<byte> value)
+    public static implicit operator CString(ReadOnlySpan<byte> value)
     {
         return new CString(value);
     }
@@ -172,20 +155,8 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
     }
 
     /// <summary>
-    ///     Performs an explicit conversion from a <see cref="CString" /> to a <see cref="string" />.
-    /// </summary>
-    /// <param name="value">The <see cref="CString" />.</param>
-    /// <returns>
-    ///     The resulting <see cref="string" />.
-    /// </returns>
-    public static explicit operator string(CString value)
-    {
-        return ToString(value);
-    }
-
-    /// <summary>
     ///     Converts a C style string (ANSI or UTF-8) of type `char` (one dimensional byte array
-    ///     terminated by a <c>0x0</c>) to a UTF-16 <see cref="string" /> by allocating and copying.
+    ///     terminated by a <c>0x0</c>) to a UTF-16 <see cref="string" /> by allocating managed memory and copying.
     /// </summary>
     /// <param name="value">A pointer to the C string.</param>
     /// <returns>A <see cref="string" /> equivalent of <paramref name="value" />.</returns>
@@ -196,46 +167,43 @@ public readonly unsafe struct CString : IEquatable<CString>, IDisposable
             return string.Empty;
         }
 
-        // calls ASM/C/C++ functions to calculate length and then "FastAllocate" the string with the GC
-        // https://mattwarren.org/2016/05/31/Strings-and-the-CLR-a-Special-Relationship/
-        var result = Marshal.PtrToStringAnsi(value.Pointer);
-
-        if (string.IsNullOrEmpty(result))
+        var end = (byte*)value.Pointer;
+        while (*end != 0)
         {
-            return string.Empty;
+            end++;
         }
+
+        var result = new string(
+            (sbyte*)value.Pointer,
+            0,
+            (int)(end - (byte*)value.Pointer),
+            System.Text.Encoding.UTF8);
 
         return result;
     }
 
     /// <summary>
-    ///     Performs an explicit conversion from a <see cref="string" /> to a <see cref="CString" />.
-    /// </summary>
-    /// <param name="s">The <see cref="string" />.</param>
-    /// <returns>
-    ///     The resulting <see cref="CString" />.
-    /// </returns>
-    public static explicit operator CString(string s)
-    {
-        return FromString(s);
-    }
-
-    /// <summary>
     ///     Converts a UTF-16 <see cref="string" /> to a C style string (one dimensional byte array terminated by a
-    ///     <c>0x0</c>) by allocating and copying.
+    ///     <c>0x0</c>) by allocating native memory and copying.
     /// </summary>
+    /// <param name="allocator">The <see cref="INativeAllocator" /> to use for allocating native memory.</param>
     /// <param name="str">The <see cref="string" />.</param>
     /// <returns>A C string pointer.</returns>
-    public static CString FromString(string str)
+    public static CString FromString(INativeAllocator allocator, string str)
     {
-        var pointer = Marshal.StringToHGlobalAnsi(str);
-        return new CString(pointer);
-    }
+        if (str == null)
+        {
+            return default;
+        }
 
-    /// <inheritdoc />
-    public override string ToString()
-    {
-        return ToString(this);
+        var size = (str.Length * 4) + 1;
+        var buffer = allocator.AllocateArray<byte>(size);
+        fixed (char* stringPointer = str)
+        {
+            System.Text.Encoding.UTF8.GetBytes(stringPointer, str.Length + 1, buffer, size);
+        }
+
+        return new CString(buffer);
     }
 
     /// <inheritdoc />
