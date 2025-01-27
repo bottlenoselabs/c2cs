@@ -31,7 +31,6 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
             CodeRegionHeader = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath),
             CodeRegionFooter = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath),
             MappedNames = MappedNames(unsanitizedInput.MappedNames),
-            IgnoredNames = IgnoredNames(unsanitizedInput.IgnoredNames),
             IsEnabledGenerateCSharpRuntimeCode = unsanitizedInput.IsEnabledGeneratingRuntimeCode ?? true,
             IsEnabledFunctionPointers = IsEnabledFunctionPointers(unsanitizedInput, targetFramework),
             IsEnabledRuntimeMarshalling = IsEnabledRuntimeMarshalling(unsanitizedInput, targetFramework),
