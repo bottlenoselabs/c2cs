@@ -20,10 +20,9 @@ internal static class Program
         hw_hello_world();
 
 #if NET7_0_OR_GREATER
-        // NOTE: If you apply the `u8` suffix, it's a UTF-8 string literal and does not allocate the string in native memory!
+        // NOTE: If you apply the `u8` suffix, it's a UTF-8 string literal and does not allocate the string in managed memory (GC) and can be used directly as a CString!
         //  Only available in C# 11 (.NET 7+). See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types#utf-8-string-literals
-        var cString1 = "Hello world from C# using UTF-8 string literal! No need to free this string!"u8;
-        hw_pass_string(cString1);
+        hw_pass_string("Hello world from C# using UTF-8 string literal! No need to free this string!"u8);
 
         // NOTE: This is particularly useful if you have C defines to strings which are stored in the data segment of the loaded C library.
         hw_pass_string(HW_STRING_POINTER);
