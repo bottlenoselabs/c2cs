@@ -25,9 +25,11 @@ public sealed class NameMapper
             _cSharpNamesByCNames[source] = target;
         }
 
+        // wchar_t* support currently limited
+        _ = _cSharpNamesByCNames.TryAdd("wchar_t*", "IntPtr");
+
         // C types -> C# Interop.Runtime types
         _ = _cSharpNamesByCNames.TryAdd("char*", "CString");
-        _ = _cSharpNamesByCNames.TryAdd("wchar_t*", "CStringWide");
         _ = _cSharpNamesByCNames.TryAdd("char", "CChar");
         _ = _cSharpNamesByCNames.TryAdd("bool", "CBool");
         _ = _cSharpNamesByCNames.TryAdd("_Bool", "CBool");
