@@ -61,7 +61,7 @@ You should extract all the platform specific FFIs you wish to have as target pla
 
 Once all the platform FFIs are extracted to a directory, merge them together into a cross-platform FFI using `c2ffi merge --inputDirectoryPath ... --outputFilePath ...` option.
 
-See the [`helloworld-bindgen`]([`helloworld-bindgen`](../src/cs/examples/helloworld/helloworld-bindgen/Program.cs).) C# program for example of using `c2ffi` from command line.
+See the [`helloworld-bindgen`](../src/cs/examples/helloworld/helloworld-bindgen/Program.cs) C# program for example of using `c2ffi` from command line.
 
 Once you have a cross-platform FFI `.json` file, you are ready to use `c2cs`.
 
