@@ -46,9 +46,10 @@ public sealed unsafe class ArenaNativeAllocator
 
 #if NET6_0_OR_GREATER
         // malloc
-        _buffer = (IntPtr)NativeMemory.Alloc((UIntPtr)capacity);
+        _buffer = (IntPtr)NativeMemory.AllocZeroed((UIntPtr)capacity);
 #else
         _buffer = Marshal.AllocHGlobal(capacity);
+        new Span<byte>((void*)_buffer, Capacity).Clear();
 #endif
         Capacity = capacity;
     }
@@ -112,7 +113,11 @@ public sealed unsafe class ArenaNativeAllocator
     /// </remarks>
     public void Reset()
     {
+#if NET6_0_OR_GREATER
+        NativeMemory.Clear((void*)_buffer, (UIntPtr)Used);
+#else
         new Span<byte>((void*)_buffer, Used).Clear();
+#endif
         Used = 0;
     }
 }
