@@ -73,6 +73,14 @@
 			<Visible>false</Visible>
 			<Link>ArenaNativeAllocator.cs</Link>
 		</EmbeddedResource>
+		<EmbeddedResource Include="..\Interop.Runtime\Disposable.cs">
+			<Visible>false</Visible>
+			<Link>Disposable.cs</Link>
+		</EmbeddedResource>
+		<EmbeddedResource Include="..\Interop.Runtime\NativeHandle.cs">
+			<Visible>false</Visible>
+			<Link>NativeHandle.cs</Link>
+		</EmbeddedResource>
 		<EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
 

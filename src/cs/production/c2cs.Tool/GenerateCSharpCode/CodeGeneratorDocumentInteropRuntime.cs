@@ -28,6 +28,7 @@ public sealed class CodeGeneratorDocumentInteropRuntime
                    using System;
                    using System.Globalization;
                    using System.Runtime.InteropServices;
+                   using System.Threading;
 
                    namespace Interop.Runtime{(options.IsEnabledFileScopedNamespace ? ";" : "{}")}
 
