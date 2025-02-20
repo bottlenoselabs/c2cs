@@ -10,11 +10,11 @@ namespace Interop.Runtime;
 ///     An allocator that uses a single block of native memory which can be re-used.
 /// </summary>
 /// <remarks>
-///     <p>
+///     <para>
 ///         The <see cref="ArenaNativeAllocator" /> can be useful in native interoperability situations when you need to
 ///         temporarily allocate memory. For example, when calling native functions sometimes memory needs be available
 ///         for one or more calls but is no longer used after.
-///     </p>
+///     </para>
 /// </remarks>
 public sealed unsafe class ArenaNativeAllocator
     : INativeAllocator, IDisposable
@@ -106,10 +106,10 @@ public sealed unsafe class ArenaNativeAllocator
     ///     Resets <see cref="Used" /> to zero and clears the entire underlying block of native memory with zeroes.
     /// </summary>
     /// <remarks>
-    ///     <p>
+    ///     <para>
     ///         Any pointers returned from <see cref="Allocate" /> before calling <see cref="Reset" /> must not be used or else
     ///         there is a risk that the pointers point to unexpected bytes of data.
-    ///     </p>
+    ///     </para>
     /// </remarks>
     public void Reset()
     {
