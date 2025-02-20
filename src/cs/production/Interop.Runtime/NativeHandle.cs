@@ -11,7 +11,7 @@ namespace Interop.Runtime;
 public abstract class NativeHandle : Disposable
 {
     /// <summary>
-    ///     Gets the unmanaged handle associated with the object instance.
+    ///     Gets or sets the unmanaged handle associated with the object instance.
     /// </summary>
     /// <remarks>
     ///     <para>
@@ -19,9 +19,13 @@ public abstract class NativeHandle : Disposable
     ///         <c>true</c>.
     ///     </para>
     /// </remarks>
-    public IntPtr Handle { get; internal set; }
+    public IntPtr Handle { get; protected set; }
 
-    internal NativeHandle(IntPtr handle)
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="NativeHandle"/> class.
+    /// </summary>
+    /// <param name="handle">The native handle.</param>
+    protected NativeHandle(IntPtr handle)
     {
         Handle = handle;
     }
