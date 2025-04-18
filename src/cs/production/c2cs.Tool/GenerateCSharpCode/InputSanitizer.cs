@@ -28,6 +28,7 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
             ClassName = className,
             LibraryName = libraryName,
             NamespaceName = NamespaceName(unsanitizedInput.NamespaceName),
+            AreTypeAccessModifiersPublic = unsanitizedInput.AreTypeAccessModifiersPublic ?? true,
             CodeRegionHeader = HeaderCodeRegion(unsanitizedInput.HeaderCodeRegionFilePath),
             CodeRegionFooter = FooterCodeRegion(unsanitizedInput.FooterCodeRegionFilePath),
             MappedNames = MappedNames(unsanitizedInput.MappedNames),

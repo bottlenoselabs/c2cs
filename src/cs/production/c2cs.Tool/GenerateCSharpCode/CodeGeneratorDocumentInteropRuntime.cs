@@ -3,6 +3,7 @@
 
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -36,7 +37,7 @@ public sealed class CodeGeneratorDocumentInteropRuntime
 
         var compilationUnitRoot = SyntaxFactory.ParseSyntaxTree(codeTemplate).GetCompilationUnitRoot();
         var rootNamespaceOriginal = (BaseNamespaceDeclarationSyntax)compilationUnitRoot.Members[0];
-        var members = CreateMembers();
+        var members = CreateMembers(options);
         var rootNamespaceWithMembers = rootNamespaceOriginal
             .WithMembers(rootNamespaceOriginal.Members.AddRange(members));
         var code = compilationUnitRoot
@@ -52,7 +53,7 @@ public sealed class CodeGeneratorDocumentInteropRuntime
         return document;
     }
 
-    private static ImmutableArray<MemberDeclarationSyntax> CreateMembers()
+    private static ImmutableArray<MemberDeclarationSyntax> CreateMembers(CodeGeneratorDocumentOptions options)
     {
         var assembly = Assembly.GetExecutingAssembly();
         var resourcesNames = assembly.GetManifestResourceNames();
@@ -60,7 +61,7 @@ public sealed class CodeGeneratorDocumentInteropRuntime
 
         foreach (var resourceName in resourcesNames)
         {
-            CreateMember(resourceName, assembly, builderMembers);
+            CreateMember(resourceName, assembly, builderMembers, options);
         }
 
         return builderMembers.ToImmutable();
@@ -69,7 +70,8 @@ public sealed class CodeGeneratorDocumentInteropRuntime
     private static void CreateMember(
         string resourceName,
         Assembly assembly,
-        ImmutableArray<MemberDeclarationSyntax>.Builder builderMembers)
+        ImmutableArray<MemberDeclarationSyntax>.Builder builderMembers,
+        CodeGeneratorDocumentOptions options)
     {
         if (!resourceName.EndsWith(".cs", StringComparison.InvariantCulture))
         {
@@ -90,7 +92,35 @@ public sealed class CodeGeneratorDocumentInteropRuntime
 
         foreach (var member in compilationUnit.Members)
         {
-            builderMembers.Add(member);
+            var modifiedMember = ModifyMemberAccessModifier(member, options.AreTypeAccessModifiersPublic);
+            builderMembers.Add(modifiedMember);
         }
+    }
+
+    private static MemberDeclarationSyntax ModifyMemberAccessModifier(
+        MemberDeclarationSyntax member,
+        bool areTypeAccessModifiersPublic)
+    {
+        if (member is not TypeDeclarationSyntax typeDeclaration)
+        {
+            return member;
+        }
+
+        var newModifier = areTypeAccessModifiersPublic
+            ? SyntaxFactory.Token(SyntaxKind.PublicKeyword)
+            : SyntaxFactory.Token(SyntaxKind.InternalKeyword);
+
+        var existingModifiers = typeDeclaration.Modifiers;
+        var leadingTrivia = existingModifiers.Count > 0
+            ? existingModifiers[0].LeadingTrivia
+            : typeDeclaration.GetLeadingTrivia();
+
+        newModifier = newModifier.WithLeadingTrivia(leadingTrivia);
+
+        return typeDeclaration.WithModifiers(
+            SyntaxFactory.TokenList(
+                typeDeclaration.Modifiers
+                    .Where(m => m.Kind() is not SyntaxKind.PublicKeyword and not SyntaxKind.InternalKeyword)
+                    .Prepend(newModifier)));
     }
 }
