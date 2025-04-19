@@ -20,7 +20,7 @@ public class InputSanitized
 
     public string NamespaceName { get; init; } = string.Empty;
 
-    public bool AreTypeAccessModifiersPublic { get; init; } = true;
+    public bool IsEnabledAccessModifierInternal { get; init; } = true;
 
     public string CodeRegionHeader { get; init; } = string.Empty;
 

@@ -92,23 +92,23 @@ public sealed class CodeGeneratorDocumentInteropRuntime
 
         foreach (var member in compilationUnit.Members)
         {
-            var modifiedMember = ModifyMemberAccessModifier(member, options.AreTypeAccessModifiersPublic);
+            var modifiedMember = ModifyMemberAccessModifier(member, options.IsEnabledAccessModifierInternal);
             builderMembers.Add(modifiedMember);
         }
     }
 
     private static MemberDeclarationSyntax ModifyMemberAccessModifier(
         MemberDeclarationSyntax member,
-        bool areTypeAccessModifiersPublic)
+        bool isEnabledAccessModifierInternal)
     {
         if (member is not TypeDeclarationSyntax typeDeclaration)
         {
             return member;
         }
 
-        var newModifier = areTypeAccessModifiersPublic
-            ? SyntaxFactory.Token(SyntaxKind.PublicKeyword)
-            : SyntaxFactory.Token(SyntaxKind.InternalKeyword);
+        var newModifier = isEnabledAccessModifierInternal
+            ? SyntaxFactory.Token(SyntaxKind.InternalKeyword)
+            : SyntaxFactory.Token(SyntaxKind.PublicKeyword);
 
         var existingModifiers = typeDeclaration.Modifiers;
         var leadingTrivia = existingModifiers.Count > 0
