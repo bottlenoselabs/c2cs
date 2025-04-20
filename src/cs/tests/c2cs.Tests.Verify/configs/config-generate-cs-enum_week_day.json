@@ -1,0 +1,8 @@
+{
+  "inputFilePath": "./../ffi-x/enum_week_day.json",
+  "outputFileDirectory": "./cs",
+  "namespaceName": "test_namespace",
+  "className": "test_class",
+  "isEnabledFileScopedNamespace": false,
+  "isEnabledLibraryImport": true
+}

@@ -1,0 +1,73 @@
+{
+  "platforms": [
+    "aarch64-pc-windows-msvc",
+    "i686-pc-windows-msvc",
+    "x86_64-pc-windows-msvc"
+  ],
+  "macro_objects": {},
+  "variables": {
+    "enum_uint8": {
+      "type": {
+        "name": "enum enum_uint8",
+        "kind": "enum",
+        "size_of": 4,
+        "align_of": 4,
+        "location": {
+          "file_name": "main.c",
+          "file_path": "c2cs\\src\\c\\tests\\enums\\enum_uint8\\main.c",
+          "line": 4,
+          "column": 6
+        }
+      },
+      "location": {
+        "file_name": "main.c",
+        "file_path": "",
+        "line": 7,
+        "column": 3
+      }
+    }
+  },
+  "functions": {},
+  "records": {},
+  "enums": {
+    "enum enum_uint8": {
+      "size_of": 4,
+      "values": [
+        {
+          "name": "ENUM_UINT8_MIN"
+        },
+        {
+          "name": "ENUM_UINT8_MAX",
+          "value": 255
+        }
+      ],
+      "location": {
+        "file_name": "main.c",
+        "file_path": "",
+        "line": 4,
+        "column": 6
+      }
+    },
+    "enum_uint8": {
+      "size_of": 4,
+      "values": [
+        {
+          "name": "ENUM_UINT8_MIN"
+        },
+        {
+          "name": "ENUM_UINT8_MAX",
+          "value": 255
+        }
+      ],
+      "location": {
+        "file_name": "main.c",
+        "file_path": "",
+        "line": 4,
+        "column": 6
+      }
+    }
+  },
+  "aliases": {},
+  "opaques": {},
+  "function_pointers": {}
+}
