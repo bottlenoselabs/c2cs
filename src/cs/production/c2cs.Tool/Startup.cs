@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -54,6 +55,12 @@ public static class Startup
 
         foreach (var originalSource in sources)
         {
+            // Skip automatically added JSON sources to avoid https://github.com/dotnet/runtime/issues/53715
+            if (originalSource is JsonConfigurationSource)
+            {
+                continue;
+            }
+
             _ = builder.Add(originalSource);
         }
     }
