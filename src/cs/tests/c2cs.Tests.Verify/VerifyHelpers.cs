@@ -32,7 +32,7 @@ public static class VerifyHelpers
             {
                 var generatedFileName = Path.GetFileNameWithoutExtension(x.FileName);
                 var codeWithHintName = $"// HintName: {x.FileName}\n{x.Code}";
-                codeWithHintName = codeWithHintName.ReplaceLineEndings("\n");
+                codeWithHintName = codeWithHintName.Replace("\r\n", "\n", StringComparison.InvariantCulture);
                 await Verifier
                     .Verify(codeWithHintName, extension: "cs")
                     .UseDirectory($"Snapshots/{codeFileName}/{callerMethodName}")

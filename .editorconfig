@@ -63,7 +63,7 @@ end_of_line = lf
 indent_style = tab
 
 # Verify settings
-[*.{received,verified}.{json,txt,xml}]
+[*.{received,verified}.{json,txt,xml,cs}]
 charset = "utf-8-bom"
 end_of_line = lf
 indent_size = unset
