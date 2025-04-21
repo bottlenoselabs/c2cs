@@ -48,11 +48,3 @@ jobs:
     - name: "Test .NET solution"
       run: |
         dotnet test '${{ github.workspace }}/src/cs' --nologo --verbosity minimal --configuration Release
-
-    - name: Upload Test Results
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: verify-test-results-${{ matrix.platform.os }}
-        path: |
-          **/*.received.*
