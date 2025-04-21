@@ -16,8 +16,6 @@ using System.Threading;
 
 namespace Interop.Runtime
 {
-    namespace Interop.Runtime;
-
     /// <summary>
     ///     A boolean value type with the same memory layout as a <see cref="byte" /> in both managed and unmanaged contexts;
     ///     equivalent to a standard bool found in C/C++/ObjC where <c>0</c> is <c>false</c> and any other value is
@@ -133,8 +131,6 @@ namespace Interop.Runtime
             return left.Value == right.Value;
         }
     }
-
-    namespace Interop.Runtime;
 
     /// <summary>
     ///     A value type with the same memory layout as a <see cref="byte" /> in a managed context and <c>char</c> in
@@ -256,8 +252,6 @@ namespace Interop.Runtime
             return left.Value == right.Value;
         }
     }
-
-    namespace Interop.Runtime;
 
     /// <summary>
     ///     A pointer value type of bytes that represent a string; the C type `char*`.
@@ -500,8 +494,6 @@ namespace Interop.Runtime
         }
     }
 
-    namespace Interop.Runtime;
-
     /// <summary>
     ///     Utility methods for interoperability with C style strings in C#.
     /// </summary>
@@ -536,8 +528,6 @@ namespace Interop.Runtime
         }
     }
 
-    namespace Interop.Runtime;
-
     /// <summary>
     ///     Defines methods for allocating and freeing native memory.
     /// </summary>
@@ -556,8 +546,6 @@ namespace Interop.Runtime
         /// <param name="pointer">The pointer to the block of memory.</param>
         void Free(IntPtr pointer);
     }
-
-    namespace Interop.Runtime;
 
     public static unsafe class AllocatorExtensions
     {
@@ -587,8 +575,6 @@ namespace Interop.Runtime
             return CString.FromString(allocator, str);
         }
     }
-
-    namespace Interop.Runtime;
 
     /// <summary>
     ///     An allocator that uses a single block of native memory which can be re-used.
@@ -706,8 +692,6 @@ namespace Interop.Runtime
         }
     }
 
-    namespace Interop.Runtime;
-
     /// <summary>
     ///     Represents a object instance that has unmanaged resources that can be free-ed, released, or reset.
     /// </summary>
@@ -769,8 +753,6 @@ namespace Interop.Runtime
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         protected abstract void Dispose(bool isDisposing);
     }
-
-    namespace Interop.Runtime;
 
     /// <summary>
     ///     Represents an object instance that is associated with an unmanaged handle.
