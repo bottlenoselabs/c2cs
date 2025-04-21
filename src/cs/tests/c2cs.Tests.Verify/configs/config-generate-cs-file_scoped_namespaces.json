@@ -1,6 +1,6 @@
 {
-  "inputFilePath": "./../ffi-x/enum_uint8.json",
-  "outputFileDirectory": "./cs",
+  "isEnabledDryRun": true,
+  "inputFilePath": "./../ffi-x/cross-platform-default.json",
   "namespaceName": "test_namespace",
   "className": "test_class",
   "isEnabledFileScopedNamespace": false

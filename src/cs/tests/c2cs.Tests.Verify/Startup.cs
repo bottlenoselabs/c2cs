@@ -3,6 +3,7 @@
 
 using System.Runtime.CompilerServices;
 using C2CS.BuildCLibrary;
+using C2CS.Tests.Verify.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VerifyTests.DiffPlex;
@@ -29,5 +30,6 @@ public sealed class Startup
 
     public void ConfigureServices(IServiceCollection services) => services
         .AddSingleton<CMakeLibraryBuilder>()
+        .AddSingleton<FileSystemHelper>()
         .AddLogging(builder => builder.AddXunitOutput());
 }

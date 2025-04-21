@@ -242,7 +242,7 @@ public sealed class InputUnsanitized : ToolUnsanitizedInput
     ///         results to the disk.
     ///     </para>
     /// </remarks>
-    [JsonPropertyName("isDryRun")]
+    [JsonPropertyName("isEnabledDryRun")]
     public bool? IsEnabledDryRun { get; set; } = false;
 }
 

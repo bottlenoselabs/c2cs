@@ -1,5 +1,6 @@
 {
-  "inputFilePath": "./../ffi-x/enum_uint8.json",
+  "isEnabledDryRun": true,
+  "inputFilePath": "./../../../../c/tests/enums/enum_uint8/ffi-x/cross-platform.json",
   "namespaceName": "test_namespace",
   "className": "test_class"
 }

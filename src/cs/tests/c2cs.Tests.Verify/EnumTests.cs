@@ -2,27 +2,25 @@
 // Licensed under the MIT license. See LICENSE file in the Git repository root directory for full license information.
 
 using C2CS.GenerateCSharpCode;
-using c2cs.Tests.Verify;
+using C2CS.Tests.Verify.Helpers;
 
 namespace C2CS.Tests.Verify;
 
-public sealed class FunctionTests(Tool tool)
+public sealed class EnumTests(FileSystemHelper fileSystemHelper, Tool tool) : VerifyHelpers(fileSystemHelper, tool)
 {
-    private readonly Tool _tool = tool;
-
     [Fact]
     public async Task EnumUInt8()
     {
-        var output = _tool.Run("configs/config-generate-cs-enum_uint8.json");
+        var output = RunTool("enums/enum_uint8", "config-generate-cs-enum_uint8.json");
 
-        await VerifyHelpers.VerifyOutput(output);
+        await VerifyOutput(output);
     }
 
     [Fact]
     public async Task EnumWeekDay()
     {
-        var output = _tool.Run("configs/config-generate-cs-enum_week_day.json");
+        var output = RunTool("enums/enum_week_day", "config-generate-cs-enum_week_day.json");
 
-        await VerifyHelpers.VerifyOutput(output);
+        await VerifyOutput(output);
     }
 }
