@@ -1,0 +1,6 @@
+{
+  "inputFilePath": "./../ffi-x/enum_uint8.json",
+  "namespaceName": "namespace_name",
+  "className": "class_name",
+  "libraryName": "library_name"
+}

@@ -20,23 +20,22 @@ using System.Runtime.CompilerServices;
 
 #endregion
 
-namespace test_namespace
+namespace test_namespace;
+
+public static unsafe partial class test_class
 {
+    private const string LibraryName = "test_class";
 
-    public static unsafe partial class test_class
+    public enum enum_week_day : int
     {
-        private const string LibraryName = "test_class";
-
-        public enum enum_week_day : int
-        {
-            ENUM_WEEK_DAY_UNKNOWN = -1,
-            ENUM_WEEK_DAY_MONDAY = 1,
-            ENUM_WEEK_DAY_TUESDAY = 2,
-            ENUM_WEEK_DAY_WEDNESDAY = 3,
-            ENUM_WEEK_DAY_THURSDAY = 4,
-            ENUM_WEEK_DAY_FRIDAY = 5,
-            _ENUM_WEEK_DAY_MAX = 6
-        }
+        ENUM_WEEK_DAY_UNKNOWN = -1,
+        ENUM_WEEK_DAY_MONDAY = 1,
+        ENUM_WEEK_DAY_TUESDAY = 2,
+        ENUM_WEEK_DAY_WEDNESDAY = 3,
+        ENUM_WEEK_DAY_THURSDAY = 4,
+        ENUM_WEEK_DAY_FRIDAY = 5,
+        _ENUM_WEEK_DAY_MAX = 6
     }
-
 }
+
+

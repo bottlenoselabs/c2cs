@@ -20,17 +20,18 @@ using System.Runtime.CompilerServices;
 
 #endregion
 
-namespace test_namespace;
-
-public static unsafe partial class test_class
+namespace test_namespace
 {
-    private const string LibraryName = "test_class";
 
-    public enum enum_uint8 : int
+    public static unsafe partial class test_class
     {
-        ENUM_UINT8_MIN = 0,
-        ENUM_UINT8_MAX = 255
+        private const string LibraryName = "test_class";
+
+        public enum enum_uint8 : int
+        {
+            ENUM_UINT8_MIN = 0,
+            ENUM_UINT8_MAX = 255
+        }
     }
+
 }
-
-

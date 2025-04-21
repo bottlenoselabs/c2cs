@@ -1,0 +1,7 @@
+{
+  "inputFilePath": "./../ffi-x/enum_uint8.json",
+  "outputFileDirectory": "./cs",
+  "namespaceName": "test_namespace",
+  "className": "test_class",
+  "isEnabledFileScopedNamespace": false
+}
