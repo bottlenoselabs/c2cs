@@ -27,6 +27,12 @@ public sealed partial class Tool(
     {
         var ffi = LoadCFfi(input.InputFilePath);
         var project = output.Project = GenerateCSharpProjectLibrary(ffi, input);
+        if (input.IsEnabledDryRun)
+        {
+            LogSkipBecauseOfDryRun();
+            return;
+        }
+
         WriteProjectFiles(input.OutputFileDirectory, project);
     }
 
@@ -78,4 +84,7 @@ public sealed partial class Tool(
 
     [LoggerMessage(5, LogLevel.Information, "- '{FilePath}'")]
     private partial void LogGeneratedFilePath(string filePath);
+
+    [LoggerMessage(6, LogLevel.Information, "- Skip writing generated files as 'isDryRun' was configured")]
+    private partial void LogSkipBecauseOfDryRun();
 }

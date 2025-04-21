@@ -232,6 +232,18 @@ public sealed class InputUnsanitized : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledLibraryImport")]
     public bool? IsEnabledLibraryImport { get; set; } = true;
+
+    /// <summary>
+    ///     Gets or sets whether the current run should write its results to the disk.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Default is <c>false</c>. When <c>true</c> is selected, the tool will run as normal but without writing the
+    ///         results to the disk.
+    ///     </para>
+    /// </remarks>
+    [JsonPropertyName("isDryRun")]
+    public bool? IsEnabledDryRun { get; set; } = false;
 }
 
 /// <summary>
