@@ -59,6 +59,15 @@ public sealed class InputUnsanitized : ToolUnsanitizedInput
     public string? ClassName { get; set; }
 
     /// <summary>
+    ///     Gets or sets the access modifier of the generated types.
+    /// </summary>
+    /// <remarks>
+    ///     <para> Default is <c>false</c>. Use <c>true</c> to generate <c>internal</c> types. </para>
+    /// </remarks>
+    [JsonPropertyName("isEnabledAccessModifierInternal")]
+    public bool? IsEnabledAccessModifierInternal { get; set; } = false;
+
+    /// <summary>
     ///     Gets or sets the path of the text file which to add the file's contents to the top of the C# file.
     /// </summary>
     /// <remarks>

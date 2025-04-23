@@ -16,6 +16,8 @@ public class CodeGeneratorDocumentOptions
 
     public bool IsEnabledFileScopedNamespace { get; }
 
+    public bool IsEnabledAccessModifierInternal { get; }
+
     public bool IsEnabledRuntimeMarshalling { get; }
 
     public bool IsEnabledNullables { get; }
@@ -36,6 +38,7 @@ public class CodeGeneratorDocumentOptions
         IsEnabledRuntimeMarshalling = input.IsEnabledRuntimeMarshalling;
         LibraryName = input.LibraryName;
         NamespaceName = input.NamespaceName;
+        IsEnabledAccessModifierInternal = input.IsEnabledAccessModifierInternal;
 
         IsEnabledNullables = input.TargetFramework is { Framework: ".NETCoreApp", Version.Major: >= 3 };
     }
