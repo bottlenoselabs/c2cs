@@ -39,4 +39,6 @@ public class InputSanitized
     public bool IsEnabledFileScopedNamespace { get; init; }
 
     public bool IsEnabledSpans { get; init; }
+
+    public bool IsEnabledDryRun { get; init; }
 }

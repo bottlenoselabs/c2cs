@@ -1,0 +1,7 @@
+{
+  "isEnabledDryRun": true,
+  "inputFilePath": "./../ffi-x/cross-platform-default.json",
+  "namespaceName": "namespace_name",
+  "className": "class_name",
+  "libraryName": "library_name"
+}

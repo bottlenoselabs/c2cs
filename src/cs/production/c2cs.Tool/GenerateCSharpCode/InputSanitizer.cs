@@ -37,7 +37,8 @@ public sealed class InputSanitizer(IFileSystem fileSystem) : ToolInputSanitizer<
             IsEnabledRuntimeMarshalling = IsEnabledRuntimeMarshalling(unsanitizedInput, targetFramework),
             IsEnabledFileScopedNamespace = IsEnabledFileScopedNamespace(unsanitizedInput, targetFramework),
             IsEnabledLibraryImportAttribute = IsEnabledLibraryImport(unsanitizedInput, targetFramework),
-            IsEnabledSpans = IsEnabledSpans(targetFramework)
+            IsEnabledSpans = IsEnabledSpans(targetFramework),
+            IsEnabledDryRun = unsanitizedInput.IsEnabledDryRun ?? true,
         };
     }
 

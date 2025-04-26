@@ -33,3 +33,7 @@ src/c/tests/**/cs
 
 # macOS
 .DS_Store
+
+# Exlude verify files
+*.received.*
+*.received/

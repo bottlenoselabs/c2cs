@@ -82,7 +82,7 @@ public sealed class CodeGeneratorDocumentInteropRuntime
         using var streamReader = new StreamReader(stream!);
         var fileContents = streamReader
             .ReadToEnd()
-            .Replace("\nnamespace Interop.Runtime;\n", string.Empty, StringComparison.InvariantCulture);
+            .Replace($"{Environment.NewLine}namespace Interop.Runtime;{Environment.NewLine}", string.Empty, StringComparison.InvariantCulture);
 
         var syntaxTree = SyntaxFactory.ParseSyntaxTree(fileContents);
         if (syntaxTree.GetRoot() is not CompilationUnitSyntax compilationUnit)
