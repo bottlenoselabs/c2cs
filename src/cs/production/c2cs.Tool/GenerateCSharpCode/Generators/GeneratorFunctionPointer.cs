@@ -49,13 +49,14 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
         NameMapper nameMapper, string name, CFunctionPointer node)
     {
         var parameterTypesString = GenerateCodeParameters(nameMapper, node.Parameters);
+        var returnTypeString = nameMapper.GetTypeNameCSharp(node.ReturnType);
 
         var code = $$"""
                      [StructLayout(LayoutKind.Sequential)]
                      public partial struct {{name}}
                      {
                          [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-                         public unsafe delegate {{node.ReturnType.Name}} @delegate({{parameterTypesString}});
+                         public unsafe delegate {{returnTypeString}} @delegate({{parameterTypesString}});
 
                          public IntPtr Pointer;
 
@@ -106,8 +107,11 @@ public sealed class GeneratorFunctionPointer(ILogger<GeneratorFunctionPointer> l
 
             if (includeNames)
             {
+                var paramName = !string.IsNullOrEmpty(parameter.Name)
+                    ? parameter.Name
+                    : $"unnamed{i}";
                 _ = stringBuilder.Append(' ');
-                _ = stringBuilder.Append(parameter.Name);
+                _ = stringBuilder.Append(paramName);
             }
 
             var isJoinedWithComma = parameters.Length > 1 && i != parameters.Length - 1;
