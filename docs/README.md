@@ -73,7 +73,7 @@ Run `c2cs --config ...` from terminal specifying a configuration file. See the [
 
 The [`Interop.Runtime`](../src/cs/examples/helloworld/helloworld-app/Generated/Runtime.g.cs) C# code is by default generated to a new file as `Runtime.g.cs`. The `Interop.Runtime` namespace contains helper structs, methods, and other kind of "glue" that make interoperability with C in C# easier and more idiomatic.
 
-See the [HelloWorld example](src/cs/examples/helloworld/helloworld-app/Program.cs) for C# code that uses and explains how to use `Interop.Runtime`.
+See the [HelloWorld example](../src/cs/examples/helloworld/helloworld-app/Program.cs) for C# code that uses and explains how to use `Interop.Runtime`.
 
 ## Building `C2CS` from source
 
