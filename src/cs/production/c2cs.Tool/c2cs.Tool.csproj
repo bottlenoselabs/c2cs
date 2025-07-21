@@ -45,48 +45,16 @@
 
 	<!-- Configuration settings -->
 	<ItemGroup>
-		<EmbeddedResource Include="..\Interop.Runtime\CBool.cs">
+		<EmbeddedResource Include="../Interop.Runtime/**/*.cs">
 		  <Visible>false</Visible>
-		  <Link>CBool.cs</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\CChar.cs">
-		  <Visible>false</Visible>
-		  <Link>CChar.cs</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\CString.cs">
-		  <Visible>false</Visible>
-		  <Link>CString.cs</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\CStrings.cs">
-		  <Visible>false</Visible>
-		  <Link>CStrings.cs</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\INativeAllocator.cs">
-		  <Visible>false</Visible>
-		  <Link>INativeAllocator.cs</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\AllocatorExtensions.cs">
-			<Visible>false</Visible>
-			<Link>AllocatorExtensions.cs</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\ArenaNativeAllocator.cs">
-			<Visible>false</Visible>
-			<Link>ArenaNativeAllocator.cs</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\Disposable.cs">
-			<Visible>false</Visible>
-			<Link>Disposable.cs</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\Interop.Runtime\NativeHandle.cs">
-			<Visible>false</Visible>
-			<Link>NativeHandle.cs</Link>
+		  <Link>%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
 		<EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
 
 	<!-- Interop.Runtime -->
 	<ItemGroup>
-		<EmbeddedResource Include="..\c2cs.Interop.Runtime\**\*.cs">
+		<EmbeddedResource Include="../c2cs.Interop.Runtime/**/*.cs">
 				<Visible>false</Visible>
 		</EmbeddedResource>
 	</ItemGroup>

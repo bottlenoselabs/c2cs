@@ -11,15 +11,20 @@ namespace Interop.Runtime;
 public interface INativeAllocator
 {
     /// <summary>
-    ///     Tries to allocate a block of memory.
+    ///     Attempts to allocate a block of memory.
     /// </summary>
     /// <param name="byteCount">The number of bytes to allocate.</param>
     /// <returns>If the memory was allocated successfully, a pointer to the allocated block of memory; otherwise, <c>null</c>.</returns>
     IntPtr Allocate(int byteCount);
 
     /// <summary>
-    ///     Tries to free the specified block of memory previously allocated.
+    ///     Frees a previously specified block of allocated memory.
     /// </summary>
     /// <param name="pointer">The pointer to the block of memory.</param>
     void Free(IntPtr pointer);
+
+    /// <summary>
+    ///     Resets the associated memory.
+    /// </summary>
+    void Reset();
 }
