@@ -52,6 +52,7 @@ public sealed unsafe class ArenaNativeAllocator
         new Span<byte>((void*)_buffer, Capacity).Clear();
 #endif
         Capacity = capacity;
+        Used = 0;
     }
 
     /// <summary>
@@ -66,6 +67,7 @@ public sealed unsafe class ArenaNativeAllocator
 #endif
         _buffer = IntPtr.Zero;
         Capacity = 0;
+        Used = 0;
     }
 
     /// <summary>
@@ -94,7 +96,8 @@ public sealed unsafe class ArenaNativeAllocator
     }
 
     /// <summary>
-    ///     Does nothing.
+    ///     Does nothing. To reclaim the associated memory, call the <see cref="Reset" /> method. To free the associated
+    ///     memory call the <see cref="Dispose" /> method instead.
     /// </summary>
     /// <param name="pointer">The pointer to the bytes.</param>
     public void Free(IntPtr pointer)
@@ -113,6 +116,16 @@ public sealed unsafe class ArenaNativeAllocator
     /// </remarks>
     public void Reset()
     {
+        if (_buffer == IntPtr.Zero)
+        {
+            throw new ObjectDisposedException(GetType().FullName);
+        }
+
+        if (Used == 0)
+        {
+            return;
+        }
+
 #if NET6_0_OR_GREATER
         NativeMemory.Clear((void*)_buffer, (UIntPtr)Used);
 #else
