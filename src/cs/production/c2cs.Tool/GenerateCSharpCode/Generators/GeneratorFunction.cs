@@ -18,7 +18,7 @@ public class GeneratorFunction(ILogger<GeneratorFunction> logger)
     {
         var returnTypeNameCSharp = context.NameMapper.GetTypeNameCSharp(function.ReturnType);
         var parametersStringCSharp = string.Join(',', function.Parameters.Select(
-            x => ParameterStringCSharp(context.NameMapper, x)));
+            (x, i) => ParameterStringCSharp(context.NameMapper, x, i)));
 
         var code = context.Input.IsEnabledLibraryImportAttribute ?
             GenerateCodeLibraryImport(nameCSharp, function, parametersStringCSharp, returnTypeNameCSharp) :
@@ -93,9 +93,10 @@ public class GeneratorFunction(ILogger<GeneratorFunction> logger)
         return result;
     }
 
-    private string ParameterStringCSharp(NameMapper nameMapper, CFunctionParameter parameter)
+    private string ParameterStringCSharp(NameMapper nameMapper, CFunctionParameter parameter, int parameterIndex)
     {
-        var parameterName = nameMapper.GetIdentifierCSharp(parameter.Name);
+        var parameterName = nameMapper.GetIdentifierCSharp(
+            !string.IsNullOrEmpty(parameter.Name) ? parameter.Name : $"unnamed{parameterIndex}");
         var parameterTypeC = parameter.Type;
         var parameterTypeNameCSharp = nameMapper.GetTypeNameCSharp(parameterTypeC);
         return $"{parameterTypeNameCSharp} {parameterName}";
