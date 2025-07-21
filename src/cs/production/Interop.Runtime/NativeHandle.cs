@@ -22,7 +22,16 @@ public abstract class NativeHandle : Disposable
     public IntPtr Handle { get; protected set; }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="NativeHandle"/> class.
+    ///     Initializes a new instance of the <see cref="NativeHandle" /> class.
+    /// </summary>
+    protected NativeHandle()
+    {
+        Handle = IntPtr.Zero;
+    }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="NativeHandle" /> class using the specified pointer as the
+    ///     handle.
     /// </summary>
     /// <param name="handle">The native handle.</param>
     protected NativeHandle(IntPtr handle)
