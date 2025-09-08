@@ -20,7 +20,6 @@ public static class Startup
         _ = services.AddSingleton<CodeGeneratorDocumentPInvoke>();
         _ = services.AddSingleton<CodeGeneratorDocumentAssemblyAttributes>();
         _ = services.AddSingleton<CodeGeneratorDocumentInteropRuntime>();
-        _ = services.AddSingleton<NameMapper>();
         AddNodeCodeGenerators(services);
     }
 
