@@ -9,7 +9,9 @@ using JetBrains.Annotations;
 namespace C2CS.GenerateCSharpCode;
 
 // NOTE: This class is considered un-sanitized input; all strings and other types could be null.
+// Items in the JSON that do not have a corresponding mapped member will error.
 [PublicAPI]
+[JsonUnmappedMemberHandling(JsonUnmappedMemberHandling.Disallow)]
 public sealed class InputUnsanitized : ToolUnsanitizedInput
 {
     /// <summary>
@@ -101,24 +103,6 @@ public sealed class InputUnsanitized : ToolUnsanitizedInput
     public ImmutableArray<InputUnsanitizedMappedName>? MappedNames { get; set; }
 
     /// <summary>
-    ///     Gets or sets the pairs of strings for re-mapping C namespaces to C# namespaces.
-    /// </summary>
-    [JsonPropertyName("mappedCNamespaces")]
-    public ImmutableArray<InputUnsanitizedMappedName>? MappedCNamespaces { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the names of types, functions, enums, constants, or anything else that may be found when
-    ///     parsing C code that will be ignored when generating C# code.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Type names are ignored after mapping type names using <see cref="MappedNames" />.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("ignoredNames")]
-    public ImmutableArray<string?>? IgnoredNames { get; set; }
-
-    /// <summary>
     ///     Gets or sets the Target Framework Moniker (TFM) used for generating C# code.
     /// </summary>
     /// <remarks>
@@ -138,31 +122,6 @@ public sealed class InputUnsanitized : ToolUnsanitizedInput
     /// </remarks>
     [JsonPropertyName("isEnabledGeneratingRuntimeCode")]
     public bool? IsEnabledGeneratingRuntimeCode { get; set; } = true;
-
-    /// <summary>
-    ///     Gets or sets whether generating idiomatic C# is enabled.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>false</c>. Use <c>true</c> to enabled generation of idiomatic C# which includes converting
-    ///         converting C `snake_case` names to C# `PascalCase` names. Use <c>false</c> to leave names as they are
-    ///         found in C.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("isEnabledIdiomaticCSharp")]
-    public bool? IsEnabledIdiomaticCSharp { get; set; } = false;
-
-    /// <summary>
-    ///     Gets or sets whether parsing enum value names as upper-case when generating idiomatic C# is enabled.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default is <c>true</c>. Use <c>true</c> to enable parsing of enum value names as upper-case during
-    ///         generation of idiomatic C#. Use <c>false</c> to leave enum value names as they are found in C.
-    ///     </para>
-    /// </remarks>
-    [JsonPropertyName("isEnabledEnumValueNamesUpperCase")]
-    public bool? IsEnabledEnumValueNamesUpperCase { get; set; } = true;
 
     /// <summary>
     ///     Gets or sets whether function pointers are enabled for unmanaged callbacks.
